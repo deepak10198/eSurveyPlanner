@@ -1,0 +1,24 @@
+.jumbotron-cus {
+	border-bottom:1px solid #a1a1a1;
+	background-color:#ffffff;
+}
+
+.form-div-cus {
+	margin-top:1em;
+	padding:1em;
+}
+
+#footer {
+	background-color:#111;
+	padding:1em;
+	text-align:center;
+}
+
+#admin_navbar1 {
+	border:1px solid #D8D8D8;
+}
+
+#admin_navbar1 > a {
+	color:green;
+	margin-left:0.7em;
+}
