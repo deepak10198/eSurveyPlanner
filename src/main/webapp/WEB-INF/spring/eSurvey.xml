@@ -1,49 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context 
    		http://www.springframework.org/schema/context/spring-context-4.0.xsd
    		http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-	
+    <!-- Activates scanning of @Autowired -->
+    <context:annotation-config  />
+    <!-- In order to scan the package for annotations-->
+    <context:component-scan base-package="com.esp"/>
+    <context:component-scan base-package="com.esp.handler"/>
 
-  <!-- In order to scan the package for annotations-->
-  <context:component-scan base-package="com.esp">
-  	<context:include-filter   expression="org.springframework.stereotype.Controller"    type="annotation"/>
-  </context:component-scan>
-  <!-- To provide the support for MVC structure , e.g. to access jsp files -->
-  <mvc:annotation-driven/>
+    <!-- To provide the support for MVC structure , e.g. to access jsp files -->
+    <mvc:annotation-driven/>
   
-  <!-- In order to specify the static resource(js,css,images) and use them -->
-  <mvc:resources mapping="/resources/**" location="/resources/" /> 
+    <!-- In order to specify the static resource(js,css,images) and use them -->
+    <mvc:resources mapping="/resources/**" location="/resources/" /> 
   
-  <!-- View Resolver -->
- <!--  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-  		<property name="prefix" value="/WEB-INF/views/" />
-  		<property name="suffix" value=".jsp"/>
-  </bean>  -->
-  
-   <bean id="viewResolver"
-              class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-              p:prefix="/WEB-INF/views/"
-              p:suffix=".jsp" />
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/views/"
+          p:suffix=".jsp" />   
+   
+    <!-- for hibernate -->
 
-	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" id="handlerMapping">
-        <property name="alwaysUseFullPath" value="true"></property>
-	</bean> -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties">
+    </bean>
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
+          p:password="${jdbc.password}">
+    </bean>
+    
+    
+    
+    <bean id="sessionFactory" 
+         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" autowire="byType" >
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.esp">    
+       </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.esp.entity.Organisation</value>
+                <value>com.esp.entity.Usermaster</value>
+                <value>com.esp.entity.Surveymaster</value>
+                <value>com.esp.entity.Surveyquestionmapping</value>
+                <value>com.esp.entity.Surveytypemaster</value>
+                <value>com.esp.entity.Answerdescriptionmaster</value>
+                <value>com.esp.entity.Questionmaster</value>
+                <value>com.esp.entity.Answertypemaster</value>
+                <value>com.esp.entity.Questionanswermapping</value>
+                <value>com.esp.entity.SurveyquestionmappingId</value>
+                <value>com.esp.entity.Answermaster</value>
+                <value>com.esp.entity.Userlist</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+            </props>
+        </property>
+    </bean>
 
-	
-<!-- <mvc:default-servlet-handler/> -->
+    <bean id="txManager" 
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="txManager"/>
+    
+    <bean id="persistenceExceptionTranslationPostProcessor" 
+           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>   
 
-
-	<bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean>
-              
+    <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean>
+ 
 
 </beans>

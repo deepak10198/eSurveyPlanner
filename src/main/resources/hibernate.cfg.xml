@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+    <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:span</property>
+    <property name="hibernate.connection.username">survey</property>
+    <property name="hibernate.connection.password">survey</property>
+    <mapping class="com.esp.entity.Surveytypemaster"/>
+    <mapping class="com.esp.entity.Surveyquestionmapping"/>
+    <mapping class="com.esp.entity.Questionmaster"/>
+    <mapping class="com.esp.entity.Organisation"/>
+    <mapping class="com.esp.entity.Surveymaster"/>
+    <mapping class="com.esp.entity.Usermaster"/>
+    <mapping class="com.esp.entity.Userlist"/>
+    <mapping class="com.esp.entity.SurveyquestionmappingId"/>
+    <mapping class="com.esp.entity.Answerdescriptionmaster"/>
+    <mapping class="com.esp.entity.Answermaster"/>
+    <mapping class="com.esp.entity.Questionanswermapping"/>
+    <mapping class="com.esp.entity.Answertypemaster"/>
+  </session-factory>
+</hibernate-configuration>

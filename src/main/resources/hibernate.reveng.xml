@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-schema="SURVEY"/>
+  <table-filter match-name="USERMASTER"/>
+  <table-filter match-name="ANSWERMASTER"/>
+  <table-filter match-name="SURVEYMASTER"/>
+  <table-filter match-name="QUESTIONMASTER"/>
+  <table-filter match-name="SURVEYQUESTIONMAPPING"/>
+  <table-filter match-name="ANSWERTYPEMASTER"/>
+  <table-filter match-name="USERLIST"/>
+  <table-filter match-name="SURVEYTYPEMASTER"/>
+  <table-filter match-name="ANSWERDESCRIPTIONMASTER"/>
+  <table-filter match-name="QUESTIONANSWERMAPPING"/>
+  <table-filter match-name="ORGANISATION"/>
+</hibernate-reverse-engineering>

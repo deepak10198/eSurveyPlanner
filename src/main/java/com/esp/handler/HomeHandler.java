@@ -1,41 +1,63 @@
 package com.esp.handler;
 
+import com.esp.dao.SurveyMasterDAO;
+import com.esp.dto.SurveyDetailsDto;
+import com.esp.entity.Surveymaster;
+import com.esp.entity.Surveytypemaster;
+import com.esp.entity.Usermaster;
+import com.esp.service.SurveyMasterService;
+import com.esp.vo.SurveyDetailsVO;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
-import com.esp.dto.SurveyDetailsDto;
 
-
-
+@Component
 public class HomeHandler {
 
-
-
+ 
+    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    
+    
+    public Surveymaster mapToSurveymaster(Usermaster usermaster,Surveytypemaster surveytypemaster,SurveyDetailsVO detailsVO) throws ParseException            
+    {
+        Date date = null;
+        Surveymaster surveymaster = new Surveymaster(); 
+        surveymaster.setSurveyName(detailsVO.getSurveyname());
+        surveymaster.setSurveyDesc(detailsVO.getDescription());       
+        surveymaster.setCreatedbyname(usermaster.getFirstname()+" "+usermaster.getLastname());
+        surveymaster.setCreateddate(new Date());
+        date = dateFormat.parse(detailsVO.getSurveyend().trim());
+        surveymaster.setEnddate(date);
+        date = dateFormat.parse(detailsVO.getSurveystart());
+        surveymaster.setStartdate(date);
+        surveymaster.setLastmodifiedbyname(usermaster.getFirstname()+" "+usermaster.getLastname());
+        surveymaster.setLastmodifieddate(new Date());
+        surveymaster.setSurveycategory(null);
+        surveymaster.setSurveytypemaster(surveytypemaster);
+        surveymaster.setUsermasterByCreatedbyid(usermaster);
+        surveymaster.setUsermasterByLastmodifiedbyid(usermaster);
+        return surveymaster;
+        
+    }
+    
 	
 	public String handleRequest(){
 		
 		
-		
 		return "home";
-	}
+	   }
 	
-	public String submitSurvey(HttpServletRequest req){
-		
-		System.out.println(req.getParameter("surveyname"));
-		
-		
-		
-		return "thanks";
-	}
-	
+
 	
 	public SurveyDetailsDto setDetails(ApplicationContext context, ModelMap model,HttpServletRequest request){
 		
@@ -46,7 +68,7 @@ public class HomeHandler {
 		surveyDetails.setSurveyName(request.getParameter("surveyname"));
 		surveyDetails.setDescriotion(request.getParameter("description"));
 		
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
 		
 		Date sDate=null;
 		Date eDate=null;
@@ -68,7 +90,8 @@ public class HomeHandler {
 		return surveyDetails;
 		
 	}
-	
+        
+
 	
 	public String handleAllRequest(HttpServletRequest request){
 		

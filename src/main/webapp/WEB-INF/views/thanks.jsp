@@ -58,23 +58,23 @@
 		              <tbody>
 		                <tr>
 		                  <td>Name of the Survey</td>
-		                  <td>${survey.surveyName}</td>
+		                  <td>${surveyDetailsVO.surveyname}</td>
 		                </tr>
 		                <tr>
 		                  <td>Description</td>
-		                  <td>${survey.descriotion}</td>
+		                  <td>${surveyDetailsVO.description}</td>
 		                </tr>
 		                <tr>
 		                  <td>Starts from :</td>
-		                  <td>${survey.startDate}</td>
+		                  <td>${surveyDetailsVO.surveystart}</td>
 		                </tr>
 		                <tr>
 		                  <td>Ends on:</td>
-		                  <td>${survey.endDate }</td>
+		                  <td>${surveyDetailsVO.surveyend }</td>
 		                </tr>
 		                <tr>
 		                  <td>Type </td>
-		                  <td>${survey.surveyType}</td>
+		                  <td>${surveyDetailsVO.type}</td>
 		                </tr>
 		               
 		              </tbody>
