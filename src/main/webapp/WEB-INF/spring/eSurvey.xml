@@ -20,11 +20,25 @@
     <context:component-scan base-package="com.esp"/>
     <context:component-scan base-package="com.esp.handler"/>
 
+
     <!-- To provide the support for MVC structure , e.g. to access jsp files -->
     <mvc:annotation-driven/>
   
     <!-- In order to specify the static resource(js,css,images) and use them -->
-    <mvc:resources mapping="/resources/**" location="/resources/" /> 
+    
+    <mvc:resources mapping="/resources/**" location="/resources/"  />
+    <mvc:resources mapping="/css/**" location="/css/"  />
+    <mvc:resources mapping="/**" location="/"  />
+    
+<!--    <mvc:resources mapping="/resources/css/**" location="/resources/css/" />
+    <mvc:resources mapping="/resources/fonts/**" location="/resources/fonts/" />
+    <mvc:resources mapping="/resources/ico/**" location="/resources/ico/" />
+    <mvc:resources mapping="/resources/images/**" location="/resources/images/" />
+    <mvc:resources mapping="/resources/js/**" location="/resources/js/" />-->
+     
+
+    
+    
   
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -47,10 +61,10 @@
     
     
     <bean id="sessionFactory" 
-         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" autowire="byType" >
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" autowire="byType" >
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="com.esp">    
-       </property>
+        </property>
         <property name="annotatedClasses">
             <list>
                 <value>com.esp.entity.Organisation</value>
@@ -83,7 +97,7 @@
     <tx:annotation-driven transaction-manager="txManager"/>
     
     <bean id="persistenceExceptionTranslationPostProcessor" 
-           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>   
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>   
 
     <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean>
  

@@ -39,9 +39,7 @@ public class Surveytypemaster  implements java.io.Serializable {
        this.surveymasters = surveymasters;
     }
    
-     @Id 
-
-    
+     @Id    
     @Column(name="SURVEYTYPEID", unique=true, nullable=false, precision=22, scale=0)
     public Integer getSurveytypeid() {
         return this.surveytypeid;

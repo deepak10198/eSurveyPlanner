@@ -10,9 +10,12 @@ import com.esp.service.SurveyTypeMasterService;
 import com.esp.service.UserMasterService;
 import com.esp.vo.SurveyDetailsVO;
 import java.io.IOException;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.ServletConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -72,6 +76,7 @@ public class HomeController {
     @RequestMapping(value = "/submitSurvey")
     public ModelAndView submitSurvey(HttpServletRequest request, HttpServletResponse response, ModelMap model, @ModelAttribute("surveyDetailsVO") SurveyDetailsVO surveyDetailsVO) throws IOException {
 
+        
         try {
             log.info("Start of submitSurvey Method");
             log.info("submitting survey to database");
@@ -92,6 +97,15 @@ public class HomeController {
             ex.printStackTrace();
         }
         return null;
+    }
+    
+    @RequestMapping(value = "viewSurvey",method =RequestMethod.GET)
+    public ModelAndView viewSurveys(Principal principal,ModelMap model)
+    {
+        
+        List<Surveymaster> surveyList = surveyMasterService.listSurveys(userId);
+        model.addAttribute("surveyList", surveyList);        
+        return new ModelAndView("viewSurvey");
     }
     
     

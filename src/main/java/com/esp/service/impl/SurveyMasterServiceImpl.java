@@ -5,10 +5,15 @@
  */
 package com.esp.service.impl;
 
-import com.esp.service.SurveyMasterService;
 import com.esp.dao.SurveyMasterDAO;
 import com.esp.entity.Surveymaster;
-
+import com.esp.service.SurveyMasterService;
+import com.esp.util.HibernateUtil;
+import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class SurveyMasterServiceImpl implements SurveyMasterService {
 
     @Autowired
-    private SurveyMasterDAO surveyMasterDAO;//= new SurveyMasterDAOImpl();
+    private SurveyMasterDAO surveyMasterDAO;
 
     @Transactional
+    @Override
     public void addSurvey(Surveymaster surveyMaster) {
         surveyMasterDAO.save(surveyMaster);
+    }
+
+    @Transactional
+    @Override
+    public List<Surveymaster> listSurveys(Integer userID) {
+
+        return surveyMasterDAO.findFielEq(Surveymaster.class, "usermasterByCreatedbyid.userid", userID);
     }
 
 }

@@ -70,6 +70,7 @@ public abstract class GenericDAO<T> implements DAO<T> {
     }
 
     public List<T> findFielEq(Class<T> entity, String propertyName, Object value) {
+        
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
         criteria.add(Restrictions.eq(propertyName, value));
         return criteria.list();

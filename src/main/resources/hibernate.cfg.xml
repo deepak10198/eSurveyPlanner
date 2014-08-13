@@ -4,7 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
     <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:span</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@10.91.1.25:1521:span</property>
     <property name="hibernate.connection.username">survey</property>
     <property name="hibernate.connection.password">survey</property>
     <mapping class="com.esp.entity.Surveytypemaster"/>
@@ -19,5 +19,6 @@
     <mapping class="com.esp.entity.Answermaster"/>
     <mapping class="com.esp.entity.Questionanswermapping"/>
     <mapping class="com.esp.entity.Answertypemaster"/>
+    
   </session-factory>
 </hibernate-configuration>
