@@ -1,6 +1,5 @@
 package com.esp.controller;
 
-import com.esp.dto.SurveyDetailsDto;
 import com.esp.entity.Surveymaster;
 import com.esp.entity.Surveytypemaster;
 import com.esp.entity.Usermaster;
@@ -8,6 +7,7 @@ import com.esp.handler.HomeHandler;
 import com.esp.service.SurveyMasterService;
 import com.esp.service.SurveyTypeMasterService;
 import com.esp.service.UserMasterService;
+import com.esp.service.impl.UserMasterServiceImpl;
 import com.esp.vo.SurveyDetailsVO;
 import java.io.IOException;
 import java.security.Principal;
@@ -54,7 +54,7 @@ public class HomeController {
 
     /*@Autowired
      ServletContext contex1t;*/
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "")
     public ModelAndView Home(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 //        log.info("Home page has been called");

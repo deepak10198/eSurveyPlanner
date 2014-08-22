@@ -1,16 +1,18 @@
 package com.esp.handler;
 
-import com.esp.dto.SurveyDetailsDto;
+
+
+import com.esp.entity.Answermaster;
 import com.esp.entity.Surveymaster;
 import com.esp.entity.Surveytypemaster;
 import com.esp.entity.Usermaster;
+import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.SurveyDetailsVO;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
@@ -46,6 +48,17 @@ public class HomeHandler {
         
     }
     
+    public Answermaster mapToAnswermaster(FSAnswerDetailsVO ansDetailsVO) throws ParseException            
+    {
+        Date date = null;
+        Answermaster ansMaster = new Answermaster(); 
+        //ansMaster.setAnswerdescriptionmasterByAnsdescid1(ansDetailsVO.getAnsDesc1());
+        
+        
+        return ansMaster;
+        
+    }
+    
 	
 	public String handleRequest(){
 		
@@ -55,7 +68,7 @@ public class HomeHandler {
 	
 
 	
-	public SurveyDetailsDto setDetails(ApplicationContext context, ModelMap model,HttpServletRequest request){
+	/*public SurveyDetailsDto setDetails(ApplicationContext context, ModelMap model,HttpServletRequest request){
 		
 		//context= request.getSession().getServletContext();
 		
@@ -85,7 +98,7 @@ public class HomeHandler {
 		
 		return surveyDetails;
 		
-	}
+	}*/
         
 
 	

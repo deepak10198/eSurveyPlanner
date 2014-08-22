@@ -6,15 +6,16 @@
 
 package com.esp.dao;
 
+import org.springframework.stereotype.Repository;
+
 import com.esp.entity.Questionmaster;
 
 /**
  *
  * @author Rakesh.K
  */
-public interface QuestionMasterDAO extends DAO<Questionmaster>{  
-    
-    
+@Repository(value="QuestionMasterDAO")
+public class QuestionMasterDAO extends GenericDAO<Questionmaster>{   
     
     
 }

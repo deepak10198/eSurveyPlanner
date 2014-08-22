@@ -6,10 +6,12 @@
 
 package com.esp.service.impl;
 
+import com.esp.dao.DAO;
 import com.esp.dao.SurveyTypeMasterDAO;
 import com.esp.entity.Surveytypemaster;
 import com.esp.service.SurveyTypeMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class SurveyTypeMasterServiceImpl implements SurveyTypeMasterService{
 
     @Autowired
-    private SurveyTypeMasterDAO surveyTypeMasterDAO;
+    @Qualifier("SurveyTypeMasterDAO")
+    private DAO surveyTypeMasterDAO;
     
     @Transactional
     @Override
     public Surveytypemaster getSurveyTypeMaster(String type) {
         
-        return surveyTypeMasterDAO.findUnique(Surveytypemaster.class, "surveytype", type);
+        return (Surveytypemaster) surveyTypeMasterDAO.findUnique(Surveytypemaster.class, "surveytype", type);
     }
     
     

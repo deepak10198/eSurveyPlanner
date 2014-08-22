@@ -6,10 +6,13 @@
 
 package com.esp.service.impl;
 
+import com.esp.dao.DAO;
+import com.esp.dao.GenericDAO;
 import com.esp.dao.UserMasterDAO;
 import com.esp.entity.Usermaster;
 import com.esp.service.UserMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserMasterServiceImpl implements UserMasterService {
     
     @Autowired
-    private UserMasterDAO userMasterDAO;
+    @Qualifier("UserMasterDAO")
+    private DAO userMasterDAO;
     
     @Transactional
     @Override    
@@ -35,7 +39,7 @@ public class UserMasterServiceImpl implements UserMasterService {
     @Override
     public Usermaster getUser(Integer id) {
         
-        return userMasterDAO.findUnique(Usermaster.class, "userid", id);
+        return (Usermaster)userMasterDAO.findUnique(Usermaster.class, "userid", id);
         
         
     }

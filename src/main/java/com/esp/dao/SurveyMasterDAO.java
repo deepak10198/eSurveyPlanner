@@ -5,13 +5,17 @@
  */
 package com.esp.dao;
 
+import org.springframework.stereotype.Repository;
+
 import com.esp.entity.Surveymaster;
 
 /**
  *
  * @author Rakesh.K
  */
-public interface SurveyMasterDAO extends DAO<Surveymaster>
-{
 
-}
+@Repository(value="SurveyMasterDAO")
+public class SurveyMasterDAO extends GenericDAO<Surveymaster>  {
+
+
+} 

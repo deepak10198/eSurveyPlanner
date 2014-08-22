@@ -13,6 +13,7 @@
    		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+       
 
     <!-- Activates scanning of @Autowired -->
     <context:annotation-config  />
@@ -61,10 +62,10 @@
     
     
     <bean id="sessionFactory" 
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" autowire="byType" >
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"  >
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.esp">    
-        </property>
+       <!--  <property name="packagesToScan" value="com.esp">   - 
+        </property>-->
         <property name="annotatedClasses">
             <list>
                 <value>com.esp.entity.Organisation</value>
@@ -99,7 +100,7 @@
     <bean id="persistenceExceptionTranslationPostProcessor" 
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>   
 
-    <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean>
+    <!-- <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean> -->
  
 
 </beans>
