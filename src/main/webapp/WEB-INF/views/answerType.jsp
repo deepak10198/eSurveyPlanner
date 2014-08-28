@@ -98,22 +98,6 @@
 								
 							
 						</div>
-						
-						<div class="form-group">
-							<label for="">Type of Survey</label>
-							<div class="radio">
-								<label>
-									<input type="radio" name="type" id="optionsRadios1" value="fixed" checked>
-									Fixed Survey (All Questions are of same type)
-								</label>
-							</div>
-							<div class="radio">
-								<label>
-									<input type="radio" name="type" id="optionsRadios2" value="customized">
-									Customized Survey (Type of questions can vary)
-								</label>
-							</div>
-						</div>
 
 						<div class="form-group">
 							<div>
@@ -140,49 +124,3 @@
 	</body>
 </html>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		//$('#surveystart').datepicker();
-		//$('#surveyend').datepicker();
-
-		$('#createsurveyform').bootstrapValidator({
-			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
-			fields: {
-				surveyname: {
-					validators: {
-						notEmpty: {
-							message: 'The survey name is required and cannot be empty'
-						}
-					}
-				},
-				surveystart: {
-					validators: {
-						notEmpty: {
-							message: 'The start date is required and cannot be empty'
-						},
-						date: {
-							format: 'MM/DD/YYYY',
-							message: 'The value is not a valid date'
-						}
-					}
-				},
-				surveyend: {
-					validators: {
-						notEmpty: {
-							message: 'The end date is required and cannot be empty'
-						},
-						date: {
-							format: 'MM/DD/YYYY',
-							message: 'The value is not a valid date'
-						}
-					}
-				}
-			}
-		});
-	});
-</script>
