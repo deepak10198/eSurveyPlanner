@@ -48,4 +48,11 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+    
+    <error-page>
+    	<exception-type></exception-type>
+    	<location>/WEB-INF/views/generic_error.jsp</location>
+    
+    </error-page>
+    
 </web-app>

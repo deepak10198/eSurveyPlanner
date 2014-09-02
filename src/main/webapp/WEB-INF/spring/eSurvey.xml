@@ -19,7 +19,7 @@
     <context:annotation-config  />
     <!-- In order to scan the package for annotations-->
     <context:component-scan base-package="com.esp"/>
-    <context:component-scan base-package="com.esp.handler"/>
+    <!-- <context:component-scan base-package="com.esp.handler"/> -->
 
 
     <!-- To provide the support for MVC structure , e.g. to access jsp files -->
@@ -101,6 +101,12 @@
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>   
 
     <!-- <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean> -->
+    
+    <bean id="answerDescMasterService" class="com.esp.service.AnswerDescMasterService"/>
+    <bean id="homeHandler" class="com.esp.handler.HomeHandler">
+    	<property name="answerDescService" ref="answerDescMasterService"/>
+    </bean>  
+    
  
 
 </beans>

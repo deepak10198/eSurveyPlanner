@@ -15,22 +15,7 @@ public class FSAnswerDetailsVO {
 	private String ansDesc10;
 	
 	
-	public FSAnswerDetailsVO(String ansType, String ansDesc1, String ansDesc2,
-			String ansDesc3, String ansDesc4, String ansDesc5, String ansDesc6,
-			String ansDesc7, String ansDesc8, String ansDesc9, String ansDesc10) {
-		super();
-		this.ansType = ansType;
-		this.ansDesc1 = ansDesc1;
-		this.ansDesc2 = ansDesc2;
-		this.ansDesc3 = ansDesc3;
-		this.ansDesc4 = ansDesc4;
-		this.ansDesc5 = ansDesc5;
-		this.ansDesc6 = ansDesc6;
-		this.ansDesc7 = ansDesc7;
-		this.ansDesc8 = ansDesc8;
-		this.ansDesc9 = ansDesc9;
-		this.ansDesc10 = ansDesc10;
-	}
+		
 	
 	public String getAnsType() {
 		return ansType;

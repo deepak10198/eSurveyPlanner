@@ -1,14 +1,20 @@
 package com.esp.controller;
 
+import com.esp.entity.Answermaster;
 import com.esp.entity.Surveymaster;
 import com.esp.entity.Surveytypemaster;
 import com.esp.entity.Usermaster;
 import com.esp.handler.HomeHandler;
+import com.esp.service.AnswerMasterService;
 import com.esp.service.SurveyMasterService;
 import com.esp.service.SurveyTypeMasterService;
 import com.esp.service.UserMasterService;
+import com.esp.service.impl.SurveyMasterServiceImpl;
 import com.esp.service.impl.UserMasterServiceImpl;
+import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.SurveyDetailsVO;
+import com.esp.vo.SurveyVO;
+
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
@@ -41,16 +47,23 @@ public class HomeController {
 
     @Autowired
     private SurveyMasterService surveyMasterService;
-
+    //private SurveyMasterServiceImpl surveyMasterService;
+    
     @Autowired
     private SurveyTypeMasterService surveyTypeMasterService;
 
+    @Autowired AnswerMasterService answerService;
     //for testing
     Integer userId = 100;
 
     private Logger log = Logger.getLogger(this.getClass().getName());
 
-    private HomeHandler handler = new HomeHandler();
+    @Autowired
+    private HomeHandler handler;
+    
+    //private HomeHandler handler = new HomeHandler();
+    
+    
 
     /*@Autowired
      ServletContext contex1t;*/
@@ -73,12 +86,12 @@ public class HomeController {
         return new ModelAndView("createSurvey");
     }
 
-    @RequestMapping(value = "/submitSurvey")
-    public ModelAndView submitSurvey(HttpServletRequest request, HttpServletResponse response, ModelMap model, @ModelAttribute("surveyDetailsVO") SurveyDetailsVO surveyDetailsVO) throws IOException {
+    @RequestMapping(value = "/submitSurveyMaster")
+    public ModelAndView submitSurvey(HttpServletRequest request, HttpServletResponse response, ModelMap model, @ModelAttribute("surveyDetailsForm") SurveyDetailsVO surveyDetailsVO) throws IOException {
 
         
         try {
-            log.info("Start of submitSurvey Method");
+            log.info("Going to save Survey Master Details -");
             log.info("submitting survey to database");
             log.info("name :" + surveyDetailsVO.getSurveyname());
             log.info("desc :" + surveyDetailsVO.getDescription());
@@ -89,8 +102,13 @@ public class HomeController {
             Surveymaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsVO);
             surveyMasterService.addSurvey(surveymaster);            
             log.info("Survey Saved to database");
-            model.addAttribute("surveyDetailsVO", surveyDetailsVO);
-            return new ModelAndView("thanks");
+            
+            SurveyVO survey = new SurveyVO();
+            survey.setSurveyId(surveymaster.getSurveyid());
+            survey.setSurveyName(surveymaster.getSurveyName());
+            
+            model.addAttribute("surveyDetails", survey);
+            return new ModelAndView("answerType");
 
         } catch (ParseException ex) {
             log.error(ex.getMessage());
@@ -98,6 +116,33 @@ public class HomeController {
         }
         return null;
     }
+    
+
+    @RequestMapping(value = "/addQuestions")
+    public ModelAndView addQuestions(HttpServletRequest request, HttpServletResponse response, ModelMap model, @ModelAttribute("answerDetailsForm") FSAnswerDetailsVO answerDetailsVO) throws IOException {
+
+    	try{
+    		log.info("Going to save Answer Master details -");
+    	
+	    	
+	    	Answermaster answerMaster = handler.mapToAnswerMaster(answerDetailsVO);
+	    	answerService.addAnswerMaster(answerMaster);
+	    	
+	    	SurveyVO survey = new SurveyVO();
+	        survey.setSurveyId(Integer.parseInt(request.getParameter("surveyid")));
+	        survey.setSurveyName(request.getParameter("surveyname"));
+	        survey.setAnsId(answerMaster.getAnsid());
+	        model.addAttribute("surveyDetails", survey);
+	    	
+	        return new ModelAndView("addQuestions");
+    	} catch (ParseException ex) {
+            log.error(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    
     
     @RequestMapping(value = "viewSurvey",method =RequestMethod.GET)
     public ModelAndView viewSurveys(Principal principal,ModelMap model)

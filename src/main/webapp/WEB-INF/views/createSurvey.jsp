@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form role="form" action="submitSurvey" method="POST" id="createsurveyform">
+					<form role="form" action="submitSurveyMaster" method="POST" name ="surveyDetailsForm">
 						<div class="form-group">
 							<label for="surveyname">Name of the Survey</label>
 							<div>
@@ -74,12 +74,12 @@
 									Fixed Survey (All Questions are of same type)
 								</label>
 							</div>
-							<div class="radio">
+							<!-- <div class="radio">
 								<label>
 									<input type="radio" name="type" id="optionsRadios2" value="customized">
 									Customized Survey (Type of questions can vary)
 								</label>
-							</div>
+							</div> -->
 						</div>
 
 						<div class="form-group">

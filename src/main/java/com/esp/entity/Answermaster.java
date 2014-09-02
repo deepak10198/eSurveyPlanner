@@ -8,10 +8,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -59,9 +62,9 @@ public class Answermaster  implements java.io.Serializable {
        this.questionanswermappings = questionanswermappings;
     }
    
-     @Id 
-
-    
+    @Id 
+    @SequenceGenerator(name="ansMaster_seq", sequenceName="SEQ_ANSWER_MASTER")
+    @GeneratedValue(generator="ansMaster_seq",strategy=GenerationType.SEQUENCE)
     @Column(name="ANSID", unique=true, nullable=false, precision=22, scale=0)
     public Integer getAnsid() {
         return this.ansid;

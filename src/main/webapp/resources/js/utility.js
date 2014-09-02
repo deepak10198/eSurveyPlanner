@@ -3,8 +3,4 @@ function change_location(page_name) {
 	window.location = path;
 }
 
-function addDynamicRow(){
-	alert("loaded");
-	//alert(document.getElementById("answer").value);
-	
-}
+

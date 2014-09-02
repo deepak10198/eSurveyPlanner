@@ -1,3 +1,6 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -27,28 +30,35 @@
 		 <!--  script src="resources/js/utility.js"></script>-->
 		
 		<script>
+			
+			var ansCount=0;	
+		
 			function addDynamicRow(){
+				ansCount +=1;
 				var table = document.getElementById("answerTable");
 				
 				var answerValue = document.getElementById("answer").value;
 				var row = table.insertRow(table.rows.length);	
 				row.id = "answer"+table.rows.length;
-				row.class=""
+				row.class="";
 				
 				var rowId=row.id;
 				
 				var cell1 = row.insertCell(0);
-				cell1.innerHTML = answerValue;
+				cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
+				
+				
 				var cell2 = row.insertCell(1);
 				cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
 				
-				document.getElementById("answer").value="";
+				document.getElementById("answer").value="" ;
 				
 				
 			}
 			
 			function deleteDynamic(rowId){
 				rowId.remove();
+				ansCount -=1;
 			}
 		</script>
 
@@ -73,17 +83,15 @@
 					</div>
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form role="form" action="submitSurvey" method="POST" id="createsurveyform">
-						<div class="form-group">
-							<label for="surveyname">Total Number of Questions</label>
-							<div>
-								<input type="text" class="form-control" name="noOfQuestions" id="noOfQuestions" placeholder="Number of Questions">
-							</div>
+					<form:form role="form" action="addQuestions" method="POST" commandName="answerDetailsForm" modelAttribute="surveyDetails">
+						<div class="output">
+							<label for="surveyname">${surveyDetails.surveyName}</label>
+							
 						</div>
 						<div class="form-group">
-							<label for="">Type of Answer</label>
-							<input type="radio" class="form-control" name="answerType" value="single"/>Single
-							<input type="radio" class="form-control" name="answerType" value="multiple"/>Multiple
+							<label for="">Type of Answer - </label>
+							<input type="radio"  name="ansType" value="single"/>Single (Radio Buttons)
+							<input type="radio"  name="ansType" value="multiple"/>Multiple (CheckBoxex)
 						</div>
 						
 						<div class="form-group">
@@ -107,7 +115,11 @@
 
 						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
 						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-					</form>
+						<input type="hidden" name="surveyid" value='${surveyDetails.surveyId}'>
+						<input type="hidden" name="surveyname" value='${surveyDetails.surveyName}'>
+						
+						
+					</form:form>
 				</div>
 			</div>
 
