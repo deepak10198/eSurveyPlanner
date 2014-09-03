@@ -135,7 +135,7 @@ public class HomeController {
 	        model.addAttribute("surveyDetails", survey);
 	    	
 	        return new ModelAndView("addQuestions");
-    	} catch (ParseException ex) {
+    	} catch (Exception ex) {
             log.error(ex.getMessage());
             ex.printStackTrace();
         }

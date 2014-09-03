@@ -11,10 +11,14 @@ import com.esp.service.AnswerDescMasterService;
 import com.esp.service.GenericService;
 import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.SurveyDetailsVO;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,17 +70,29 @@ public class HomeHandler {
         
     }
     
-    public Answermaster mapToAnswerMaster(FSAnswerDetailsVO ansDetailsVO) throws ParseException            
+    public Answermaster mapToAnswerMaster(FSAnswerDetailsVO ansDetailsVO) throws Exception    
     {
         Date date = null;
+        Class noparams[] = {};
+        
+        Class[] paramAnsDesc = new Class[1];
+        paramAnsDesc[0] = Answerdescriptionmaster.class;
+        
         Answermaster ansMaster = new Answermaster(); 
         //ansMaster.setAnswerdescriptionmasterByAnsdescid1(ansDetailsVO.getAnsDesc1());
-        ansMaster.setAnswerdescriptionmasterByAnsdescid1(toAnsDesc(ansDetailsVO.getAnsDesc1()));
-        ansMaster.setAnswerdescriptionmasterByAnsdescid2(toAnsDesc(ansDetailsVO.getAnsDesc2()));
-        //ansMaster.setAnswerdescriptionmasterByAnsdescid1(toAnsDesc(.ansDetailsVO.getAnsDesc3()));
-        //ansMaster.setAnswerdescriptionmasterByAnsdescid1(toAnsDesc(.ansDetailsVO.getAnsDesc4()));
         
+        List<String> descList = ansDetailsVO.getAnsDesc();
+        System.out.println("----descList.size() :"+descList.size());	
         
+        if (descList.size() >5) throw new Exception("Answers's list should not be greater than 5");
+    	Class ansMasterClass = Answermaster.class;
+    	
+        for (int i =0; i<descList.size(); i++ ) {
+            Method method = ansMasterClass.getDeclaredMethod("setAnswerdescriptionmasterByAnsdescid"+(i+1), paramAnsDesc);
+        	System.out.println("----descList.get(i) :"+descList.get(i));	
+        	method.invoke(ansMaster,toAnsDesc(descList.get(i)) );
+        	        	
+		}
         
         return ansMaster;
         

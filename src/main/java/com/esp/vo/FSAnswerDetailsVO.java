@@ -1,8 +1,12 @@
 package com.esp.vo;
 
+import java.util.List;
+
 public class FSAnswerDetailsVO {
 
 	private String ansType;
+	private List<String> ansDesc;
+	
 	private String ansDesc1;
 	private String ansDesc2;
 	private String ansDesc3;
@@ -17,6 +21,12 @@ public class FSAnswerDetailsVO {
 	
 		
 	
+	public List<String> getAnsDesc() {
+		return ansDesc;
+	}
+	public void setAnsDesc(List<String> ansDesc) {
+		this.ansDesc = ansDesc;
+	}
 	public String getAnsType() {
 		return ansType;
 	}

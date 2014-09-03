@@ -34,7 +34,7 @@
 			var ansCount=0;	
 		
 			function addDynamicRow(){
-				ansCount +=1;
+				
 				var table = document.getElementById("answerTable");
 				
 				var answerValue = document.getElementById("answer").value;
@@ -45,14 +45,15 @@
 				var rowId=row.id;
 				
 				var cell1 = row.insertCell(0);
-				cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
+				//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
+				cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc["+ansCount+"]' value='"+answerValue+"'>";
 				
 				
 				var cell2 = row.insertCell(1);
 				cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
 				
 				document.getElementById("answer").value="" ;
-				
+				ansCount +=1;
 				
 			}
 			

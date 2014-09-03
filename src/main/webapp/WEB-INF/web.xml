@@ -50,7 +50,7 @@
     </session-config>
     
     <error-page>
-    	<exception-type></exception-type>
+    	<exception-type>java.lang.Exception</exception-type>
     	<location>/WEB-INF/views/generic_error.jsp</location>
     
     </error-page>
