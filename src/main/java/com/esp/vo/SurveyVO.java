@@ -6,6 +6,7 @@ public class SurveyVO {
 	private String surveyName;
 	private int ansId;
 	private int QAMapId;
+        
 	
 	
 	

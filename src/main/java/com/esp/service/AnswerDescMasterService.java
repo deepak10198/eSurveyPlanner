@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esp.dao.AnswerDescMasterDAO;
 import com.esp.dao.DAO;
 import com.esp.entity.Answerdescriptionmaster;
 
@@ -39,5 +38,10 @@ public class AnswerDescMasterService implements GenericService<Answerdescription
 		return ansDescMasterDAO.findFielEq(Answerdescriptionmaster.class, "ansdescription",ansDesc );
 		
 	}
+    @Transactional
+    @Override
+    public List<Answerdescriptionmaster> fetchAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	
 }

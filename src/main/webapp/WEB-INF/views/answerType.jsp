@@ -91,8 +91,13 @@
 						</div>
 						<div class="form-group">
 							<label for="">Type of Answer - </label>
-							<input type="radio"  name="ansType" value="single"/>Single (Radio Buttons)
-							<input type="radio"  name="ansType" value="multiple"/>Multiple (CheckBoxex)
+                                                        <c:forEach var="answerTypeMaster" items="answermasters">
+                                                            <input type="radio"  name="ansType" value="${answerTypeMaster.anstypemasterid}"/>${answerTypeMaster.description}
+                                                        </c:forEach>
+                                                        
+                                                        
+							<!--input type="radio"  name="ansType" value="single"/>Single (Radio Buttons)
+							<input type="radio"  name="ansType" value="multiple"/>Multiple (Checkboxes)-->
 						</div>
 						
 						<div class="form-group">

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.esp.entity.Answerdescriptionmaster;
 
 
-@Repository("AnswerDescMasterDAO")
+@Repository(value="AnswerDescMasterDAO")
 public class AnswerDescMasterDAO extends GenericDAO<Answerdescriptionmaster>{
 
 }

@@ -102,10 +102,10 @@
 
     <!-- <bean id="surveyDetailsDto" name="surveyDetailsDto" class="com.esp.dto.SurveyDetailsDto"></bean> -->
     
-    <bean id="answerDescMasterService" class="com.esp.service.AnswerDescMasterService"/>
+    <!--bean id="answerDescMasterService" class="com.esp.service.AnswerDescMasterService"/>
     <bean id="homeHandler" class="com.esp.handler.HomeHandler">
     	<property name="answerDescService" ref="answerDescMasterService"/>
-    </bean>  
+    </bean-->  
     
  
 
