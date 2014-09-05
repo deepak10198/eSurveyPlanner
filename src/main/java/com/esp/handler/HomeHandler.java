@@ -2,8 +2,9 @@ package com.esp.handler;
 
 
 
-import com.esp.entity.AnswerTextMaster;
+
 import com.esp.entity.AnswerMaster;
+import com.esp.entity.AnswerTextMaster;
 import com.esp.entity.SurveyMaster;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
@@ -11,7 +12,6 @@ import com.esp.service.AnswerTextMasterService;
 import com.esp.service.GenericService;
 import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.SurveyDetailsVO;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -20,9 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -38,32 +36,25 @@ public class HomeHandler {
  
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     
+    @Autowired
+    @Qualifier("AnswerTextMasterService")
+    GenericService answerTextMasterService;
     
-    GenericService answerDescService;
-    
-    
-   
-    
-    public void setAnswerDescService(GenericService answerDescService) {
-		this.answerDescService = answerDescService;
-	}
 
-	public SurveyMaster mapToSurveyMaster(UserMaster usermaster,SurveyTypeMaster surveytypemaster,SurveyDetailsVO detailsVO) throws ParseException            
+	public SurveyMaster mapToSurveymaster(UserMaster usermaster,SurveyTypeMaster surveyTypeMaster,SurveyDetailsVO detailsVO) throws ParseException            
     {
         Date date = null;
         SurveyMaster surveymaster = new SurveyMaster(); 
         surveymaster.setSurveyName(detailsVO.getSurveyname());
         surveymaster.setSurveyDesc(detailsVO.getDescription());       
-        surveymaster.setCreatedById(usermaster);
         surveymaster.setCreatedDate(new Date());
         date = dateFormat.parse(detailsVO.getSurveyend().trim());
         surveymaster.setEndDate(date);
         date = dateFormat.parse(detailsVO.getSurveystart());
         surveymaster.setStartDate(date);
-        surveymaster.setLastModifiedById(usermaster);
         surveymaster.setLastModifiedDate(new Date());
         surveymaster.setSurveyCategory(null);
-        surveymaster.setSurveyTypeId(surveytypemaster);
+        surveymaster.setSurveyTypeId(surveyTypeMaster);
         surveymaster.setCreatedById(usermaster);
         surveymaster.setLastModifiedById(usermaster);
         return surveymaster;
@@ -88,7 +79,7 @@ public class HomeHandler {
     	Class ansMasterClass = AnswerMaster.class;
     	
         for (int i =0; i<descList.size(); i++ ) {
-            Method method = ansMasterClass.getDeclaredMethod("setAnswerdescriptionmasterByAnsdescid"+(i+1), paramAnsDesc);
+            Method method = ansMasterClass.getDeclaredMethod("setAnsText"+(i+1), paramAnsDesc);
         	System.out.println("----descList.get(i) :"+descList.get(i));	
         	method.invoke(ansMaster,toAnsDesc(descList.get(i)) );
         	        	
@@ -102,14 +93,14 @@ public class HomeHandler {
    private AnswerTextMaster toAnsDesc(String desc) throws ParseException    {
 	   
 	   System.out.println("----desc :"+desc);	
-	   System.out.println("...."+answerDescService);
-	   List<AnswerTextMaster> ansDescList = answerDescService.fetchByParam(desc);
+	   System.out.println("...."+answerTextMasterService);
+	   List<AnswerTextMaster> ansDescList = answerTextMasterService.fetchByParam(desc);
 	   
 	   if (ansDescList==null || ansDescList.isEmpty()){
 		   AnswerTextMaster ansDesc = new AnswerTextMaster();
 		   ansDesc.setAnsText(desc);
-		   answerDescService.add(ansDesc);
-		   ansDescList = answerDescService.fetchByParam(desc);
+		   answerTextMasterService.add(ansDesc);
+		   ansDescList = answerTextMasterService.fetchByParam(desc);
 		   
 		   
 	   }

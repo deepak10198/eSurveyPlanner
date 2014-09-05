@@ -7,9 +7,6 @@
 package com.esp.dao;
 
 import org.springframework.stereotype.Repository;
-
-//import com.esp.dao.impl.SurveyTypeMasterDAO;
-//import com.esp.entity.SurveyMaster;
 import com.esp.entity.SurveyTypeMaster;
 
 /**

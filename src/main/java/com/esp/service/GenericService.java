@@ -7,11 +7,9 @@ public interface GenericService<T> {
 	
 public void add(T t);
 
-public List<T> fetch(int id); 
+public T fetch(int id); 
 
-//public List<T> fetchByParam(Object obj);
-
-public List<T> fetchByParam(String ansDesc); 
+public List<T> fetchByParam(Object obj); 
 
 public List<T> fetchAll(); 
 

@@ -69,17 +69,18 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.esp.entity.Organisation</value>
-                <value>com.esp.entity.Usermaster</value>
-                <value>com.esp.entity.Surveymaster</value>
-                <value>com.esp.entity.Surveyquestionmapping</value>
-                <value>com.esp.entity.Surveytypemaster</value>
-                <value>com.esp.entity.Answerdescriptionmaster</value>
-                <value>com.esp.entity.Questionmaster</value>
-                <value>com.esp.entity.Answertypemaster</value>
-                <value>com.esp.entity.Questionanswermapping</value>
-                <value>com.esp.entity.SurveyquestionmappingId</value>
-                <value>com.esp.entity.Answermaster</value>
-                <value>com.esp.entity.Userlist</value>
+                <value>com.esp.entity.UserMaster</value>
+                <value>com.esp.entity.SurveyMaster</value>
+                <value>com.esp.entity.SurveyQuestionMapping</value>
+                <value>com.esp.entity.SurveyTypeMaster</value>
+                <value>com.esp.entity.AnswerTextMaster</value>
+                <value>com.esp.entity.QuestionMaster</value>
+                <value>com.esp.entity.AnswerTypeMaster</value>
+                <value>com.esp.entity.QuestionAnswerMapping</value>
+                <!-- <value>com.esp.entity.SurveyQuestionMappingId</value> -->
+                <value>com.esp.entity.AnswerMaster</value>
+                <value>com.esp.entity.UserList</value>
+                 <value>com.esp.entity.UserSurveyUrlMapping</value>
             </list>
         </property>
         <property name="hibernateProperties">

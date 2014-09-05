@@ -6,6 +6,7 @@
 package com.esp.service;
 
 import com.esp.dao.DAO;
+import com.esp.dao.GenericDAO;
 import com.esp.entity.AnswerTypeMaster;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Rakesh.K
  */
-@Service(value ="AnswerTypeMasterService")
 @Transactional
+@Service(value ="AnswerTypeMasterService")
 public class AnswerTypeMasterService implements GenericService<AnswerTypeMaster> {
 
     @Autowired
@@ -31,12 +32,12 @@ public class AnswerTypeMasterService implements GenericService<AnswerTypeMaster>
     }
 
     @Override
-    public List<AnswerTypeMaster> fetch(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AnswerTypeMaster fetch(int id) {
+    	 return (AnswerTypeMaster) answerTypeMasterDAO.findUnique(AnswerTypeMaster.class, "id", id);
     }
 
     @Override
-    public List<AnswerTypeMaster> fetchByParam(String ansDesc) {
+    public List<AnswerTypeMaster> fetchByParam(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

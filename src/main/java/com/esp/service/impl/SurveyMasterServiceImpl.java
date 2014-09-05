@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.esp.service.impl;
-
+/*
 import com.esp.dao.DAO ;
 import com.esp.dao.SurveyMasterDAO;
 import com.esp.entity.Surveymaster;
@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+*//**
  *
  * @author Rakesh.k
- */
+ *//*
 @Service
 public class SurveyMasterServiceImpl implements SurveyMasterService {
 
@@ -45,3 +45,4 @@ public class SurveyMasterServiceImpl implements SurveyMasterService {
     }
 
 }
+*/

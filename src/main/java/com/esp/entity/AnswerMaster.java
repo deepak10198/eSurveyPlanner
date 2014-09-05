@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Rakesh.K
- */
+ */ 
 @Entity
 @Table(name = "ANSWER_MASTER", catalog = "", schema = "SURVEY")
 @XmlRootElement

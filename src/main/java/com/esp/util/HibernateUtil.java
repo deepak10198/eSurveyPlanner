@@ -15,7 +15,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
  *
  * @author Rakesh.K
  */
-public class HibernateUtil {
+public class HibernateUtil   {
 
     private static final SessionFactory sessionFactory;
     

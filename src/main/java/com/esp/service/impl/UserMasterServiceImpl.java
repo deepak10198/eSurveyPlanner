@@ -9,7 +9,6 @@ package com.esp.service.impl;
 import com.esp.dao.DAO;
 import com.esp.dao.GenericDAO;
 import com.esp.dao.UserMasterDAO;
-import com.esp.entity.Usermaster;
 import com.esp.service.UserMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Rakesh.K
  */
-@Service
+/*@Service
+@Transactional
 public class UserMasterServiceImpl implements UserMasterService {
     
     @Autowired
@@ -44,4 +44,4 @@ public class UserMasterServiceImpl implements UserMasterService {
         
     }
     
-}
+}*/

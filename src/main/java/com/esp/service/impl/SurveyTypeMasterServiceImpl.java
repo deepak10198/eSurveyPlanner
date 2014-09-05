@@ -8,7 +8,6 @@ package com.esp.service.impl;
 
 import com.esp.dao.DAO;
 import com.esp.dao.SurveyTypeMasterDAO;
-import com.esp.entity.Surveytypemaster;
 import com.esp.service.SurveyTypeMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Rakesh.k
  */
-@Service
+/*@Service
 public class SurveyTypeMasterServiceImpl implements SurveyTypeMasterService{
 
     @Autowired
@@ -35,4 +34,4 @@ public class SurveyTypeMasterServiceImpl implements SurveyTypeMasterService{
     
     
     
-}
+}*/

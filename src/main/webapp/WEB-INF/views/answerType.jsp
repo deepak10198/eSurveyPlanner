@@ -35,26 +35,32 @@
 		
 			function addDynamicRow(){
 				
-				var table = document.getElementById("answerTable");
-				
-				var answerValue = document.getElementById("answer").value;
-				var row = table.insertRow(table.rows.length);	
-				row.id = "answer"+table.rows.length;
-				row.class="";
-				
-				var rowId=row.id;
-				
-				var cell1 = row.insertCell(0);
-				//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
-				cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc["+ansCount+"]' value='"+answerValue+"'>";
-				
-				
-				var cell2 = row.insertCell(1);
-				cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
-				
-				document.getElementById("answer").value="" ;
-				ansCount +=1;
-				
+				if (ansCount>=10){
+					alert("Sorry! You can add maximum of 10 answers!");
+						
+				} else {
+					var table = document.getElementById("answerTable");
+					
+					var answerValue = document.getElementById("answer").value;
+					var row = table.insertRow(table.rows.length);	
+					row.id = "answer"+table.rows.length;
+					row.class="";
+					
+					var rowId=row.id;
+					
+					var cell1 = row.insertCell(0);
+					//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
+					cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc["+ansCount+"]' value='"+answerValue+"'>";
+					
+					
+					var cell2 = row.insertCell(1);
+					cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
+					
+					document.getElementById("answer").value="" ;
+					ansCount +=1;
+								
+				}
+					
 			}
 			
 			function deleteDynamic(rowId){
@@ -92,7 +98,7 @@
 						<div class="form-group">
 							<label for="">Type of Answer - </label>
                                                         <c:forEach var="answerTypeMaster" items="answermasters">
-                                                            <input type="radio"  name="ansType" value="${answerTypeMaster.anstypemasterid}"/>${answerTypeMaster.description}
+                                                            <input type="radio"  name="ansType" value='${answerTypeMaster.anstypemasterid}'/>${answerTypeMaster.description}
                                                         </c:forEach>
                                                         
                                                         
@@ -121,8 +127,8 @@
 
 						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
 						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-						<input type="hidden" name="surveyid" value='${surveyDetails.surveyId}'>
-						<input type="hidden" name="surveyname" value='${surveyDetails.surveyName}'>
+						<input type="hidden" name="surveyId" value='${surveyDetails.surveyId}'>
+						<input type="hidden" name="surveyName" value='${surveyDetails.surveyName}'>
 						
 						
 					</form:form>

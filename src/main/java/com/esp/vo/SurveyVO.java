@@ -1,19 +1,21 @@
 package com.esp.vo;
 
+import java.math.BigDecimal;
+
 public class SurveyVO {
 
-	private int surveyId;
+	private String surveyId;
 	private String surveyName;
-	private int ansId;
+	private BigDecimal ansId;
 	private int QAMapId;
         
 	
 	
 	
-	public int getSurveyId() {
+	public String getSurveyId() {
 		return surveyId;
 	}
-	public void setSurveyId(int surveyId) {
+	public void setSurveyId(String surveyId) {
 		this.surveyId = surveyId;
 	}
 	public String getSurveyName() {
@@ -22,10 +24,10 @@ public class SurveyVO {
 	public void setSurveyName(String surveyName) {
 		this.surveyName = surveyName;
 	}
-	public int getAnsId() {
+	public BigDecimal getAnsId() {
 		return ansId;
 	}
-	public void setAnsId(int ansId) {
+	public void setAnsId(BigDecimal ansId) {
 		this.ansId = ansId;
 	}
 	public int getQAMapId() {
