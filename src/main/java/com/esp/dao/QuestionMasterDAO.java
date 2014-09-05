@@ -8,14 +8,14 @@ package com.esp.dao;
 
 import org.springframework.stereotype.Repository;
 
-import com.esp.entity.Questionmaster;
+import com.esp.entity.QuestionMaster;
 
 /**
  *
  * @author Rakesh.K
  */
 @Repository(value="QuestionMasterDAO")
-public class QuestionMasterDAO extends GenericDAO<Questionmaster>{   
+public class QuestionMasterDAO extends GenericDAO<QuestionMaster>{   
     
     
 }

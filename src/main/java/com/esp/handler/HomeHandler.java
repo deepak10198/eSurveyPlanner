@@ -2,12 +2,12 @@ package com.esp.handler;
 
 
 
-import com.esp.entity.Answerdescriptionmaster;
-import com.esp.entity.Answermaster;
-import com.esp.entity.Surveymaster;
-import com.esp.entity.Surveytypemaster;
-import com.esp.entity.Usermaster;
-import com.esp.service.AnswerDescMasterService;
+import com.esp.entity.AnswerTextMaster;
+import com.esp.entity.AnswerMaster;
+import com.esp.entity.SurveyMaster;
+import com.esp.entity.SurveyTypeMaster;
+import com.esp.entity.UserMaster;
+import com.esp.service.AnswerTextMasterService;
 import com.esp.service.GenericService;
 import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.SurveyDetailsVO;
@@ -48,44 +48,44 @@ public class HomeHandler {
 		this.answerDescService = answerDescService;
 	}
 
-	public Surveymaster mapToSurveymaster(Usermaster usermaster,Surveytypemaster surveytypemaster,SurveyDetailsVO detailsVO) throws ParseException            
+	public SurveyMaster mapToSurveyMaster(UserMaster usermaster,SurveyTypeMaster surveytypemaster,SurveyDetailsVO detailsVO) throws ParseException            
     {
         Date date = null;
-        Surveymaster surveymaster = new Surveymaster(); 
+        SurveyMaster surveymaster = new SurveyMaster(); 
         surveymaster.setSurveyName(detailsVO.getSurveyname());
         surveymaster.setSurveyDesc(detailsVO.getDescription());       
-        surveymaster.setCreatedbyname(usermaster.getFirstname()+" "+usermaster.getLastname());
-        surveymaster.setCreateddate(new Date());
+        surveymaster.setCreatedById(usermaster);
+        surveymaster.setCreatedDate(new Date());
         date = dateFormat.parse(detailsVO.getSurveyend().trim());
-        surveymaster.setEnddate(date);
+        surveymaster.setEndDate(date);
         date = dateFormat.parse(detailsVO.getSurveystart());
-        surveymaster.setStartdate(date);
-        surveymaster.setLastmodifiedbyname(usermaster.getFirstname()+" "+usermaster.getLastname());
-        surveymaster.setLastmodifieddate(new Date());
-        surveymaster.setSurveycategory(null);
-        surveymaster.setSurveytypemaster(surveytypemaster);
-        surveymaster.setUsermasterByCreatedbyid(usermaster);
-        surveymaster.setUsermasterByLastmodifiedbyid(usermaster);
+        surveymaster.setStartDate(date);
+        surveymaster.setLastModifiedById(usermaster);
+        surveymaster.setLastModifiedDate(new Date());
+        surveymaster.setSurveyCategory(null);
+        surveymaster.setSurveyTypeId(surveytypemaster);
+        surveymaster.setCreatedById(usermaster);
+        surveymaster.setLastModifiedById(usermaster);
         return surveymaster;
         
     }
     
-    public Answermaster mapToAnswerMaster(FSAnswerDetailsVO ansDetailsVO) throws Exception    
+    public AnswerMaster mapToAnswerMaster(FSAnswerDetailsVO ansDetailsVO) throws Exception    
     {
         Date date = null;
         Class noparams[] = {};
         
         Class[] paramAnsDesc = new Class[1];
-        paramAnsDesc[0] = Answerdescriptionmaster.class;
+        paramAnsDesc[0] = AnswerTextMaster.class;
         
-        Answermaster ansMaster = new Answermaster(); 
+        AnswerMaster ansMaster = new AnswerMaster(); 
         //ansMaster.setAnswerdescriptionmasterByAnsdescid1(ansDetailsVO.getAnsDesc1());
         
         List<String> descList = ansDetailsVO.getAnsDesc();
         System.out.println("----descList.size() :"+descList.size());	
         
         if (descList.size() >5) throw new Exception("Answers's list should not be greater than 5");
-    	Class ansMasterClass = Answermaster.class;
+    	Class ansMasterClass = AnswerMaster.class;
     	
         for (int i =0; i<descList.size(); i++ ) {
             Method method = ansMasterClass.getDeclaredMethod("setAnswerdescriptionmasterByAnsdescid"+(i+1), paramAnsDesc);
@@ -99,15 +99,15 @@ public class HomeHandler {
     }
     
     
-   private Answerdescriptionmaster toAnsDesc(String desc) throws ParseException    {
+   private AnswerTextMaster toAnsDesc(String desc) throws ParseException    {
 	   
 	   System.out.println("----desc :"+desc);	
 	   System.out.println("...."+answerDescService);
-	   List<Answerdescriptionmaster> ansDescList = answerDescService.fetchByParam(desc);
+	   List<AnswerTextMaster> ansDescList = answerDescService.fetchByParam(desc);
 	   
 	   if (ansDescList==null || ansDescList.isEmpty()){
-		   Answerdescriptionmaster ansDesc = new Answerdescriptionmaster();
-		   ansDesc.setAnsdescription(desc);
+		   AnswerTextMaster ansDesc = new AnswerTextMaster();
+		   ansDesc.setAnsText(desc);
 		   answerDescService.add(ansDesc);
 		   ansDescList = answerDescService.fetchByParam(desc);
 		   

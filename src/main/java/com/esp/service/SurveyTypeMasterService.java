@@ -6,7 +6,7 @@
 
 package com.esp.service;
 
-import com.esp.entity.Surveytypemaster;
+import com.esp.entity.SurveyTypeMaster;
 
 /**
  *
@@ -14,6 +14,6 @@ import com.esp.entity.Surveytypemaster;
  */
 public interface SurveyTypeMasterService {
     
-    public Surveytypemaster getSurveyTypeMaster(String type);
+    public SurveyTypeMaster getSurveyTypeMaster(String type);
     
 }

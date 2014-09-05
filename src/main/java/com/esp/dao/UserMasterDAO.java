@@ -9,7 +9,7 @@ package com.esp.dao;
 import org.springframework.stereotype.Repository;
 
 //import com.esp.dao.impl.UserMasterDAO;
-import com.esp.entity.Usermaster; 
+import com.esp.entity.UserMaster; 
 
 /**
  *
@@ -17,6 +17,6 @@ import com.esp.entity.Usermaster;
  */
 
 @Repository(value="UserMasterDAO") 
-public class UserMasterDAO extends GenericDAO<Usermaster> {
+public class UserMasterDAO extends GenericDAO<UserMaster> {
     
 }

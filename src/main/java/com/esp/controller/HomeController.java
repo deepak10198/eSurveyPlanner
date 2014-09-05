@@ -1,10 +1,10 @@
 package com.esp.controller;
 
-import com.esp.entity.Answermaster;
-import com.esp.entity.Answertypemaster;
-import com.esp.entity.Surveymaster;
-import com.esp.entity.Surveytypemaster;
-import com.esp.entity.Usermaster;
+import com.esp.entity.AnswerMaster;
+import com.esp.entity.AnswerTypeMaster;
+import com.esp.entity.SurveyMaster;
+import com.esp.entity.SurveyTypeMaster;
+import com.esp.entity.UserMaster;
 import com.esp.handler.HomeHandler;
 import com.esp.service.AnswerMasterService;
 import com.esp.service.AnswerTypeMasterService;
@@ -16,12 +16,15 @@ import com.esp.vo.FSAnswerDetailsVO;
 import com.esp.vo.QuestionVO;
 import com.esp.vo.SurveyDetailsVO;
 import com.esp.vo.SurveyVO;
+
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +32,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -96,20 +100,20 @@ public class HomeController {
             log.info("desc :" + surveyDetailsVO.getDescription());
             log.info("type ;" + surveyDetailsVO.getType());
             
-            Usermaster usermaster = userMasterService.getUser(userId);
-            Surveytypemaster surveytypemaster = surveyTypeMasterService.getSurveyTypeMaster(surveyDetailsVO.getType());
-            Surveymaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsVO);
+            UserMaster usermaster = userMasterService.getUser(userId);
+            SurveyTypeMaster surveytypemaster = surveyTypeMasterService.getSurveyTypeMaster(surveyDetailsVO.getType());
+            SurveyMaster surveymaster = handler.mapToSurveyMaster(usermaster, surveytypemaster, surveyDetailsVO);
             surveyMasterService.addSurvey(surveymaster);            
             log.info("Survey Saved to database");
             
             log.info("getting answertype master list");
             
-            List<Answertypemaster> answermasters  = answerTypeMasterService.fetchAll();
+            List<AnswerTypeMaster> answermasters  = answerTypeMasterService.fetchAll();
             
             
             
             SurveyVO survey = new SurveyVO();
-            survey.setSurveyId(surveymaster.getSurveyid());
+            survey.setSurveyId(surveymaster.getId().intValue());
             survey.setSurveyName(surveymaster.getSurveyName());
             
             model.addAttribute("surveyDetails", survey);
@@ -130,13 +134,13 @@ public class HomeController {
     		log.info("Going to save Answer Master details -");
     	
 	    	
-	    	Answermaster answerMaster = handler.mapToAnswerMaster(answerDetailsVO);
+	    	AnswerMaster answerMaster = handler.mapToAnswerMaster(answerDetailsVO);
 	    	answerService.addAnswerMaster(answerMaster);
 	    	
 	    	SurveyVO survey = new SurveyVO();
 	        survey.setSurveyId(Integer.parseInt(request.getParameter("surveyid")));
 	        survey.setSurveyName(request.getParameter("surveyname"));
-	        survey.setAnsId(answerMaster.getAnsid());
+	        survey.setAnsId(answerMaster.getId().intValue());
 	        model.addAttribute("surveyDetails", survey);
 	    	
 	        return new ModelAndView("addQuestions");
@@ -156,14 +160,6 @@ public class HomeController {
         log.info("--->survey ans id:" + surveyVO.getAnsId());
         log.info("--->survey question list size :" + questionVO.getQuestionText().size());
         
-        
-        
-        
-        
-        
-        
-        
-        
         modelAndView.setViewName("home");
         return modelAndView;
     }//
@@ -171,7 +167,7 @@ public class HomeController {
     @RequestMapping(value = "viewSurvey", method = RequestMethod.GET)
     public ModelAndView viewSurveys(Principal principal, ModelMap model) {
         
-        List<Surveymaster> surveyList = surveyMasterService.listSurveys(userId);
+        List<SurveyMaster> surveyList = surveyMasterService.listSurveys(userId);
         model.addAttribute("surveyList", surveyList);        
         return new ModelAndView("viewSurvey");
     }
@@ -189,4 +185,14 @@ public class HomeController {
      //return "home";
      }
      */
+    
+    @RequestMapping(value="/survey/{id}")
+    public ModelAndView getPublishedSurvey(@PathVariable("id") String id) throws IOException{
+    	
+    	
+		
+        log.info("String here in getPublishedSurvey "+id);
+        
+        return new ModelAndView("dummy",new ModelMap().addAttribute("stringAttb", id));
+    }
 }

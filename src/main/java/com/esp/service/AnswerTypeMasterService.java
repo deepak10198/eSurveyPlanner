@@ -6,8 +6,7 @@
 package com.esp.service;
 
 import com.esp.dao.DAO;
-import com.esp.dao.GenericDAO;
-import com.esp.entity.Answertypemaster;
+import com.esp.entity.AnswerTypeMaster;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,31 +19,31 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service(value ="AnswerTypeMasterService")
 @Transactional
-public class AnswerTypeMasterService implements GenericService<Answertypemaster> {
+public class AnswerTypeMasterService implements GenericService<AnswerTypeMaster> {
 
     @Autowired
     @Qualifier("AnswerTypeMasterDAO")
     private DAO answerTypeMasterDAO;
 
     @Override
-    public void add(Answertypemaster t) {
+    public void add(AnswerTypeMaster t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Answertypemaster> fetch(int id) {
+    public List<AnswerTypeMaster> fetch(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Answertypemaster> fetchByParam(String ansDesc) {
+    public List<AnswerTypeMaster> fetchByParam(String ansDesc) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Answertypemaster> fetchAll() {
+    public List<AnswerTypeMaster> fetchAll() {
 
-        return answerTypeMasterDAO.findAll(Answertypemaster.class);
+        return answerTypeMasterDAO.findAll(AnswerTypeMaster.class);
     }
 
 }

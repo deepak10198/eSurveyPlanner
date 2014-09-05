@@ -6,7 +6,7 @@
 
 package com.esp.dao;
 
-import com.esp.entity.Answertypemaster;
+import com.esp.entity.AnswerTypeMaster;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Rakesh.K
  */
 @Repository(value="AnswerTypeMasterDAO")
-public class AnswerTypeMasterDAO extends GenericDAO<Answertypemaster>{
+public class AnswerTypeMasterDAO extends GenericDAO<AnswerTypeMaster>{
     
 }

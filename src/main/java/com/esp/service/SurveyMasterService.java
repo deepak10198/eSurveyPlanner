@@ -6,7 +6,7 @@
 
 package com.esp.service;
 
-import com.esp.entity.Surveymaster;
+import com.esp.entity.SurveyMaster;
 import java.util.List;
 
 /**
@@ -15,8 +15,8 @@ import java.util.List;
  */
 public interface SurveyMasterService {
     
-    public void addSurvey(Surveymaster surveyMaster);
+    public void addSurvey(SurveyMaster surveyMaster);
     
-    public List<Surveymaster> listSurveys(Integer userID);
+    public List<SurveyMaster> listSurveys(Integer userID);
     
 }

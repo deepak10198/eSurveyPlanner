@@ -9,14 +9,14 @@ package com.esp.dao;
 import org.springframework.stereotype.Repository;
 
 //import com.esp.dao.impl.SurveyTypeMasterDAO;
-import com.esp.entity.Surveymaster;
-import com.esp.entity.Surveytypemaster;
+//import com.esp.entity.SurveyMaster;
+import com.esp.entity.SurveyTypeMaster;
 
 /**
  *
  * @author Rakesh.k
  */
 @Repository(value="SurveyTypeMasterDAO")
-public class SurveyTypeMasterDAO extends GenericDAO<Surveytypemaster> {
+public class SurveyTypeMasterDAO extends GenericDAO<SurveyTypeMaster> {
     
 }

@@ -6,7 +6,7 @@
 
 package com.esp.service;
 
-import com.esp.entity.Usermaster;
+import com.esp.entity.UserMaster;
 
 /**
  *
@@ -14,9 +14,9 @@ import com.esp.entity.Usermaster;
  */
 public interface UserMasterService {
     
-    public void addUserMaster(Usermaster usermaster);
+    public void addUserMaster(UserMaster usermaster);
     
-    public Usermaster getUser(Integer id);
+    public UserMaster getUser(Integer id);
     
     
 }

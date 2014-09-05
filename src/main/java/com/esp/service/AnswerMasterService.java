@@ -2,12 +2,12 @@ package com.esp.service;
 
 import java.util.List;
 
-import com.esp.entity.Answermaster;
+import com.esp.entity.AnswerMaster;
 
 public interface AnswerMasterService {
 	
-	public void addAnswerMaster(Answermaster answerMaster);
+	public void addAnswerMaster(AnswerMaster answerMaster);
 	
-	public List<Answermaster> listAnswerMaster(int ansId);
+	public List<AnswerMaster> listAnswerMaster(int ansId);
 
 }
