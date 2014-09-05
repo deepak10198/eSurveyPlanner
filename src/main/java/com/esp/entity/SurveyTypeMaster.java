@@ -25,31 +25,28 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Rakesh.K
  */
 @Entity
-@Table(catalog = "", schema = "SURVEY")
+@Table(name = "SURVEY_TYPE_MASTER", catalog = "", schema = "SURVEY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Organisation.findAll", query = "SELECT o FROM Organisation o"),
-    @NamedQuery(name = "Organisation.findById", query = "SELECT o FROM Organisation o WHERE o.id = :id"),
-    @NamedQuery(name = "Organisation.findByOrgName", query = "SELECT o FROM Organisation o WHERE o.orgName = :orgName"),
-    @NamedQuery(name = "Organisation.findByOrgRegId", query = "SELECT o FROM Organisation o WHERE o.orgRegId = :orgRegId")})
-public class Organisation implements Serializable {
+    @NamedQuery(name = "SurveyTypeMaster.findAll", query = "SELECT s FROM SurveyTypeMaster s"),
+    @NamedQuery(name = "SurveyTypeMaster.findById", query = "SELECT s FROM SurveyTypeMaster s WHERE s.id = :id"),
+    @NamedQuery(name = "SurveyTypeMaster.findBySurveyTypeText", query = "SELECT s FROM SurveyTypeMaster s WHERE s.surveyTypeText = :surveyTypeText")})
+public class SurveyTypeMaster implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
-    @Column(name = "ORG_NAME", length = 200)
-    private String orgName;
-    @Column(name = "ORG_REG_ID", length = 100)
-    private String orgRegId;
-    @OneToMany(mappedBy = "orgId")
-    private Set<UserList> userListSet;
+    @Column(name = "SURVEY_TYPE_TEXT", length = 200)
+    private String surveyTypeText;
+    @OneToMany(mappedBy = "surveyTypeId")
+    private Set<SurveyMaster> surveyMasterSet;
 
-    public Organisation() {
+    public SurveyTypeMaster() {
     }
 
-    public Organisation(BigDecimal id) {
+    public SurveyTypeMaster(BigDecimal id) {
         this.id = id;
     }
 
@@ -61,29 +58,21 @@ public class Organisation implements Serializable {
         this.id = id;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public String getSurveyTypeText() {
+        return surveyTypeText;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
-    }
-
-    public String getOrgRegId() {
-        return orgRegId;
-    }
-
-    public void setOrgRegId(String orgRegId) {
-        this.orgRegId = orgRegId;
+    public void setSurveyTypeText(String surveyTypeText) {
+        this.surveyTypeText = surveyTypeText;
     }
 
     @XmlTransient
-    public Set<UserList> getUserListSet() {
-        return userListSet;
+    public Set<SurveyMaster> getSurveyMasterSet() {
+        return surveyMasterSet;
     }
 
-    public void setUserListSet(Set<UserList> userListSet) {
-        this.userListSet = userListSet;
+    public void setSurveyMasterSet(Set<SurveyMaster> surveyMasterSet) {
+        this.surveyMasterSet = surveyMasterSet;
     }
 
     @Override
@@ -96,10 +85,10 @@ public class Organisation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Organisation)) {
+        if (!(object instanceof SurveyTypeMaster)) {
             return false;
         }
-        Organisation other = (Organisation) object;
+        SurveyTypeMaster other = (SurveyTypeMaster) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -108,7 +97,7 @@ public class Organisation implements Serializable {
 
     @Override
     public String toString() {
-        return "com.esp.entity.Organisation[ id=" + id + " ]";
+        return "com.esp.entity.SurveyTypeMaster[ id=" + id + " ]";
     }
     
 }
