@@ -50,7 +50,7 @@
 					
 					var cell1 = row.insertCell(0);
 					//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
-					cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc["+ansCount+"]' value='"+answerValue+"'>";
+					cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansTextList["+ansCount+"]' value='"+answerValue+"'>";
 					
 					
 					var cell2 = row.insertCell(1);
@@ -101,8 +101,8 @@
 						</div>
 						<div class="form-group">
 							<label for="">Type of Answer - </label>
-                                                        <c:forEach var="answerTypeMaster" items="${answerTypemasters}">
-                                                            <input type="radio"  name="ansTypeID" value="${answerTypeMaster.anstypemasterid}"/>${answerTypeMaster.description}
+                                                        <c:forEach var="answerTypeMaster" items="${answerTypeMaster}">
+                                                            <input type="radio"  name="ansTypeID" value="${answerTypeMaster.id}"/>${answerTypeMaster.ansTypeText}
                                                             
                                                         </c:forEach>
                                                        

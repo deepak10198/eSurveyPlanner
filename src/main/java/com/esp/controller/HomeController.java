@@ -105,7 +105,7 @@ public class HomeController {
             log.info("SurveyVO is set");
             
             model.addAttribute("surveyDTO", surveyDTO);
-            model.addAttribute("answermasters", answermasters);
+            model.addAttribute("answerTypeMaster", answermasters);
             return new ModelAndView("answerType");
             
         } catch (ParseException ex) {
@@ -120,7 +120,9 @@ public class HomeController {
     									@ModelAttribute("answerDetailsDTO") FixedSurveyAnswerDetailsDTO answerDetailsDTO) throws IOException {
 
     	try{
-    		log.info("Going to save Answer Master details -");   	
+    		log.info("Going to save Answer Master details -");   
+    		
+    		log.info("Going answerDetailsDTO.getAnsType()-"+answerDetailsDTO.getAnsTextList());   
 	    	
 	    	AnswerMaster answerMaster = handler.mapToAnswerMaster(answerDetailsDTO);
 	    	answerService.add(answerMaster); 

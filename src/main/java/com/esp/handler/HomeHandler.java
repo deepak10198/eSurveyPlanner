@@ -61,27 +61,27 @@ public class HomeHandler {
         
     }
     
-    public AnswerMaster mapToAnswerMaster(FixedSurveyAnswerDetailsDTO ansDetailsVO) throws Exception    
+    public AnswerMaster mapToAnswerMaster(FixedSurveyAnswerDetailsDTO ansDetailsDTO) throws Exception    
     {
+    	System.out.println("----mapToAnswerMaster :");	
         Date date = null;
         Class noparams[] = {};
         
-        Class[] paramAnsDesc = new Class[1];
-        paramAnsDesc[0] = AnswerTextMaster.class;
+        Class[] paramAnsText = new Class[1];
+        paramAnsText[0] = AnswerTextMaster.class;
         
         AnswerMaster ansMaster = new AnswerMaster(); 
-        //ansMaster.setAnswerdescriptionmasterByAnsdescid1(ansDetailsVO.getAnsDesc1());
         
-        List<String> descList = ansDetailsVO.getAnsDesc();
-        System.out.println("----descList.size() :"+descList.size());	
+        List<String> ansTextList = ansDetailsDTO.getAnsTextList();
+        System.out.println("----descList.size() :"+ansTextList);	
         
-        if (descList.size() >5) throw new Exception("Answers's list should not be greater than 5");
+        if (ansTextList.size() >5) throw new Exception("Answers's list should not be greater than 5");
     	Class ansMasterClass = AnswerMaster.class;
     	
-        for (int i =0; i<descList.size(); i++ ) {
-            Method method = ansMasterClass.getDeclaredMethod("setAnsText"+(i+1), paramAnsDesc);
-        	System.out.println("----descList.get(i) :"+descList.get(i));	
-        	method.invoke(ansMaster,toAnsDesc(descList.get(i)) );
+        for (int i =0; i<ansTextList.size(); i++ ) {
+            Method method = ansMasterClass.getDeclaredMethod("setAnsText"+(i+1), paramAnsText);
+        	System.out.println("----descList.get(i) :"+ansTextList.get(i));	
+        	method.invoke(ansMaster,saveAnsText(ansTextList.get(i)) );
         	        	
 		}
         
@@ -90,22 +90,22 @@ public class HomeHandler {
     }
     
     
-   private AnswerTextMaster toAnsDesc(String desc) throws ParseException    {
+   private AnswerTextMaster saveAnsText(String text) throws ParseException    {
 	   
-	   System.out.println("----desc :"+desc);	
+	   System.out.println("----text :"+text);	
 	   System.out.println("...."+answerTextMasterService);
-	   List<AnswerTextMaster> ansDescList = answerTextMasterService.fetchByParam(desc);
-	   
-	   if (ansDescList==null || ansDescList.isEmpty()){
-		   AnswerTextMaster ansDesc = new AnswerTextMaster();
-		   ansDesc.setAnsText(desc);
-		   answerTextMasterService.add(ansDesc);
-		   ansDescList = answerTextMasterService.fetchByParam(desc);
+	   List<AnswerTextMaster> ansTextList = answerTextMasterService.fetchByParam(text);
+	   System.out.println("....2");
+	   if (ansTextList==null || ansTextList.isEmpty()){
+		   AnswerTextMaster ansText = new AnswerTextMaster();
+		   ansText.setAnsText(text);
+		   answerTextMasterService.add(ansText);
+		   ansTextList = answerTextMasterService.fetchByParam(text);
 		   
 		   
 	   }
-	   
-	   return ansDescList.get(0);
+	   System.out.println("....3");
+	   return ansTextList.get(0);
 	   
    }
     

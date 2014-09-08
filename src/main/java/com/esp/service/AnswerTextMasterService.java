@@ -35,8 +35,8 @@ public class AnswerTextMasterService implements GenericService<AnswerTextMaster>
 	
 	@Transactional
 	@Override
-	public List<AnswerTextMaster> fetchByParam(Object ansDesc) {
-		return ansTextMasterDAO.findFielEq(AnswerTextMaster.class, "ansdescription", ansDesc );
+	public List<AnswerTextMaster> fetchByParam(Object ansText) {
+		return ansTextMasterDAO.findFielEq(AnswerTextMaster.class, "ansText", ansText );
 		
 	}
     @Transactional

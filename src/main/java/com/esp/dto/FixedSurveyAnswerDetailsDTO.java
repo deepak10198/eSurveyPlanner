@@ -6,18 +6,18 @@ import java.util.List;
 public class FixedSurveyAnswerDetailsDTO {
 
 	private String ansType;
-	private List<String> ansDesc;
+	private List<String> ansTextList;
 
 	
 	public FixedSurveyAnswerDetailsDTO() {
 		//ansDesc = LazyList
 	}
 	
-	public List<String> getAnsDesc() {
-		return ansDesc;
+	public List<String> getAnsTextList() {
+		return ansTextList;
 	}
-	public void setAnsDesc(List<String> ansDesc) {
-		this.ansDesc = ansDesc;
+	public void setAnsTextList(List<String> ansDesc) {
+		this.ansTextList = ansDesc;
 	}
 	public String getAnsType() {
 		return ansType;
