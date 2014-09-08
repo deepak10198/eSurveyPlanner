@@ -28,7 +28,7 @@ public class AnswerTextMasterService implements GenericService<AnswerTextMaster>
 
 	@Transactional
 	@Override
-	public AnswerTextMaster fetch(BigDecimal id) {
+	public AnswerTextMaster fetch(int id) {
 		return (AnswerTextMaster) ansTextMasterDAO.findFielEq(AnswerTextMaster.class, "id",id );
 		
 	}

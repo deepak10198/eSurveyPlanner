@@ -11,6 +11,8 @@ import com.esp.dto.FixedSurveyAnswerDetailsDTO;
 import com.esp.dto.QuestionDTO;
 import com.esp.dto.SurveyDetailsDTO;
 import com.esp.dto.SurveyDTO;
+import com.esp.dto.UserSurveyDTO;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -24,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -164,14 +167,25 @@ public class HomeController {
         return modelAndView;
     }//
     
+    /**
+     * This method is used to add two integers. This is
+     * a the simplest form of a class method, just to
+     * show the usage of various javadoc Tags.
+     * @param numA This is the first paramter to addNum method
+     * @param numB  This is the second parameter to addNum method
+     * @return int This returns sum of numA and numB.
+     */
 	@RequestMapping(value="/survey/{uri}")
     public ModelAndView getPublishedSurvey(@PathVariable("uri") String uri) throws IOException{
     	
         log.info("String here in getPublishedSurvey "+uri);
+        ModelAndView modelAndView = new ModelAndView();
+        UserSurveyDTO userSurveyDTO	= = handler.fetchSurveyDetails(surveyId);
         
-        UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
+        //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
         
-        return new ModelAndView("dummy",new ModelMap().addAttribute("stringAttb", uri));
+        modelAndView.addObject("userSurveyDTO",userSurveyDTO);
+        return new ModelAndView("viewSurvey",new ModelMap().addAttribute("stringAttb", uri));
     }
 
 }

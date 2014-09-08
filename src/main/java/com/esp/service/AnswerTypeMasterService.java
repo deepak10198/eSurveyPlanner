@@ -32,7 +32,7 @@ public class AnswerTypeMasterService implements GenericService<AnswerTypeMaster>
     }
 
     @Override
-    public AnswerTypeMaster fetch(BigDecimal id) {
+    public AnswerTypeMaster fetch(int id) {
     	 return (AnswerTypeMaster) answerTypeMasterDAO.findUnique(AnswerTypeMaster.class, "id", id);
     }
 

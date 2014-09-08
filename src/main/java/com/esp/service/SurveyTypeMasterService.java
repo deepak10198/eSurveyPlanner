@@ -37,7 +37,7 @@ public class SurveyTypeMasterService implements GenericService<SurveyTypeMaster>
 	}
 
 	@Override
-	public SurveyTypeMaster fetch(BigDecimal id) {
+	public SurveyTypeMaster fetch(int id) {
 		return (SurveyTypeMaster) surveyTypeMasterDAO.findUnique(SurveyTypeMaster.class, "id", id);
 	}
 

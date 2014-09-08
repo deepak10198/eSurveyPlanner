@@ -34,7 +34,7 @@ public class SurveyMasterService implements GenericService<SurveyMaster> {
 	}
 
 	@Override
-	public SurveyMaster fetch(BigDecimal id) {
+	public SurveyMaster fetch(int id) {
 
         return (SurveyMaster) surveyMasterDAO.findFielEq(SurveyMaster.class, "surveyId", id);
 	}

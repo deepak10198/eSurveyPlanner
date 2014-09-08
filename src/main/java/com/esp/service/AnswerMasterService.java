@@ -29,7 +29,7 @@ public class AnswerMasterService implements GenericService<AnswerMaster> {
 	}
 
 	@Override
-	public AnswerMaster fetch(BigDecimal id) {
+	public AnswerMaster fetch(int id) {
 		return (AnswerMaster) answerMasterDAO.findFielEq(AnswerMaster.class, "id", id);
 	}
 

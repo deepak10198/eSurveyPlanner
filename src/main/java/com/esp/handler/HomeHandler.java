@@ -6,12 +6,16 @@ package com.esp.handler;
 import com.esp.entity.AnswerMaster;
 import com.esp.entity.AnswerTextMaster;
 import com.esp.entity.SurveyMaster;
+import com.esp.entity.SurveyQuestionMapping;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.service.AnswerTextMasterService;
 import com.esp.service.GenericService;
 import com.esp.dto.FixedSurveyAnswerDetailsDTO;
 import com.esp.dto.SurveyDetailsDTO;
+import com.esp.dto.SurveyQuestionsDTO;
+import com.esp.dto.UserSurveyDTO;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -39,6 +43,26 @@ public class HomeHandler {
     @Autowired
     @Qualifier("AnswerTextMasterService")
     GenericService answerTextMasterService;
+    
+    @Autowired
+    @Qualifier("SurveyMasterService")
+    private GenericService surveyMasterService;
+    
+    @Autowired
+    @Qualifier("SurveyQuestionMappingService")
+    private GenericService surveyQuestionMappingService;
+    
+    @Autowired
+    @Qualifier("QuestionAnswerMappingService")
+    private GenericService questionAnswerMappingService;
+    
+    @Autowired
+    @Qualifier("AnswerMasterService")
+    private GenericService answerService;
+    
+    @Autowired
+    @Qualifier("AnswerTypeMasterService")
+    private GenericService answerTypeMasterService;
     
 
 	public SurveyMaster mapToSurveymaster(UserMaster usermaster,SurveyTypeMaster surveyTypeMaster,SurveyDetailsDTO detailsVO) throws ParseException            
@@ -159,6 +183,40 @@ public class HomeHandler {
 		System.out.println("URI req "+ page);
 		page = page.substring(page.lastIndexOf("/")+1, page.length());
 		return page;
+	}
+	
+	/**
+     * This method is used to fetch all the details of Survey in order to display it on the basis of Survey ID.
+     * 
+     * @param surveyId Survey ID for which details needs to be fetched.
+     * @return UserSurveyDTO DTO having all the details of a survey.
+     */
+	public UserSurveyDTO fetchSurveyDetails(int surveyId){
+		UserSurveyDTO userSurveyDTO = null;
+		userSurveyDTO= new UserSurveyDTO();
+		
+		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(surveyId);
+		
+		userSurveyDTO.setSurveyId(Integer.parseInt(surveyMaster.getId().toString()));
+		userSurveyDTO.setSurveyDisplayId(surveyMaster.getSurveyId());
+		userSurveyDTO.setSurveyName(surveyMaster.getSurveyName());
+		userSurveyDTO.setSurveyDesc(surveyMaster.getSurveyDesc());
+		
+		userSurveyDTO.setSurveyQuestions(fetchSurveyQuestions(surveyId));
+		
+		return userSurveyDTO;
+		
+	}
+	
+	public SurveyQuestionsDTO fetchSurveyQuestions(int surveyId){
+		SurveyQuestionsDTO surveyQuestionsDTO = new SurveyQuestionsDTO();
+		SurveyQuestionMapping surveyQuestionMapping =   (SurveyQuestionMapping) surveyQuestionMappingService.fetchByParam(surveyId);
+		
+		
+		
+		
+		return surveyQuestionsDTO;
+		
 	}
 	
 }

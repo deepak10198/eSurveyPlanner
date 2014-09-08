@@ -35,7 +35,7 @@ public class UserMasterService implements GenericService<UserMaster> {
 	}
 
 	@Override
-	public UserMaster fetch(BigDecimal id) {
+	public UserMaster fetch(int id) {
 		 return (UserMaster)userMasterDAO.findUnique(UserMaster.class, "id", id);
 	}
 

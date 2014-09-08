@@ -5,6 +5,7 @@
  */
 package com.esp.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -64,7 +65,7 @@ public abstract class GenericDAO<T> implements DAO<T> {
     public T findUnique(Class<T> entity, String propertyName, Object value) {
         T t = null;
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
-        criteria.add(Restrictions.eq(propertyName, value));
+        criteria.add(Restrictions.eq(propertyName, new BigDecimal((int)value)));
         t = (T) criteria.list().get(0);
         return t;
     }
