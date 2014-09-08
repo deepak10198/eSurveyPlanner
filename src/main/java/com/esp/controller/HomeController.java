@@ -164,5 +164,14 @@ public class HomeController {
         return modelAndView;
     }//
     
+	@RequestMapping(value="/survey/{uri}")
+    public ModelAndView getPublishedSurvey(@PathVariable("uri") String uri) throws IOException{
+    	
+        log.info("String here in getPublishedSurvey "+uri);
+        
+        UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
+        
+        return new ModelAndView("dummy",new ModelMap().addAttribute("stringAttb", uri));
+    }
 
 }
