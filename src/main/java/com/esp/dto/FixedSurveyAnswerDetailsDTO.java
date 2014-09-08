@@ -1,16 +1,15 @@
-package com.esp.vo;
+package com.esp.dto;
 
 import java.util.List;
 
-import org.apache.commons.collections.list.LazyList;
 
-public class FSAnswerDetailsVO {
+public class FixedSurveyAnswerDetailsDTO {
 
 	private String ansType;
 	private List<String> ansDesc;
+
 	
-	
-	public FSAnswerDetailsVO() {
+	public FixedSurveyAnswerDetailsDTO() {
 		//ansDesc = LazyList
 	}
 	

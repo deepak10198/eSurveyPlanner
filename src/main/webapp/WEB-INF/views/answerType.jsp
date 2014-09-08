@@ -90,9 +90,13 @@
 					</div>
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form:form role="form" action="addQuestions" method="POST" commandName="answerDetailsForm">
+					<form action="addQuestions" method="POST">
+                                            
+                                            <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
+					    <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
+                                            
 						<div class="output">
-							<label for="surveyname">${surveyVO.surveyName}</label>
+							<label for="surveyname">${surveyDTO.surveyName}</label>
 							
 						</div>
 						<div class="form-group">
@@ -101,10 +105,7 @@
                                                             <input type="radio"  name="ansTypeID" value="${answerTypeMaster.anstypemasterid}"/>${answerTypeMaster.description}
                                                             
                                                         </c:forEach>
-                                                        
-                                                        
-							<!--input type="radio"  name="ansType" value="single"/>Single (Radio Buttons)
-							<input type="radio"  name="ansType" value="multiple"/>Multiple (Checkboxes)-->
+                                                       
 						</div>
 						
 						<div class="form-group">
@@ -114,8 +115,7 @@
 								
 								<button type="button" class="btn btn-default" onclick="addDynamicRow()">Add</button>
 								<!--  button type="button" class="btn btn-default">Delete</button-->
-								<table id="answerTable" class="table table-striped"></table>
-								
+								<table id="answerTable" class="table table-striped"></table>						
 								
 							
 						</div>
@@ -124,15 +124,11 @@
 							<div>
 								<button type="submit" class="btn btn-primary">Proceed</button>
 							</div>
-						</div>
-
-						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
-						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-						<input type="hidden" name="surveyId" value='${surveyVO.surveyId}'>
-						<input type="hidden" name="surveyName" value='${surveyVO.surveyName}'>
+						</div>						
 						
 						
-					</form:form>
+						
+					</form>
 				</div>
 			</div>
 

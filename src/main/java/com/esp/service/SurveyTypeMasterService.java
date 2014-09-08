@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.AnswerTypeMaster;
 import com.esp.entity.SurveyTypeMaster;
+import java.math.BigDecimal;
 
 /**
  *
@@ -36,7 +37,7 @@ public class SurveyTypeMasterService implements GenericService<SurveyTypeMaster>
 	}
 
 	@Override
-	public SurveyTypeMaster fetch(int id) {
+	public SurveyTypeMaster fetch(BigDecimal id) {
 		return (SurveyTypeMaster) surveyTypeMasterDAO.findUnique(SurveyTypeMaster.class, "id", id);
 	}
 

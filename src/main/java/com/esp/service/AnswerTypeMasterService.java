@@ -6,8 +6,8 @@
 package com.esp.service;
 
 import com.esp.dao.DAO;
-import com.esp.dao.GenericDAO;
 import com.esp.entity.AnswerTypeMaster;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +32,7 @@ public class AnswerTypeMasterService implements GenericService<AnswerTypeMaster>
     }
 
     @Override
-    public AnswerTypeMaster fetch(int id) {
+    public AnswerTypeMaster fetch(BigDecimal id) {
     	 return (AnswerTypeMaster) answerTypeMasterDAO.findUnique(AnswerTypeMaster.class, "id", id);
     }
 

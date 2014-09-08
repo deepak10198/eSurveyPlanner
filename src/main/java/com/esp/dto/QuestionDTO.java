@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.esp.vo;
+package com.esp.dto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Rakesh.K
  */
-public class QuestionVO {
+public class QuestionDTO {
     
     private List<String> questionText;
 

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.esp.entity;
 
 import java.io.Serializable;
@@ -12,10 +11,13 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,9 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Organisation.findByOrgName", query = "SELECT o FROM Organisation o WHERE o.orgName = :orgName"),
     @NamedQuery(name = "Organisation.findByOrgRegId", query = "SELECT o FROM Organisation o WHERE o.orgRegId = :orgRegId")})
 public class Organisation implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @SequenceGenerator(name = "SEQ_ORGANISATION", sequenceName = "SEQ_ORGANISATION")
+    @GeneratedValue(generator = "SEQ_ORGANISATION", strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
@@ -110,5 +115,5 @@ public class Organisation implements Serializable {
     public String toString() {
         return "com.esp.entity.Organisation[ id=" + id + " ]";
     }
-    
+
 }

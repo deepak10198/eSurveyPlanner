@@ -7,8 +7,8 @@
 package com.esp.service;
 
 import com.esp.dao.DAO;
-import com.esp.entity.AnswerTextMaster;
 import com.esp.entity.SurveyMaster;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +34,7 @@ public class SurveyMasterService implements GenericService<SurveyMaster> {
 	}
 
 	@Override
-	public SurveyMaster fetch(int id) {
+	public SurveyMaster fetch(BigDecimal id) {
 
         return (SurveyMaster) surveyMasterDAO.findFielEq(SurveyMaster.class, "surveyId", id);
 	}

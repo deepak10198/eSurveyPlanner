@@ -6,15 +6,11 @@ import com.esp.entity.SurveyMaster;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.handler.HomeHandler;
-import com.esp.service.AnswerMasterService;
 import com.esp.service.GenericService;
-import com.esp.service.SurveyMasterService;
-import com.esp.service.SurveyTypeMasterService;
-import com.esp.service.UserMasterService;
-import com.esp.vo.FSAnswerDetailsVO;
-import com.esp.vo.QuestionVO;
-import com.esp.vo.SurveyDetailsVO;
-import com.esp.vo.SurveyVO;
+import com.esp.dto.FixedSurveyAnswerDetailsDTO;
+import com.esp.dto.QuestionDTO;
+import com.esp.dto.SurveyDetailsDTO;
+import com.esp.dto.SurveyDTO;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -35,9 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    //ApplicationContext context = new ClassPathXmlApplicationContext("**/eSurvey.xml");
-    @Autowired
-    private ApplicationContext context;
+ 
     
     @Autowired
     @Qualifier("UserMasterService") 
@@ -72,36 +66,30 @@ public class HomeController {
     @RequestMapping(value = "")
     public ModelAndView Home(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-//        log.info("Home page has been called");
-//        HomeHandler homeHandler = new HomeHandler();
-//
-//        String page = homeHandler.handleRequest();
-//        System.out.println("test2");
+
         return new ModelAndView("home");
-        //return new ModelAndView("home");
-        //return "home";
+
     }
     
     @RequestMapping(value = "/createSurvey")
     public ModelAndView createSurvey(HttpServletResponse response) throws IOException {
-        System.out.println("*****************888Create Survey");
+        log.info("*****************888Create Survey");
         return new ModelAndView("createSurvey");
     }
     
     @RequestMapping(value = "/submitSurveyMaster")
-    public ModelAndView submitSurvey(HttpServletRequest request, HttpServletResponse response, ModelMap model, 
-    		@ModelAttribute("surveyDetailsForm") SurveyDetailsVO surveyDetailsVO) throws IOException {
+    public ModelAndView submitSurvey(ModelMap model,@ModelAttribute("surveyDetailsDTO") SurveyDetailsDTO surveyDetailsDTO) throws IOException {
         
         try {
             log.info("Going to save Survey Master Details -");
             log.info("submitting survey to database");
-            log.info("name :" + surveyDetailsVO.getSurveyname());
-            log.info("desc :" + surveyDetailsVO.getDescription());
-            log.info("type ;" + surveyDetailsVO.getType());
+            log.info("name :" + surveyDetailsDTO.getSurveyname());
+            log.info("desc :" + surveyDetailsDTO.getDescription());
+            log.info("type ;" + surveyDetailsDTO.getType());
             
-            UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
-            SurveyTypeMaster surveytypemaster = (SurveyTypeMaster)surveyTypeMasterService.fetchByParam(surveyDetailsVO.getType());
-            SurveyMaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsVO);
+            UserMaster usermaster = (UserMaster) userMasterService.fetch(new BigDecimal(userId));
+            SurveyTypeMaster surveytypemaster = (SurveyTypeMaster)surveyTypeMasterService.fetchByParam(surveyDetailsDTO.getType());
+            SurveyMaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsDTO);
             surveyMasterService.add(surveymaster);            
             log.info("Survey Saved to database");
             
@@ -111,12 +99,12 @@ public class HomeController {
             
             log.info("Answertype master list fetched");
             
-            SurveyVO survey = new SurveyVO();
-            survey.setSurveyId(surveymaster.getSurveyId());
-            survey.setSurveyName(surveymaster.getSurveyName());
+            SurveyDTO surveyDTO = new SurveyDTO();
+            surveyDTO.setSurveyId(Integer.parseInt(surveymaster.getId().toString()));
+            surveyDTO.setSurveyName(surveymaster.getSurveyName());
             log.info("SurveyVO is set");
             
-            model.addAttribute("surveyDetails", survey);
+            model.addAttribute("surveyDTO", surveyDTO);
             model.addAttribute("answermasters", answermasters);
             return new ModelAndView("answerType");
             
@@ -128,22 +116,23 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/addQuestions")
-    public ModelAndView addQuestions(HttpServletRequest request, HttpServletResponse response, ModelMap model,
-    									@ModelAttribute("surveyVO") SurveyVO survey,
-    									@ModelAttribute("answerDetailsForm") FSAnswerDetailsVO answerDetailsVO) throws IOException {
+    public ModelAndView addQuestions(ModelMap model,@ModelAttribute("surveyDTO") SurveyDTO surveyDTO,
+    									@ModelAttribute("answerDetailsDTO") FixedSurveyAnswerDetailsDTO answerDetailsDTO) throws IOException {
 
     	try{
-    		log.info("Going to save Answer Master details -");
-    	
+    		log.info("Going to save Answer Master details -");   	
 	    	
-	    	AnswerMaster answerMaster = handler.mapToAnswerMaster(answerDetailsVO);
-	    	answerService.add(answerMaster);
+	    	AnswerMaster answerMaster = handler.mapToAnswerMaster(answerDetailsDTO);
+	    	answerService.add(answerMaster); 
 	    	
-	    	survey.setSurveyId(request.getParameter("surveyid"));
-	        survey.setSurveyName(request.getParameter("surveyname"));
-	        survey.setAnsId((BigDecimal)answerMaster.getId());
-	        model.addAttribute("surveyDetails", survey);
-	    	
+	        surveyDTO.setAnsId(Integer.parseInt(answerMaster.getId().toString()));
+	        log.info("survey name"+surveyDTO.getSurveyName());
+                log.info("survey id"+surveyDTO.getSurveyId());
+                log.info("survey ans id"+surveyDTO.getAnsId());
+                
+                model.addAttribute("surveyDTO", surveyDTO);              
+                
+                
 	        return new ModelAndView("addQuestions");
     	} catch (Exception ex) {
             log.error(ex.getMessage());
@@ -153,13 +142,19 @@ public class HomeController {
     }
     
     @RequestMapping(value = "saveQuestions", method = RequestMethod.POST)
-    public ModelAndView saveQuestions(@ModelAttribute("questionVo") QuestionVO questionVO, @ModelAttribute("surveyVO") SurveyVO surveyVO) {
+    public ModelAndView saveQuestions(@ModelAttribute("questionDTO") QuestionDTO questionDTO, @ModelAttribute("surveyDTO") SurveyDTO surveyDTO) {
         ModelAndView modelAndView = new ModelAndView();
         
-        log.info("--->survey id :" + surveyVO.getSurveyId());
-        log.info("--->survey name :" + surveyVO.getSurveyName());
-        log.info("--->survey ans id:" + surveyVO.getAnsId());
-        log.info("--->survey question list size :" + questionVO.getQuestionText().size());
+        log.info("--->survey id :" + surveyDTO.getSurveyId());
+        log.info("--->survey name :" + surveyDTO.getSurveyName());
+        log.info("--->survey ans id:" + surveyDTO.getAnsId());
+        log.info("-->survey ans type id :"+surveyDTO.getAnsTypeID());
+        log.info("--->survey question list size :" + questionDTO.getQuestionText().size());
+        
+        for(String question :questionDTO.getQuestionText())
+        {
+            log.info("question :"+question);
+        }
         
         
         
@@ -167,25 +162,5 @@ public class HomeController {
         return modelAndView;
     }//
     
-    /*@RequestMapping(value = "viewSurvey", method = RequestMethod.GET)
-    public ModelAndView viewSurveys(Principal principal, ModelMap model) {
-        
-        List<Surveymaster> surveyList = surveyMasterService.listSurveys(userId);
-        model.addAttribute("surveyList", surveyList);        
-        return new ModelAndView("viewSurvey");
-    }*/
 
-    /*@RequestMapping(method = RequestMethod.GET)
-     public ModelAndView moveToURL(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		
-     log.info("Other Req");
-     HomeHandler homeHandler = new HomeHandler();
-		
-     String page = homeHandler.handleAllRequest(request);
-     System.out.println("Going to page "+page);
-     return new ModelAndView(page);
-     //return new ModelAndView("home");
-     //return "home";
-     }
-     */
 }

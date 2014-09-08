@@ -88,12 +88,12 @@
             </div>
             <div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
                 <form:form role="form" action="saveQuestions" method="POST">
-                    <input type="hidden" name="surveyId" value='${surveyVO.surveyId}'>
-                    <input type="hidden" name="surveyName" value='${surveyVO.surveyName}'>
-                    <input type="hidden" name="ansId" value='${surveyVO.ansId}'>
-                    <input type="hidden" name="ansTypeID" value='${surveyVO.ansTypeID}'>
+                    <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
+                    <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
+                    <input type="hidden" name="ansId" value='${surveyDTO.ansId}'>
+                    <input type="hidden" name="ansTypeID" value='${surveyDTO.ansTypeID}'>
                     <div class="output">
-                        <label for="surveyname">${surveyVO.surveyName}</label>
+                        <label for="surveyname">${surveyDTO.surveyName}</label>
 
                     </div>
                     <div class="form-group">

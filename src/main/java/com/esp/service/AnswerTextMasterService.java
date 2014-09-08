@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.AnswerTextMaster;
+import java.math.BigDecimal;
 
 @Transactional
 @Service(value="AnswerTextMasterService")
@@ -27,7 +28,7 @@ public class AnswerTextMasterService implements GenericService<AnswerTextMaster>
 
 	@Transactional
 	@Override
-	public AnswerTextMaster fetch(int id) {
+	public AnswerTextMaster fetch(BigDecimal id) {
 		return (AnswerTextMaster) ansTextMasterDAO.findFielEq(AnswerTextMaster.class, "id",id );
 		
 	}

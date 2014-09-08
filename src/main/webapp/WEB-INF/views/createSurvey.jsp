@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form role="form" action="submitSurveyMaster" method="POST" name ="surveyDetailsForm">
+					<form action="submitSurveyMaster" method="POST">
 						<div class="form-group">
 							<label for="surveyname">Name of the Survey</label>
 							<div>

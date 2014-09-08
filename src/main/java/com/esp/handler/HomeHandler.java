@@ -10,8 +10,8 @@ import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.service.AnswerTextMasterService;
 import com.esp.service.GenericService;
-import com.esp.vo.FSAnswerDetailsVO;
-import com.esp.vo.SurveyDetailsVO;
+import com.esp.dto.FixedSurveyAnswerDetailsDTO;
+import com.esp.dto.SurveyDetailsDTO;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -41,7 +41,7 @@ public class HomeHandler {
     GenericService answerTextMasterService;
     
 
-	public SurveyMaster mapToSurveymaster(UserMaster usermaster,SurveyTypeMaster surveyTypeMaster,SurveyDetailsVO detailsVO) throws ParseException            
+	public SurveyMaster mapToSurveymaster(UserMaster usermaster,SurveyTypeMaster surveyTypeMaster,SurveyDetailsDTO detailsVO) throws ParseException            
     {
         Date date = null;
         SurveyMaster surveymaster = new SurveyMaster(); 
@@ -61,7 +61,7 @@ public class HomeHandler {
         
     }
     
-    public AnswerMaster mapToAnswerMaster(FSAnswerDetailsVO ansDetailsVO) throws Exception    
+    public AnswerMaster mapToAnswerMaster(FixedSurveyAnswerDetailsDTO ansDetailsVO) throws Exception    
     {
         Date date = null;
         Class noparams[] = {};

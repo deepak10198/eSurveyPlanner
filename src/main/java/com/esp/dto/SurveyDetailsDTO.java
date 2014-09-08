@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-package com.esp.vo;
+package com.esp.dto;
 
 /**
  *
  * @author Rakesh.k
  */
-public class SurveyDetailsVO {
+public class SurveyDetailsDTO {
     
     private String surveyname;
     private String description;
