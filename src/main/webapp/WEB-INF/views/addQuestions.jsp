@@ -87,12 +87,13 @@
                 </div>
             </div>
             <div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-                <form:form role="form" action="saveQuestions" method="POST" modelAttribute="surveyDetails">
-                    <input type="hidden" name="surveyId" value='${surveyDetails.surveyId}'>
-                    <input type="hidden" name="surveyName" value='${surveyDetails.surveyName}'>
-                    <input type="hidden" name="ansId" value='${surveyDetails.ansId}'>
+                <form:form role="form" action="saveQuestions" method="POST">
+                    <input type="hidden" name="surveyId" value='${surveyVO.surveyId}'>
+                    <input type="hidden" name="surveyName" value='${surveyVO.surveyName}'>
+                    <input type="hidden" name="ansId" value='${surveyVO.ansId}'>
+                    <input type="hidden" name="ansTypeID" value='${surveyVO.ansTypeID}'>
                     <div class="output">
-                        <label for="surveyname">${surveyDetails.surveyName}</label>
+                        <label for="surveyname">${surveyVO.surveyName}</label>
 
                     </div>
                     <div class="form-group">

@@ -90,15 +90,16 @@
 					</div>
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form:form role="form" action="addQuestions" method="POST" commandName="answerDetailsForm" modelAttribute="surveyDetails">
+					<form:form role="form" action="addQuestions" method="POST" commandName="answerDetailsForm">
 						<div class="output">
-							<label for="surveyname">${surveyDetails.surveyName}</label>
+							<label for="surveyname">${surveyVO.surveyName}</label>
 							
 						</div>
 						<div class="form-group">
 							<label for="">Type of Answer - </label>
-                                                        <c:forEach var="answerTypeMaster" items="answermasters">
-                                                            <input type="radio"  name="ansType" value='${answerTypeMaster.anstypemasterid}'/>${answerTypeMaster.description}
+                                                        <c:forEach var="answerTypeMaster" items="${answerTypemasters}">
+                                                            <input type="radio"  name="ansTypeID" value="${answerTypeMaster.anstypemasterid}"/>${answerTypeMaster.description}
+                                                            
                                                         </c:forEach>
                                                         
                                                         
@@ -127,8 +128,8 @@
 
 						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
 						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-						<input type="hidden" name="surveyId" value='${surveyDetails.surveyId}'>
-						<input type="hidden" name="surveyName" value='${surveyDetails.surveyName}'>
+						<input type="hidden" name="surveyId" value='${surveyVO.surveyId}'>
+						<input type="hidden" name="surveyName" value='${surveyVO.surveyName}'>
 						
 						
 					</form:form>
