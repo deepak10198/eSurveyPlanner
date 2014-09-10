@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Rakesh.K
  */
-@Entity 
+@Entity
 @Table(name = "ANSWER_TEXT_MASTER", catalog = "", schema = "SURVEY")
 @XmlRootElement
 @NamedQueries({
@@ -45,7 +45,7 @@ public class AnswerTextMaster implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-        @SequenceGenerator(name ="SEQ_ANSWER_TEXT_MASTER" ,sequenceName ="SEQ_ANSWER_TEXT_MASTER")
+    @SequenceGenerator(name ="SEQ_ANSWER_TEXT_MASTER" ,sequenceName ="SEQ_ANSWER_TEXT_MASTER")
     @GeneratedValue(generator = "SEQ_ANSWER_TEXT_MASTER",strategy =GenerationType.SEQUENCE )
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
@@ -65,19 +65,19 @@ public class AnswerTextMaster implements Serializable {
     @JoinColumn(name = "LAST_MODIFIED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster lastModifiedById;
-    @OneToMany(mappedBy = "ansText5")
+    @OneToMany(mappedBy = "ansText9")
     private Set<AnswerMaster> answerMasterSet;
     @OneToMany(mappedBy = "ansText6")
     private Set<AnswerMaster> answerMasterSet1;
     @OneToMany(mappedBy = "ansText1")
     private Set<AnswerMaster> answerMasterSet2;
-    @OneToMany(mappedBy = "ansText9")
-    private Set<AnswerMaster> answerMasterSet3;
     @OneToMany(mappedBy = "ansText8")
-    private Set<AnswerMaster> answerMasterSet4;
+    private Set<AnswerMaster> answerMasterSet3;
     @OneToMany(mappedBy = "ansText7")
-    private Set<AnswerMaster> answerMasterSet5;
+    private Set<AnswerMaster> answerMasterSet4;
     @OneToMany(mappedBy = "ansText10")
+    private Set<AnswerMaster> answerMasterSet5;
+    @OneToMany(mappedBy = "ansText5")
     private Set<AnswerMaster> answerMasterSet6;
     @OneToMany(mappedBy = "ansText4")
     private Set<AnswerMaster> answerMasterSet7;
@@ -85,6 +85,8 @@ public class AnswerTextMaster implements Serializable {
     private Set<AnswerMaster> answerMasterSet8;
     @OneToMany(mappedBy = "ansText2")
     private Set<AnswerMaster> answerMasterSet9;
+    @OneToMany(mappedBy = "ansTextId")
+    private Set<SurveyResponse> surveyResponseSet;
 
     public AnswerTextMaster() {
     }
@@ -234,6 +236,15 @@ public class AnswerTextMaster implements Serializable {
 
     public void setAnswerMasterSet9(Set<AnswerMaster> answerMasterSet9) {
         this.answerMasterSet9 = answerMasterSet9;
+    }
+
+    @XmlTransient
+    public Set<SurveyResponse> getSurveyResponseSet() {
+        return surveyResponseSet;
+    }
+
+    public void setSurveyResponseSet(Set<SurveyResponse> surveyResponseSet) {
+        this.surveyResponseSet = surveyResponseSet;
     }
 
     @Override

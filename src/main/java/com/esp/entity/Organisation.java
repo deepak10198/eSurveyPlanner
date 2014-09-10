@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.esp.entity ;
+
+package com.esp.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -35,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Organisation.findByOrgName", query = "SELECT o FROM Organisation o WHERE o.orgName = :orgName"),
     @NamedQuery(name = "Organisation.findByOrgRegId", query = "SELECT o FROM Organisation o WHERE o.orgRegId = :orgRegId")})
 public class Organisation implements Serializable {
-
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -49,7 +49,7 @@ public class Organisation implements Serializable {
     @Column(name = "ORG_REG_ID", length = 100)
     private String orgRegId;
     @OneToMany(mappedBy = "orgId")
-    private Set<UserList> userListSet;
+    private Set<UserMaster> userMasterSet;
 
     public Organisation() {
     }
@@ -83,12 +83,12 @@ public class Organisation implements Serializable {
     }
 
     @XmlTransient
-    public Set<UserList> getUserListSet() {
-        return userListSet;
+    public Set<UserMaster> getUserMasterSet() {
+        return userMasterSet;
     }
 
-    public void setUserListSet(Set<UserList> userListSet) {
-        this.userListSet = userListSet;
+    public void setUserMasterSet(Set<UserMaster> userMasterSet) {
+        this.userMasterSet = userMasterSet;
     }
 
     @Override
@@ -115,5 +115,5 @@ public class Organisation implements Serializable {
     public String toString() {
         return "com.esp.entity.Organisation[ id=" + id + " ]";
     }
-
+    
 }

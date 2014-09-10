@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.esp.entity;
 
 import java.io.Serializable;
@@ -40,11 +39,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SurveyQuestionMapping.findByCreationDate", query = "SELECT s FROM SurveyQuestionMapping s WHERE s.creationDate = :creationDate"),
     @NamedQuery(name = "SurveyQuestionMapping.findByLastModifiedDate", query = "SELECT s FROM SurveyQuestionMapping s WHERE s.lastModifiedDate = :lastModifiedDate")})
 public class SurveyQuestionMapping implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-     @SequenceGenerator(name ="SEQ_SURVEY_QUESTION_MAPPING" ,sequenceName ="SEQ_SURVEY_QUESTION_MAPPING")
-    @GeneratedValue(generator = "SEQ_SURVEY_QUESTION_MAPPING",strategy =GenerationType.SEQUENCE )
+
+    @SequenceGenerator(name = "SEQ_SURVEY_QUESTION_MAPPING", sequenceName = "SEQ_SURVEY_QUESTION_MAPPING")
+    @GeneratedValue(generator = "SEQ_SURVEY_QUESTION_MAPPING", strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
@@ -154,5 +155,5 @@ public class SurveyQuestionMapping implements Serializable {
     public String toString() {
         return "com.esp.entity.SurveyQuestionMapping[ id=" + id + " ]";
     }
-    
+
 }

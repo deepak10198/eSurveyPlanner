@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.esp.entity;
 
 import java.io.Serializable;
@@ -31,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Rakesh.K
- */ 
+ */
 @Entity
 @Table(name = "ANSWER_MASTER", catalog = "", schema = "SURVEY")
 @XmlRootElement
@@ -41,13 +40,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AnswerMaster.findByCreationDate", query = "SELECT a FROM AnswerMaster a WHERE a.creationDate = :creationDate"),
     @NamedQuery(name = "AnswerMaster.findByLastModifiedDate", query = "SELECT a FROM AnswerMaster a WHERE a.lastModifiedDate = :lastModifiedDate")})
 public class AnswerMaster implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    
-    @SequenceGenerator(name ="SEQ_ANSWER_MASTER" ,sequenceName ="SEQ_ANSWER_MASTER")
-    @GeneratedValue(generator = "SEQ_ANSWER_MASTER",strategy =GenerationType.SEQUENCE )
-    
+    @SequenceGenerator(name = "SEQ_ANSWER_MASTER", sequenceName = "SEQ_ANSWER_MASTER")
+    @GeneratedValue(generator = "SEQ_ANSWER_MASTER", strategy = GenerationType.SEQUENCE)
+
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
@@ -57,30 +56,30 @@ public class AnswerMaster implements Serializable {
     @Column(name = "LAST_MODIFIED_DATE")
     @Temporal(TemporalType.DATE)
     private Date lastModifiedDate;
-    @JoinColumn(name = "ANS_TEXT5", referencedColumnName = "ID")
+    @JoinColumn(name = "ANS_TEXT9", referencedColumnName = "ID")
     @ManyToOne
-    private AnswerTextMaster ansText5;
+    private AnswerTextMaster ansText9;
     @JoinColumn(name = "ANS_TEXT6", referencedColumnName = "ID")
     @ManyToOne
     private AnswerTextMaster ansText6;
     @JoinColumn(name = "ANS_TEXT1", referencedColumnName = "ID")
     @ManyToOne
     private AnswerTextMaster ansText1;
-    @JoinColumn(name = "ANS_TEXT9", referencedColumnName = "ID")
-    @ManyToOne
-    private AnswerTextMaster ansText9;
-    @JoinColumn(name = "ANS_TEXT8", referencedColumnName = "ID")
-    @ManyToOne
-    private AnswerTextMaster ansText8;
     @JoinColumn(name = "LAST_MODIFIED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster lastModifiedById;
+    @JoinColumn(name = "ANS_TEXT8", referencedColumnName = "ID")
+    @ManyToOne
+    private AnswerTextMaster ansText8;
     @JoinColumn(name = "ANS_TEXT7", referencedColumnName = "ID")
     @ManyToOne
     private AnswerTextMaster ansText7;
     @JoinColumn(name = "ANS_TEXT10", referencedColumnName = "ID")
     @ManyToOne
     private AnswerTextMaster ansText10;
+    @JoinColumn(name = "ANS_TEXT5", referencedColumnName = "ID")
+    @ManyToOne
+    private AnswerTextMaster ansText5;
     @JoinColumn(name = "ANS_TEXT4", referencedColumnName = "ID")
     @ManyToOne
     private AnswerTextMaster ansText4;
@@ -127,12 +126,12 @@ public class AnswerMaster implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public AnswerTextMaster getAnsText5() {
-        return ansText5;
+    public AnswerTextMaster getAnsText9() {
+        return ansText9;
     }
 
-    public void setAnsText5(AnswerTextMaster ansText5) {
-        this.ansText5 = ansText5;
+    public void setAnsText9(AnswerTextMaster ansText9) {
+        this.ansText9 = ansText9;
     }
 
     public AnswerTextMaster getAnsText6() {
@@ -151,12 +150,12 @@ public class AnswerMaster implements Serializable {
         this.ansText1 = ansText1;
     }
 
-    public AnswerTextMaster getAnsText9() {
-        return ansText9;
+    public UserMaster getLastModifiedById() {
+        return lastModifiedById;
     }
 
-    public void setAnsText9(AnswerTextMaster ansText9) {
-        this.ansText9 = ansText9;
+    public void setLastModifiedById(UserMaster lastModifiedById) {
+        this.lastModifiedById = lastModifiedById;
     }
 
     public AnswerTextMaster getAnsText8() {
@@ -165,14 +164,6 @@ public class AnswerMaster implements Serializable {
 
     public void setAnsText8(AnswerTextMaster ansText8) {
         this.ansText8 = ansText8;
-    }
-
-    public UserMaster getLastModifiedById() {
-        return lastModifiedById;
-    }
-
-    public void setLastModifiedById(UserMaster lastModifiedById) {
-        this.lastModifiedById = lastModifiedById;
     }
 
     public AnswerTextMaster getAnsText7() {
@@ -189,6 +180,14 @@ public class AnswerMaster implements Serializable {
 
     public void setAnsText10(AnswerTextMaster ansText10) {
         this.ansText10 = ansText10;
+    }
+
+    public AnswerTextMaster getAnsText5() {
+        return ansText5;
+    }
+
+    public void setAnsText5(AnswerTextMaster ansText5) {
+        this.ansText5 = ansText5;
     }
 
     public AnswerTextMaster getAnsText4() {
@@ -256,5 +255,5 @@ public class AnswerMaster implements Serializable {
     public String toString() {
         return "com.esp.entity.AnswerMaster[ id=" + id + " ]";
     }
-    
+
 }

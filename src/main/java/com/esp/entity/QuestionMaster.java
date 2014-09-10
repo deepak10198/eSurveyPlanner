@@ -45,7 +45,7 @@ public class QuestionMaster implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-     @SequenceGenerator(name ="SEQ_QUESTION_MASTER" ,sequenceName ="SEQ_QUESTION_MASTER")
+    @SequenceGenerator(name ="SEQ_QUESTION_MASTER" ,sequenceName ="SEQ_QUESTION_MASTER")
     @GeneratedValue(generator = "SEQ_QUESTION_MASTER",strategy =GenerationType.SEQUENCE )
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)

@@ -17,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Rakesh.K
  */
-@Entity  
+@Entity
 @Table(name = "USER_MASTER", catalog = "", schema = "SURVEY")
 @XmlRootElement
 @NamedQueries({
@@ -96,12 +98,6 @@ public class UserMaster implements Serializable {
     private Set<AnswerMaster> answerMasterSet;
     @OneToMany(mappedBy = "createdById")
     private Set<AnswerMaster> answerMasterSet1;
-    @OneToMany(mappedBy = "userid")
-    private Set<UserSurveyUrlMapping> userSurveyUrlMappingSet;
-    @OneToMany(mappedBy = "createdById")
-    private Set<UserSurveyUrlMapping> userSurveyUrlMappingSet1;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<UserSurveyUrlMapping> userSurveyUrlMappingSet2;
     @OneToMany(mappedBy = "lastModifiedById")
     private Set<QuestionAnswerMapping> questionAnswerMappingSet;
     @OneToMany(mappedBy = "createdById")
@@ -110,20 +106,15 @@ public class UserMaster implements Serializable {
     private Set<QuestionMaster> questionMasterSet;
     @OneToMany(mappedBy = "lastModifiedById")
     private Set<QuestionMaster> questionMasterSet1;
-    @OneToMany(mappedBy = "createdById")
-    private Set<UserList> userListSet;
-    @OneToMany(mappedBy = "userId")
-    private Set<UserList> userListSet1;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<UserList> userListSet2;
+    @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Organisation orgId;
     @OneToMany(mappedBy = "lastModifiedById")
     private Set<SurveyMaster> surveyMasterSet;
     @OneToMany(mappedBy = "createdById")
     private Set<SurveyMaster> surveyMasterSet1;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<SurveyQuestionMapping> surveyQuestionMappingSet;
-    @OneToMany(mappedBy = "createdById")
-    private Set<SurveyQuestionMapping> surveyQuestionMappingSet1;
+    @OneToMany(mappedBy = "userId")
+    private Set<SurveyResponse> surveyResponseSet;
 
     public UserMaster() {
     }
@@ -286,33 +277,6 @@ public class UserMaster implements Serializable {
     }
 
     @XmlTransient
-    public Set<UserSurveyUrlMapping> getUserSurveyUrlMappingSet() {
-        return userSurveyUrlMappingSet;
-    }
-
-    public void setUserSurveyUrlMappingSet(Set<UserSurveyUrlMapping> userSurveyUrlMappingSet) {
-        this.userSurveyUrlMappingSet = userSurveyUrlMappingSet;
-    }
-
-    @XmlTransient
-    public Set<UserSurveyUrlMapping> getUserSurveyUrlMappingSet1() {
-        return userSurveyUrlMappingSet1;
-    }
-
-    public void setUserSurveyUrlMappingSet1(Set<UserSurveyUrlMapping> userSurveyUrlMappingSet1) {
-        this.userSurveyUrlMappingSet1 = userSurveyUrlMappingSet1;
-    }
-
-    @XmlTransient
-    public Set<UserSurveyUrlMapping> getUserSurveyUrlMappingSet2() {
-        return userSurveyUrlMappingSet2;
-    }
-
-    public void setUserSurveyUrlMappingSet2(Set<UserSurveyUrlMapping> userSurveyUrlMappingSet2) {
-        this.userSurveyUrlMappingSet2 = userSurveyUrlMappingSet2;
-    }
-
-    @XmlTransient
     public Set<QuestionAnswerMapping> getQuestionAnswerMappingSet() {
         return questionAnswerMappingSet;
     }
@@ -348,31 +312,12 @@ public class UserMaster implements Serializable {
         this.questionMasterSet1 = questionMasterSet1;
     }
 
-    @XmlTransient
-    public Set<UserList> getUserListSet() {
-        return userListSet;
+    public Organisation getOrgId() {
+        return orgId;
     }
 
-    public void setUserListSet(Set<UserList> userListSet) {
-        this.userListSet = userListSet;
-    }
-
-    @XmlTransient
-    public Set<UserList> getUserListSet1() {
-        return userListSet1;
-    }
-
-    public void setUserListSet1(Set<UserList> userListSet1) {
-        this.userListSet1 = userListSet1;
-    }
-
-    @XmlTransient
-    public Set<UserList> getUserListSet2() {
-        return userListSet2;
-    }
-
-    public void setUserListSet2(Set<UserList> userListSet2) {
-        this.userListSet2 = userListSet2;
+    public void setOrgId(Organisation orgId) {
+        this.orgId = orgId;
     }
 
     @XmlTransient
@@ -394,21 +339,12 @@ public class UserMaster implements Serializable {
     }
 
     @XmlTransient
-    public Set<SurveyQuestionMapping> getSurveyQuestionMappingSet() {
-        return surveyQuestionMappingSet;
+    public Set<SurveyResponse> getSurveyResponseSet() {
+        return surveyResponseSet;
     }
 
-    public void setSurveyQuestionMappingSet(Set<SurveyQuestionMapping> surveyQuestionMappingSet) {
-        this.surveyQuestionMappingSet = surveyQuestionMappingSet;
-    }
-
-    @XmlTransient
-    public Set<SurveyQuestionMapping> getSurveyQuestionMappingSet1() {
-        return surveyQuestionMappingSet1;
-    }
-
-    public void setSurveyQuestionMappingSet1(Set<SurveyQuestionMapping> surveyQuestionMappingSet1) {
-        this.surveyQuestionMappingSet1 = surveyQuestionMappingSet1;
+    public void setSurveyResponseSet(Set<SurveyResponse> surveyResponseSet) {
+        this.surveyResponseSet = surveyResponseSet;
     }
 
     @Override

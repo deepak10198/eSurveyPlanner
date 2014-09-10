@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Rakesh.K
  */
-@Entity 
+@Entity
 @Table(name = "SURVEY_MASTER", catalog = "", schema = "SURVEY", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"SURVEY_ID"})})
 @XmlRootElement
@@ -53,7 +52,7 @@ public class SurveyMaster implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-     @SequenceGenerator(name ="SEQ_SURVEY_MASTER" ,sequenceName ="SEQ_SURVEY_MASTER")
+    @SequenceGenerator(name ="SEQ_SURVEY_MASTER" ,sequenceName ="SEQ_SURVEY_MASTER")
     @GeneratedValue(generator = "SEQ_SURVEY_MASTER",strategy =GenerationType.SEQUENCE )
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
@@ -78,8 +77,6 @@ public class SurveyMaster implements Serializable {
     private String surveyDesc;
     @Column(name = "SURVEY_ID", length = 20)
     private String surveyId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "surveyid")
-    private Set<UserSurveyUrlMapping> userSurveyUrlMappingSet;
     @JoinColumn(name = "SURVEY_TYPE_ID", referencedColumnName = "ID")
     @ManyToOne
     private SurveyTypeMaster surveyTypeId;
@@ -89,8 +86,8 @@ public class SurveyMaster implements Serializable {
     @JoinColumn(name = "CREATED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster createdById;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "surveyId")
-    private Set<SurveyQuestionMapping> surveyQuestionMappingSet;
+    @OneToMany(mappedBy = "surveyId")
+    private Set<SurveyResponse> surveyResponseSet;
 
     public SurveyMaster() {
     }
@@ -171,15 +168,6 @@ public class SurveyMaster implements Serializable {
         this.surveyId = surveyId;
     }
 
-    @XmlTransient
-    public Set<UserSurveyUrlMapping> getUserSurveyUrlMappingSet() {
-        return userSurveyUrlMappingSet;
-    }
-
-    public void setUserSurveyUrlMappingSet(Set<UserSurveyUrlMapping> userSurveyUrlMappingSet) {
-        this.userSurveyUrlMappingSet = userSurveyUrlMappingSet;
-    }
-
     public SurveyTypeMaster getSurveyTypeId() {
         return surveyTypeId;
     }
@@ -205,12 +193,12 @@ public class SurveyMaster implements Serializable {
     }
 
     @XmlTransient
-    public Set<SurveyQuestionMapping> getSurveyQuestionMappingSet() {
-        return surveyQuestionMappingSet;
+    public Set<SurveyResponse> getSurveyResponseSet() {
+        return surveyResponseSet;
     }
 
-    public void setSurveyQuestionMappingSet(Set<SurveyQuestionMapping> surveyQuestionMappingSet) {
-        this.surveyQuestionMappingSet = surveyQuestionMappingSet;
+    public void setSurveyResponseSet(Set<SurveyResponse> surveyResponseSet) {
+        this.surveyResponseSet = surveyResponseSet;
     }
 
     @Override

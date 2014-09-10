@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +46,7 @@ public class QuestionAnswerMapping implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-     @SequenceGenerator(name ="SEQ_QUESTION_ANSWER_MAPPING" ,sequenceName ="SEQ_QUESTION_ANSWER_MAPPING")
+    @SequenceGenerator(name ="SEQ_QUESTION_ANSWER_MAPPING" ,sequenceName ="SEQ_QUESTION_ANSWER_MAPPING")
     @GeneratedValue(generator = "SEQ_QUESTION_ANSWER_MAPPING",strategy =GenerationType.SEQUENCE )
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
@@ -73,8 +72,8 @@ public class QuestionAnswerMapping implements Serializable {
     @JoinColumn(name = "CREATED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster createdById;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionAnsId")
-    private Set<SurveyQuestionMapping> surveyQuestionMappingSet;
+    @OneToMany(mappedBy = "quesAnsMappingId")
+    private Set<SurveyResponse> surveyResponseSet;
 
     public QuestionAnswerMapping() {
     }
@@ -148,12 +147,12 @@ public class QuestionAnswerMapping implements Serializable {
     }
 
     @XmlTransient
-    public Set<SurveyQuestionMapping> getSurveyQuestionMappingSet() {
-        return surveyQuestionMappingSet;
+    public Set<SurveyResponse> getSurveyResponseSet() {
+        return surveyResponseSet;
     }
 
-    public void setSurveyQuestionMappingSet(Set<SurveyQuestionMapping> surveyQuestionMappingSet) {
-        this.surveyQuestionMappingSet = surveyQuestionMappingSet;
+    public void setSurveyResponseSet(Set<SurveyResponse> surveyResponseSet) {
+        this.surveyResponseSet = surveyResponseSet;
     }
 
     @Override
