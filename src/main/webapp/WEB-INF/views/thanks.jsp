@@ -58,23 +58,28 @@
 		              <tbody>
 		                <tr>
 		                  <td>Name of the Survey</td>
-		                  <td>${surveyDetailsVO.surveyname}</td>
+		                  <td>${survey.surveyName}</td>
 		                </tr>
-		                <tr>
+		                <%-- <tr>
 		                  <td>Description</td>
-		                  <td>${surveyDetailsVO.description}</td>
+		                  <td>${survey.description}</td>
 		                </tr>
 		                <tr>
 		                  <td>Starts from :</td>
-		                  <td>${surveyDetailsVO.surveystart}</td>
+		                  <td>${survey.surveystart}</td>
 		                </tr>
 		                <tr>
 		                  <td>Ends on:</td>
-		                  <td>${surveyDetailsVO.surveyend }</td>
+		                  <td>${survey.surveyend }</td>
 		                </tr>
 		                <tr>
 		                  <td>Type </td>
-		                  <td>${surveyDetailsVO.type}</td>
+		                  <td>${survey.type}</td>
+		                </tr> --%>
+		                
+		                <tr>
+		                  <td>Click on the  link to go to Survey Page </td>
+		                  <td><a href="/ESurveyPlanner/survey${survey.surveyId}"> Go to  ${survey.surveyName}</a></td>
 		                </tr>
 		               
 		              </tbody>

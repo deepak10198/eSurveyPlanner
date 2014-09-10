@@ -84,7 +84,7 @@
 				<div class="col-sm-4">
 					<div class="well">
 						<p>
-							<h2><span class="glyphicon glyphicon-user"></span> Hi, Admin!</h2>
+							<h2><span class="glyphicon glyphicon-user"></span> Hi, Admin! ${surveyDTO.surveyName}</h2>
 						</p>
 						Give the answer type for each question.
 					</div>

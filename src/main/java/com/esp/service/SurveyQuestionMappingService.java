@@ -1,5 +1,6 @@
 package com.esp.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class SurveyQuestionMappingService implements GenericService<SurveyQuesti
 	@Override
 	public List<SurveyQuestionMapping> fetchByParam(Object obj) {
 		// TODO Auto-generated method stub
-		return surveyQuestionMappingDAO.findFielEq(SurveyQuestionMapping.class, "surveyId", obj);
+		return surveyQuestionMappingDAO.findFielEq(SurveyQuestionMapping.class, "surveyId", obj );
 	}
 
 	@Override

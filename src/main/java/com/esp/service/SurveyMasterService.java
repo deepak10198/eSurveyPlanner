@@ -36,7 +36,7 @@ public class SurveyMasterService implements GenericService<SurveyMaster> {
 	@Override
 	public SurveyMaster fetch(int id) {
 
-        return (SurveyMaster) surveyMasterDAO.findFielEq(SurveyMaster.class, "surveyId", id);
+        return (SurveyMaster) surveyMasterDAO.findUnique(SurveyMaster.class, "id", id);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import com.esp.entity.QuestionAnswerMapping;
 public class QuestionAnswerMappingService implements GenericService<QuestionAnswerMapping> {
 
 	@Autowired
-	@Qualifier("questionAnswerMappingServiceDAO") 
+	@Qualifier("QuestionAnswerMappingDAO")
 	DAO questionAnswerMappingDAO;
 	
 	

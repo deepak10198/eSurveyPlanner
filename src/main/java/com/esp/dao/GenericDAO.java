@@ -65,7 +65,7 @@ public abstract class GenericDAO<T> implements DAO<T> {
     public T findUnique(Class<T> entity, String propertyName, Object value) {
         T t = null;
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
-        criteria.add(Restrictions.eq(propertyName, new BigDecimal((int)value)));
+        criteria.add(Restrictions.eq(propertyName, new BigDecimal((Integer)value)));
         t = (T) criteria.list().get(0);
         return t;
     }

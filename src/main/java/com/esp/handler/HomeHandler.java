@@ -5,31 +5,34 @@ package com.esp.handler;
 
 import com.esp.entity.AnswerMaster;
 import com.esp.entity.AnswerTextMaster;
+import com.esp.entity.AnswerTypeMaster;
+import com.esp.entity.QuestionAnswerMapping;
+import com.esp.entity.QuestionMaster;
 import com.esp.entity.SurveyMaster;
 import com.esp.entity.SurveyQuestionMapping;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
-import com.esp.service.AnswerTextMasterService;
 import com.esp.service.GenericService;
 import com.esp.dto.FixedSurveyAnswerDetailsDTO;
+import com.esp.dto.QuestionDTO;
+import com.esp.dto.SurveyDTO;
 import com.esp.dto.SurveyDetailsDTO;
 import com.esp.dto.SurveyQuestionsDTO;
 import com.esp.dto.UserSurveyDTO;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.ModelMap;
+
 
 
 
@@ -39,44 +42,59 @@ public class HomeHandler {
 
  
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    Date todayDate;
     
     @Autowired
     @Qualifier("AnswerTextMasterService")
-    GenericService answerTextMasterService;
+    private GenericService answerTextMasterService;
     
     @Autowired
     @Qualifier("SurveyMasterService")
     private GenericService surveyMasterService;
     
+    
     @Autowired
-    @Qualifier("SurveyQuestionMappingService")
-    private GenericService surveyQuestionMappingService;
+    @Qualifier("AnswerMasterService")
+    private GenericService answerService;
+    
+    
+    @Autowired
+    @Qualifier("AnswerTypeMasterService")
+    private GenericService answerTypeMasterService;
+    
+    
+   
+    
+    
+    @Autowired
+    @Qualifier("QuestionMasterService")
+    private GenericService questionMasterService;
     
     @Autowired
     @Qualifier("QuestionAnswerMappingService")
     private GenericService questionAnswerMappingService;
     
     @Autowired
-    @Qualifier("AnswerMasterService")
-    private GenericService answerService;
+    @Qualifier("SurveyQuestionMappingService")
+    private GenericService surveyQuestionMappingService;
     
-    @Autowired
-    @Qualifier("AnswerTypeMasterService")
-    private GenericService answerTypeMasterService;
     
+    
+   
 
 	public SurveyMaster mapToSurveymaster(UserMaster usermaster,SurveyTypeMaster surveyTypeMaster,SurveyDetailsDTO detailsVO) throws ParseException            
     {
-        Date date = null;
+		todayDate = new Date();
+		Date date = null;
         SurveyMaster surveymaster = new SurveyMaster(); 
         surveymaster.setSurveyName(detailsVO.getSurveyname());
         surveymaster.setSurveyDesc(detailsVO.getDescription());       
-        surveymaster.setCreatedDate(new Date());
+        surveymaster.setCreatedDate(todayDate);
         date = dateFormat.parse(detailsVO.getSurveyend().trim());
         surveymaster.setEndDate(date);
         date = dateFormat.parse(detailsVO.getSurveystart());
         surveymaster.setStartDate(date);
-        surveymaster.setLastModifiedDate(new Date());
+        surveymaster.setLastModifiedDate(todayDate);
         surveymaster.setSurveyCategory(null);
         surveymaster.setSurveyTypeId(surveyTypeMaster);
         surveymaster.setCreatedById(usermaster);
@@ -176,6 +194,96 @@ public class HomeHandler {
 	}*/
         
 
+	public SurveyQuestionMapping mapToQuestionMaster(QuestionDTO questionDTO, UserMaster usermaster,SurveyDTO surveyDTO ){
+		
+		 System.out.println("----mapToQuestionMaster : Start");	
+		todayDate = new Date();
+		QuestionAnswerMapping questionAnswerMapping = null;
+		SurveyQuestionMapping surveyQuestionMapping = null;
+		SurveyMaster surveyMaster = (SurveyMaster) surveyMasterService.fetch(surveyDTO.getSurveyId());
+		
+		QuestionMaster questionMaster =	new QuestionMaster(); 
+		
+		for(String questionText: questionDTO.getQuestionText()){
+			
+			
+			
+			
+			
+			questionMaster = saveAndfetchQuesText(questionText,usermaster);
+			
+			
+			
+			AnswerMaster answerMaster = (AnswerMaster) answerService.fetch(surveyDTO.getAnsId());
+			AnswerTypeMaster answerTypeMaster = (AnswerTypeMaster) answerTypeMasterService.fetch(surveyDTO.getAnsTypeID()); 
+			
+			questionAnswerMapping = saveQuesAnsMapping(questionMaster,answerMaster,answerTypeMaster , usermaster);
+			surveyQuestionMapping = saveSurveyQuestionMapping(surveyMaster,questionAnswerMapping,usermaster);
+			
+		}
+		
+		
+		
+		System.out.println("----mapToQuestionMaster : end");	
+		return surveyQuestionMapping;
+	}
+
+	private QuestionMaster saveAndfetchQuesText(String questionText, UserMaster usermaster )    {
+		   
+		   System.out.println("----questionText :"+questionText);	
+		   List<QuestionMaster> quesMasterList = questionMasterService.fetchByParam(questionText);
+		   System.out.println("....2");
+		   if (quesMasterList==null || quesMasterList.isEmpty()){
+			   QuestionMaster questionMaster =	new QuestionMaster(); 
+			   questionMaster.setCreatedById(usermaster);
+				questionMaster.setCreationDate(todayDate);
+				questionMaster.setLastModifiedById(usermaster);
+				questionMaster.setLastModifiedDate(todayDate);
+				questionMaster.setQuestionText(questionText);
+				questionMasterService.add(questionMaster);
+			   
+				quesMasterList = questionMasterService.fetchByParam(questionText);
+			   
+			   
+		   }
+		   System.out.println("....3");
+		   return quesMasterList.get(0);
+		   
+	   } QuestionAnswerMapping saveQuesAnsMapping( QuestionMaster questionMaster, AnswerMaster answerMaster, AnswerTypeMaster answerTypeMaster, UserMaster usermaster){
+		
+		todayDate = new Date();
+		QuestionAnswerMapping questionAnswerMapping = new QuestionAnswerMapping();
+		
+		questionAnswerMapping.setAnsTypeId(answerTypeMaster);
+		questionAnswerMapping.setAnswerId(answerMaster);
+		questionAnswerMapping.setCreatedById(usermaster);
+		questionAnswerMapping.setCreatedDate(todayDate);
+		questionAnswerMapping.setLastModifiedById(usermaster);
+		questionAnswerMapping.setLastModifiedDate(todayDate);
+		questionAnswerMapping.setQuestionId(questionMaster);
+		
+		questionAnswerMappingService.add(questionAnswerMapping);
+		
+		return questionAnswerMapping;
+		
+	}
+	
+	public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster, QuestionAnswerMapping questionAnswerMapping,UserMaster usermaster){
+		
+		SurveyQuestionMapping surveyQuestionMapping = new SurveyQuestionMapping();
+		
+		surveyQuestionMapping.setCreatedById(usermaster);
+		surveyQuestionMapping.setCreationDate(todayDate);
+		surveyQuestionMapping.setLastModifiedById(usermaster);
+		surveyQuestionMapping.setLastModifiedDate(todayDate);
+		surveyQuestionMapping.setQuestionAnsId(questionAnswerMapping);
+		surveyQuestionMapping.setSurveyId(surveyMaster);
+		
+		
+		surveyQuestionMappingService.add(surveyQuestionMapping);
+		return surveyQuestionMapping;
+	}
+	
 	
 	public String handleAllRequest(HttpServletRequest request){
 		
@@ -208,15 +316,76 @@ public class HomeHandler {
 		
 	}
 	
-	public SurveyQuestionsDTO fetchSurveyQuestions(int surveyId){
+	public List<SurveyQuestionsDTO> fetchSurveyQuestions(int surveyId){
+		
+		List<SurveyQuestionsDTO> surveyQuestionsList = new ArrayList<SurveyQuestionsDTO>();
+		
 		SurveyQuestionsDTO surveyQuestionsDTO = new SurveyQuestionsDTO();
-		SurveyQuestionMapping surveyQuestionMapping =   (SurveyQuestionMapping) surveyQuestionMappingService.fetchByParam(surveyId);
+		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(surveyId);
+		List<SurveyQuestionMapping> surveyQuestionMappingList =   surveyQuestionMappingService.fetchByParam(surveyMaster);
 		
 		
+		for(SurveyQuestionMapping  surveyQuestionMapping: surveyQuestionMappingList){
+			
+			List<String> ansTextList = new ArrayList<String>();
+			
+			//QuestionAnswerMapping questionAnswerMapping= (QuestionAnswerMapping) questionAnswerMappingService.fetch (Integer.parseInt(surveyQuestionMapping.getQuestionAnsId().toString())) ;
+			
+			QuestionAnswerMapping questionAnswerMapping= surveyQuestionMapping.getQuestionAnsId();
+			
+			surveyQuestionsDTO.setAnsId(Integer.parseInt(questionAnswerMapping.getAnswerId().getId().toString()  ));
+			
+			if (questionAnswerMapping.getAnswerId().getAnsText1()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText1().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText2()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText2().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText3()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText3().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText4()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText4().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText5()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText5().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText6()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText6().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText7()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText7().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText8()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText8().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText9()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText9().getAnsText() );
+			}
+			if (questionAnswerMapping.getAnswerId().getAnsText10()!=null){
+				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText10().getAnsText() );
+			}
+			
+			surveyQuestionsDTO.setAnsTextList(ansTextList);
+			surveyQuestionsDTO.setAnsType(questionAnswerMapping.getAnsTypeId().getAnsTypeText());
+			surveyQuestionsDTO.setAnsTypeId(decToInt(questionAnswerMapping.getAnsTypeId().getId()));
+			surveyQuestionsDTO.setQuestionId(decToInt(questionAnswerMapping.getQuestionId().getId()));
+			surveyQuestionsDTO.setQuestionText(questionAnswerMapping.getQuestionId().getQuestionText());
+			
+			surveyQuestionsList.add(surveyQuestionsDTO);
+			
+		}
 		
 		
-		return surveyQuestionsDTO;
+		return surveyQuestionsList;
 		
 	}
+	
+	private int decToInt(BigDecimal dec){
+		
+		return Integer.parseInt(dec.toString());
+		
+	}
+	
 	
 }

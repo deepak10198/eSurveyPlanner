@@ -16,7 +16,6 @@
     <mapping class="com.esp.entity.SurveyMaster"/>
     <mapping class="com.esp.entity.UserMaster"/>
     <mapping class="com.esp.entity.UserList"/>
-   <!--  <mapping class="com.esp.entity.SurveyquestionmappingId"/> -->
     <mapping class="com.esp.entity.AnswerTextMaster"/>
     <mapping class="com.esp.entity.AnswerMaster"/>
     <mapping class="com.esp.entity.QuestionAnswerMapping"/>

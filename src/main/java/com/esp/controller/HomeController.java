@@ -3,6 +3,7 @@ package com.esp.controller;
 import com.esp.entity.AnswerMaster;
 import com.esp.entity.AnswerTypeMaster;
 import com.esp.entity.SurveyMaster;
+import com.esp.entity.SurveyQuestionMapping;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.handler.HomeHandler;
@@ -56,6 +57,7 @@ public class HomeController {
     @Qualifier("AnswerTypeMasterService")
     private GenericService answerTypeMasterService;
     
+    
     @Autowired
     private HomeHandler handler;
     
@@ -90,7 +92,7 @@ public class HomeController {
             log.info("desc :" + surveyDetailsDTO.getDescription());
             log.info("type ;" + surveyDetailsDTO.getType());
             
-            UserMaster usermaster = (UserMaster) userMasterService.fetch(new BigDecimal(userId));
+            UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
             SurveyTypeMaster surveytypemaster = (SurveyTypeMaster)surveyTypeMasterService.fetchByParam(surveyDetailsDTO.getType());
             SurveyMaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsDTO);
             surveyMasterService.add(surveymaster);            
@@ -147,13 +149,12 @@ public class HomeController {
     }
     
     @RequestMapping(value = "saveQuestions", method = RequestMethod.POST)
-    public ModelAndView saveQuestions(@ModelAttribute("questionDTO") QuestionDTO questionDTO, @ModelAttribute("surveyDTO") SurveyDTO surveyDTO) {
+    public ModelAndView saveQuestions(ModelMap model,@ModelAttribute("questionDTO") QuestionDTO questionDTO, @ModelAttribute("surveyDTO") SurveyDTO surveyDTO) {
         ModelAndView modelAndView = new ModelAndView();
         
         log.info("--->survey id :" + surveyDTO.getSurveyId());
-        log.info("--->survey name :" + surveyDTO.getSurveyName());
         log.info("--->survey ans id:" + surveyDTO.getAnsId());
-        log.info("-->survey ans type id :"+surveyDTO.getAnsTypeID());
+        log.info("--->survey ansType id:" + surveyDTO.getAnsTypeID());
         log.info("--->survey question list size :" + questionDTO.getQuestionText().size());
         
         for(String question :questionDTO.getQuestionText())
@@ -161,9 +162,14 @@ public class HomeController {
             log.info("question :"+question);
         }
         
+        UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
+        //SurveyMaster surveymaster = (SurveyMaster) surveyMasterService.fetch(surveyDTO.getSurveyId());
         
+        SurveyQuestionMapping surveyQuestionMapping = handler.mapToQuestionMaster(questionDTO,usermaster,surveyDTO); 
         
-        modelAndView.setViewName("home");
+        log.info("Survey question answers saved in - "+ surveyQuestionMapping.getId());
+        model.addAttribute("survey",surveyDTO);
+        modelAndView.setViewName("thanks");
         return modelAndView;
     }//
     
@@ -175,17 +181,19 @@ public class HomeController {
      * @param numB  This is the second parameter to addNum method
      * @return int This returns sum of numA and numB.
      */
-	@RequestMapping(value="/survey/{uri}")
-    public ModelAndView getPublishedSurvey(@PathVariable("uri") String uri) throws IOException{
+	@RequestMapping(value="/survey{uri}" , method = RequestMethod.GET)
+    public ModelAndView getPublishedSurvey(ModelMap model, @PathVariable(value="uri") String uri) throws IOException{
     	
+		//String uri="8900";
         log.info("String here in getPublishedSurvey "+uri);
         ModelAndView modelAndView = new ModelAndView();
-        UserSurveyDTO userSurveyDTO	= = handler.fetchSurveyDetails(surveyId);
+        UserSurveyDTO userSurveyDTO	=  handler.fetchSurveyDetails(Integer.parseInt(uri));
         
         //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
         
-        modelAndView.addObject("userSurveyDTO",userSurveyDTO);
-        return new ModelAndView("viewSurvey",new ModelMap().addAttribute("stringAttb", uri));
+        log.info("userSurveyDTO "+userSurveyDTO.getSurveyId() + userSurveyDTO.getSurveyName());
+        model.addAttribute("survey",userSurveyDTO);
+        return new ModelAndView("viewSurvey");
     }
 
 }

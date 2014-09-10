@@ -77,10 +77,9 @@
                 <value>com.esp.entity.QuestionMaster</value>
                 <value>com.esp.entity.AnswerTypeMaster</value>
                 <value>com.esp.entity.QuestionAnswerMapping</value>
-                <!-- <value>com.esp.entity.SurveyQuestionMappingId</value> -->
                 <value>com.esp.entity.AnswerMaster</value>
                 <value>com.esp.entity.UserList</value>
-                 <value>com.esp.entity.UserSurveyUrlMapping</value>
+                <value>com.esp.entity.UserSurveyUrlMapping</value>
             </list>
         </property>
         <property name="hibernateProperties">

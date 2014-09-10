@@ -10,7 +10,7 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="resources/ico/favicon.ico">
 
-        <title>eSurveyPlanner</title>
+        <title><c:out value="${survey.surveyName}"/></title>
 
         <!-- Bootstrap core CSS -->
         <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -34,35 +34,50 @@
     </head>
 
     <body role="document">
-
+<form action="submitSurveyMaster" method="POST">
         <%@include file="includes/header.jsp" %>
 
         <div class="row form-div-cus">
             <div class="col-sm-4">
                 <div class="well">
                     <p>
-                    <h2><span class="glyphicon glyphicon-user"></span> Hi, Admin!</h2>
+                    <h2><span class="glyphicon glyphicon-user"></span><c:out value="${survey.surveyName}"/></h2>
                     </p>
-                    Here is the List of all surveys which you created!
+                   <c:out value="${survey.surveyDesc}"/>
                 </div>
             </div>
-            <div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
+			<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
+					<!-- <form action="submitSurveyMaster" method="POST"> -->
+						<div class="form-group">
+							<label for="surveyname"><h2> <c:out value="${survey.surveyName}"/></h2></label>
+						</div>
+						<c:forEach items="${survey.surveyQuestions}" var = "question" varStatus="status">
+						
+							<div class="form-group">
+							<label for="question${status.count}"><c:out value="${question.questionText}"/></label>
+							<div>
+								<c:forEach var="answerText" items="${question.ansTextList}" varStatus="ansStatus">
+                                	<input type="${question.ansType}"  name="ans${status.count}" value="${answerText}"/><c:out value="${answerText}"/></br>
+                                                            
+                                </c:forEach>
+                                                       
+							</div>
+							</div>
+						</c:forEach>
+						
+						<div class="form-group">
+							<div>
+								<button type="submit" class="btn btn-primary">Submit Survey</button>
+							</div>
+						</div>
 
+						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
+						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
+					
+				</div>
 
-
-                <form role="form" action="xx" method="POST" id="createsurveyform">
-
-                    <c:forEach var="survey" items="${surveyList}">
-                        <h2><a href="${survey.surveyid}">${survey.surveyName}</a></h2>
-                    </c:forEach>
-                        <!--                    <h2>Survey1</h2>
-                                            <h2>Survey2</h2>
-                                            <h2>Survey3</h2>	-->
-
-                </form>
-            </div>
         </div>
-
+</form>
         <%@include file="includes/footer.jsp" %>
 
         <!-- Bootstrap core JavaScript
