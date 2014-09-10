@@ -80,6 +80,7 @@
                 <value>com.esp.entity.AnswerMaster</value>
                 <value>com.esp.entity.UserList</value>
                 <value>com.esp.entity.UserSurveyUrlMapping</value>
+                <value>com.esp.entity.SurveyResponse</value>
             </list>
         </property>
         <property name="hibernateProperties">
