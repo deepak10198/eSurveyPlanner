@@ -10,14 +10,18 @@ import com.esp.entity.QuestionAnswerMapping;
 import com.esp.entity.QuestionMaster;
 import com.esp.entity.SurveyMaster;
 import com.esp.entity.SurveyQuestionMapping;
+import com.esp.entity.SurveyResponse;
 import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.service.GenericService;
+import com.esp.dto.AnswerDTO;
 import com.esp.dto.FixedSurveyAnswerDetailsDTO;
 import com.esp.dto.QuestionDTO;
+import com.esp.dto.SurveyAnswerDTO;
 import com.esp.dto.SurveyDTO;
 import com.esp.dto.SurveyDetailsDTO;
-import com.esp.dto.SurveyQuestionsDTO;
+import com.esp.dto.SurveyQuestionDTO;
+import com.esp.dto.SurveyResponseDTO;
 import com.esp.dto.UserSurveyDTO;
 
 import java.lang.reflect.Method;
@@ -77,6 +81,10 @@ public class HomeHandler {
     @Autowired
     @Qualifier("SurveyQuestionMappingService")
     private GenericService surveyQuestionMappingService;
+    
+    @Autowired
+    @Qualifier("SurveyResponseService")
+    private GenericService surveyResponseService;
     
     
     
@@ -300,6 +308,7 @@ public class HomeHandler {
      * @return UserSurveyDTO DTO having all the details of a survey.
      */
 	public UserSurveyDTO fetchSurveyDetails(int surveyId){
+		System.out.println("surveyId for fetching details"+surveyId);
 		UserSurveyDTO userSurveyDTO = null;
 		userSurveyDTO= new UserSurveyDTO();
 		
@@ -316,27 +325,38 @@ public class HomeHandler {
 		
 	}
 	
-	public List<SurveyQuestionsDTO> fetchSurveyQuestions(int surveyId){
+	public List<SurveyQuestionDTO> fetchSurveyQuestions(int surveyId){
 		
-		List<SurveyQuestionsDTO> surveyQuestionsList = new ArrayList<SurveyQuestionsDTO>();
+		List<SurveyQuestionDTO> surveyQuestionsList = new ArrayList<SurveyQuestionDTO>();
 		
-		SurveyQuestionsDTO surveyQuestionsDTO = new SurveyQuestionsDTO();
+		
 		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(surveyId);
 		List<SurveyQuestionMapping> surveyQuestionMappingList =   surveyQuestionMappingService.fetchByParam(surveyMaster);
 		
 		
 		for(SurveyQuestionMapping  surveyQuestionMapping: surveyQuestionMappingList){
-			
+			SurveyQuestionDTO surveyQuestionsDTO = new SurveyQuestionDTO();
 			List<String> ansTextList = new ArrayList<String>();
+			List<AnswerDTO> answerList = new ArrayList<AnswerDTO>();
+			
 			
 			//QuestionAnswerMapping questionAnswerMapping= (QuestionAnswerMapping) questionAnswerMappingService.fetch (Integer.parseInt(surveyQuestionMapping.getQuestionAnsId().toString())) ;
 			
 			QuestionAnswerMapping questionAnswerMapping= surveyQuestionMapping.getQuestionAnsId();
 			
+			System.out.println("questionAnswerMapping "+questionAnswerMapping.getId());
+			
+			surveyQuestionsDTO.setQuesAnswerId(decToInt(questionAnswerMapping.getId()));
 			surveyQuestionsDTO.setAnsId(Integer.parseInt(questionAnswerMapping.getAnswerId().getId().toString()  ));
 			
-			if (questionAnswerMapping.getAnswerId().getAnsText1()!=null){
+			answerList = mapAnswersMasterToList(questionAnswerMapping.getAnswerId() );
+			
+			System.out.println("questionAnswerMapping.getAnswerId() "+questionAnswerMapping.getAnswerId().getId());
+			
+			/*if (questionAnswerMapping.getAnswerId().getAnsText1()!=null){
 				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText1().getAnsText() );
+				answerList.
+				
 			}
 			if (questionAnswerMapping.getAnswerId().getAnsText2()!=null){
 				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText2().getAnsText() );
@@ -364,9 +384,9 @@ public class HomeHandler {
 			}
 			if (questionAnswerMapping.getAnswerId().getAnsText10()!=null){
 				ansTextList.add( questionAnswerMapping.getAnswerId().getAnsText10().getAnsText() );
-			}
+			}*/
 			
-			surveyQuestionsDTO.setAnsTextList(ansTextList);
+			surveyQuestionsDTO.setAnswers(answerList);
 			surveyQuestionsDTO.setAnsType(questionAnswerMapping.getAnsTypeId().getAnsTypeText());
 			surveyQuestionsDTO.setAnsTypeId(decToInt(questionAnswerMapping.getAnsTypeId().getId()));
 			surveyQuestionsDTO.setQuestionId(decToInt(questionAnswerMapping.getQuestionId().getId()));
@@ -379,6 +399,76 @@ public class HomeHandler {
 		
 		return surveyQuestionsList;
 		
+	}
+	
+	private List<AnswerDTO> mapAnswersMasterToList(AnswerMaster answerMaster){
+		System.out.println("...mapAnswersMasterToList"+answerMaster.getId());
+		List<AnswerDTO> answerList = new ArrayList<AnswerDTO>();
+		
+		
+		Class ansMaster  = AnswerMaster.class;
+		try{
+			for(int i=1; i<=10; i++){
+				Method method = AnswerMaster.class.getDeclaredMethod("getAnsText"+i);
+				 
+				AnswerTextMaster answerTextMaster = (AnswerTextMaster) method.invoke(answerMaster);
+				AnswerDTO answer = null;
+				System.out.println(i+"...1 answerTextMaster" +answerTextMaster);
+				if (answerTextMaster!=null){
+					answer = new AnswerDTO();
+					answer.setAnsId( decToInt(answerTextMaster.getId()) );
+					answer.setAnsText(answerTextMaster.getAnsText());
+					//answer.setAnsId( decToInt( ((AnswerTextMaster)method.invoke(answerMaster)).getId() ) );
+					
+					System.out.println("...2"+answerTextMaster.getAnsText());
+					
+					//answer.setAnsText( ((AnswerTextMaster)method.invoke(answerMaster)).getAnsText() );
+					answerList.add(answer);
+					
+				}else{
+					
+				}
+				
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return answerList;
+		
+	}
+	
+	
+	public void submitSurveyResponse(SurveyResponseDTO surveyResponseDTO, UserMaster usermaster, String ipAddress, String email){
+		
+		System.out.println("IP : "+ipAddress);
+		SurveyMaster surveyMaster = (SurveyMaster) surveyMasterService.fetch(surveyResponseDTO.getSurveyId());
+		
+		
+		for (SurveyQuestionDTO surveyQuestionDTO: surveyResponseDTO.getSurveyQuestions()){
+			SurveyResponse surveyResponse = new SurveyResponse();
+			
+			QuestionAnswerMapping quesAnsMapping=(QuestionAnswerMapping) questionAnswerMappingService.fetch(surveyQuestionDTO.getQuesAnswerId());
+			
+			
+			surveyResponse.setEmailId(email);
+			surveyResponse.setIpAddress(ipAddress);
+			
+			surveyResponse.setQuesAnsMappingId(quesAnsMapping);
+			surveyResponse.setSurveyId(surveyMaster);
+			surveyResponse.setUserId(usermaster);
+			
+			if(surveyQuestionDTO.getAnsIdList()!=null){
+			for (Integer ansId: surveyQuestionDTO.getAnsIdList() ){
+					AnswerTextMaster answerText = (AnswerTextMaster) answerTextMasterService.fetch(ansId);
+					surveyResponse.setAnsTextId(answerText);
+					surveyResponse.setAnsText(answerText.getAnsText());
+					surveyResponseService.add(surveyResponse);
+				}
+			}
+			System.out.println("surveyResponse.getId() : "+surveyResponse.getId());
+		}
 	}
 	
 	private int decToInt(BigDecimal dec){

@@ -92,7 +92,7 @@
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
 					<form action="addQuestions" method="POST">
                                             
-                                            <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
+                        <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
 					    <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
                                             
 						<div class="output">

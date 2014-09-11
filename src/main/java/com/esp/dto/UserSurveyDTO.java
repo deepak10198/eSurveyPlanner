@@ -26,7 +26,32 @@ public class UserSurveyDTO {
 	private String surveyDisplayId; // This is for survey id in the survey master tables.
 	private String surveyName;
 	private String surveyDesc;
-	private List<SurveyQuestionsDTO> surveyQuestions;
+	private List<SurveyQuestionDTO> surveyQuestions;
+	
+	public String toString(){
+		
+		String temp =null;
+		
+		temp= "surveyId:"+surveyId+"\n surveyDisplayId"+surveyDisplayId+"\n surveyName";
+		
+		for(SurveyQuestionDTO surveyQuestionDTO: surveyQuestions ){
+			temp += "\n surveyQuestionDTO."+surveyQuestionDTO.getQuestionId();
+				
+			
+					for(AnswerDTO answer: surveyQuestionDTO.getAnswers()){
+						if (answer!=null){
+							temp += "\n getAnsId"+answer.getAnsId()+"\n getAnsText"+answer.getAnsText();	
+							
+						}
+						
+					}
+					
+								
+		}
+		
+		return temp;
+	}
+	
 	public int getSurveyId() {
 		return surveyId;
 	}
@@ -51,10 +76,10 @@ public class UserSurveyDTO {
 	public void setSurveyDesc(String surveyDesc) {
 		this.surveyDesc = surveyDesc;
 	}
-	public List<SurveyQuestionsDTO> getSurveyQuestions() {
+	public List<SurveyQuestionDTO> getSurveyQuestions() {
 		return surveyQuestions;
 	}
-	public void setSurveyQuestions(List<SurveyQuestionsDTO> surveyQuestions) {
+	public void setSurveyQuestions(List<SurveyQuestionDTO> surveyQuestions) {
 		this.surveyQuestions = surveyQuestions;
 	}
 	

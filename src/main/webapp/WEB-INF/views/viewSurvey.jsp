@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,8 +35,7 @@
     </head>
 
     <body role="document">
-<form action="submitSurveyMaster" method="POST">
-        <%@include file="includes/header.jsp" %>
+        <%@include file="includes/headerUser.jsp" %>
 
         <div class="row form-div-cus">
             <div class="col-sm-4">
@@ -47,17 +47,62 @@
                 </div>
             </div>
 			<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<!-- <form action="submitSurveyMaster" method="POST"> -->
+					<%-- <form:form name="f" action="submitSurveyResponse" method="POST" commandName="survey"> --%>
+					<form action="submitSurveyResponse" method="POST">
+					<input type="text" name="email"/>
+						<input type="hidden" name="surveyId" value='${survey.surveyId}'>
+					    <input type="hidden" name="surveyName" value='${survey.surveyName}'>
+                                            
+					
+					
 						<div class="form-group">
 							<label for="surveyname"><h2> <c:out value="${survey.surveyName}"/></h2></label>
 						</div>
 						<c:forEach items="${survey.surveyQuestions}" var = "question" varStatus="status">
 						
 							<div class="form-group">
-							<label for="question${status.count}"><c:out value="${question.questionText}"/></label>
+							
+							
+							<%-- <form:hidden path="surveyQuestions[${status.index}].questionId" value='${question.questionId}'/>
+							<form:hidden path="surveyQuestions[${status.index}].ansTypeId" value='${question.ansTypeId}'/>
+							<form:hidden path="surveyQuestions[${status.index}].quesAnswerId" value='${question.quesAnswerId}'/>
+							<label for="question"><c:out value="${question.questionText}"/></label> --%>
+							
+							<input type="hidden" name="surveyQuestions[${status.index}].questionId" value='${question.questionId}'>
+							<input type="hidden" name="surveyQuestions[${status.index}].ansTypeId" value='${question.ansTypeId}'>
+							<input type="hidden" name="surveyQuestions[${status.index}].quesAnswerId" value='${question.quesAnswerId}'>
+							<label for="question${status.index}"><c:out value="${question.questionText}"/></label>
 							<div>
-								<c:forEach var="answerText" items="${question.ansTextList}" varStatus="ansStatus">
-                                	<input type="${question.ansType}"  name="ans${status.count}" value="${answerText}"/><c:out value="${answerText}"/></br>
+								<c:forEach var="answer" items="${question.answers}" varStatus="ansStatus">
+									<%-- <form:hidden path="surveyQuestions[${status.index}].questionId" value='${question.questionId}'/>
+                                	<input type="${question.ansType}"  name="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" value="${answer.ansId}"/> <c:out value="${answer.ansText}"/></br>
+                                     --%>
+                                     
+                                     <input type="${question.ansType}"  name="surveyQuestions[${status.index}].ansIdList" value="${answer.ansId}"/> <c:out value="${answer.ansText}"/></br>
+                                     
+                                    <%--  <c:choose>
+                                     
+                                     
+                                    	<c:when test="${question.ansType == 'radio' }" >
+                                    		<form:radiobutton  path="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
+                                    		
+                                    		<form:radiobutton  path="surveyQuestions[${status.index}].answers" item="${question.answers}" itemValue="${ansId}" itemLabel="${ansText}" /></br>
+                                    		
+                                    		<form:radiobutton  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
+                                    		
+                                    		
+                                    		
+                                    	</c:when>
+                                    	<c:when test="${question.ansType =='checkbox' }" >
+                                    		<form:checkbox  path="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
+                                    		<form:checkbox  path="surveyQuestions[${status.index}].answers" item="${question.answers}" itemValue="${ansId}" itemLabel="${ansText}" /></br>
+                                    		
+                                    		<form:checkbox  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
+                                    		
+                                    	</c:when>
+                                    	</c:choose> --%>
+                                    
+                                    
                                                             
                                 </c:forEach>
                                                        
@@ -73,11 +118,12 @@
 
 						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
 						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-					
+					<%-- </form:form>	 --%>
+					</form>	
 				</div>
 
         </div>
-</form>
+
         <%@include file="includes/footer.jsp" %>
 
         <!-- Bootstrap core JavaScript

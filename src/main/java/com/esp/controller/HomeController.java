@@ -8,10 +8,13 @@ import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.handler.HomeHandler;
 import com.esp.service.GenericService;
+import com.esp.dto.AnswerDTO;
 import com.esp.dto.FixedSurveyAnswerDetailsDTO;
 import com.esp.dto.QuestionDTO;
 import com.esp.dto.SurveyDetailsDTO;
 import com.esp.dto.SurveyDTO;
+import com.esp.dto.SurveyQuestionDTO;
+import com.esp.dto.SurveyResponseDTO;
 import com.esp.dto.UserSurveyDTO;
 
 import java.io.IOException;
@@ -26,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -169,7 +173,7 @@ public class HomeController {
         
         log.info("Survey question answers saved in - "+ surveyQuestionMapping.getId());
         model.addAttribute("survey",surveyDTO);
-        modelAndView.setViewName("thanks");
+        modelAndView.setViewName("thanksAdmin");
         return modelAndView;
     }//
     
@@ -192,8 +196,83 @@ public class HomeController {
         //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
         
         log.info("userSurveyDTO "+userSurveyDTO.getSurveyId() + userSurveyDTO.getSurveyName());
+        log.info("userSurveyDTO "+userSurveyDTO.toString());
         model.addAttribute("survey",userSurveyDTO);
         return new ModelAndView("viewSurvey");
+    }
+	
+	@RequestMapping(value="submitSurveyResponse" , method = RequestMethod.POST)
+    public ModelAndView submitSurveyResponse(ModelMap model,@ModelAttribute("surveyResponseDTO") SurveyResponseDTO surveyResponseDTO
+    											, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    	
+		ModelAndView modelAndView = new ModelAndView();
+		String email= request.getParameter("email");
+		
+		if (email==null || email.equals("")){
+			throw new Exception("Email is null");
+			
+		}
+		
+		System.out.println("-->>>>> surveyResponseDTO"+surveyResponseDTO);	
+		if(surveyResponseDTO!=null){
+			
+			System.out.println("-->>>>> surveyResponseDTO Survey Questions"+surveyResponseDTO.getSurveyQuestions());
+			
+			for (SurveyQuestionDTO q: surveyResponseDTO.getSurveyQuestions()){
+				System.out.println("-->>>>> q.getQuestionId()"+q.getQuestionId());	
+				/*if (q.getAnswers()!=null){
+					System.out.println("-->>>>> q.getAnswers()"+q.getAnswers());
+					for (AnswerDTO	a:q.getAnswers()){
+						System.out.println("-->>>>> a.getAnsId()"+a.getAnsId());	
+						
+					}
+				}*/
+				
+				if (q.getAnsIdList() !=null){
+					System.out.println("-->>>>> q.getAnsIdList()"+q.getAnsIdList());
+					for (Integer	a:q.getAnsIdList()){
+						System.out.println("-->>>>> ans id "+a);	
+						
+					}
+				}
+				
+			}
+			
+		}
+		
+        
+		UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
+		handler.submitSurveyResponse(surveyResponseDTO, usermaster, request.getRemoteAddr(), email);
+		/*System.out.println("----Addr: "+request.getRemoteAddr()+"----Host: " +request.getRemoteHost()+"----Port: " + request.getRemotePort()+"----User: " +request.getRemoteUser());		
+        //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
+        
+		
+		  String ip = request.getHeader("x-forwarded-for");      
+		   if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			   System.out.println("==1=>"+ip);
+		       ip = request.getHeader("Proxy-Client-IP");  
+		       System.out.println("==2=>"+ip);
+		   }      
+		   if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {      
+		       ip = request.getHeader("WL-Proxy-Client-IP");      
+		       System.out.println("==3=>"+ip);
+		   }      
+		   if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {      
+		       ip = request.getRemoteAddr(); 
+		       System.out.println("==4=>"+ip);
+		   }*/      
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        //log.info("userSurveyDTO "+userSurveyDTO.getSurveyId() + userSurveyDTO.getSurveyName());
+      //  model. addAttribute("survey",surveyResponseDTO.getSurveyName());
+        return new ModelAndView("thanksUser");
     }
 
 }
