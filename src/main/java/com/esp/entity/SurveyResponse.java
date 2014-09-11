@@ -48,7 +48,7 @@ public class SurveyResponse implements Serializable {
     @Column(name = "ANS_TEXT", length = 200)
     private String ansText;
     @Column(name = "IP_ADDRESS")
-    private BigInteger ipAddress;
+    private String ipAddress;
     @Column(name = "EMAIL_ID", length = 200)
     private String emailId;
     @JoinColumn(name = "ANS_TEXT_ID", referencedColumnName = "ID")
@@ -87,11 +87,11 @@ public class SurveyResponse implements Serializable {
         this.ansText = ansText;
     }
 
-    public BigInteger getIpAddress() {
+    public String getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(BigInteger ipAddress) {
+    public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
