@@ -74,6 +74,9 @@ public class QuestionAnswerMapping implements Serializable {
     private UserMaster createdById;
     @OneToMany(mappedBy = "quesAnsMappingId")
     private Set<SurveyResponse> surveyResponseSet;
+	
+	@Column(name = "MANDATORY")
+	private BigDecimal mandatory;
 
     public QuestionAnswerMapping() {
     }
@@ -89,6 +92,15 @@ public class QuestionAnswerMapping implements Serializable {
     public void setId(BigDecimal id) {
         this.id = id;
     }
+	
+	    public BigDecimal getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(BigDecimal mandatory) {
+        this.mandatory = mandatory;
+    }
+	
 
     public Date getCreatedDate() {
         return createdDate;
