@@ -31,38 +31,39 @@
 
         <script>
 
-            var quesCount = 0;
+            var counter = 0;
 
             function addQuestions() {
-                //alert(">>1");
-                
-                var table = document.getElementById("questionTable");
-                //alert(">>2");
-                var questionValue = document.getElementById("question").value;
-                //alert(">>3");
-                var row = table.insertRow(table.rows.length);
-                //alert(">>4");
-                row.id = "question" + table.rows.length;
-                row.class = "";
-                //alert(">>5");
+            	var questionValue = document.getElementById("question").value;
+                if(questionValue){
+                	 var table = document.getElementById("questionTable");
+                     
+     				
+                     var row = table.insertRow(table.rows.length);
+                     
+                     //row.id = "Question" + table.rows.length;
+                     row.id = "question" + counter;
+                     row.class = "";
+                     
+                     var cell1 = row.insertCell(0);
+                     cell1.innerHTML ="<label> Question</label>: "+ questionValue + "<input type='hidden' name ='questionText'  value='" + questionValue + "'>";
 
-                var rowId = row.id;
-
-                var cell1 = row.insertCell(0);
-                cell1.innerHTML = rowId + ": " + questionValue + "<input type='hidden' name ='questionText[" + quesCount + "]' value='" + questionValue + "'>";
-                //alert(">>6");
-
-                var cell2 = row.insertCell(1);
-                cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + rowId + ")'>Delete</button>";
-                //alert(">>7");
-                document.getElementById("question").value = "";
-                quesCount += 1;
-
+                     var cell2 = row.insertCell(1);
+                     cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + row.id + ")'>Delete</button>";
+                     
+                     document.getElementById("question").value = "";
+                     counter += 1;
+                	
+                }  else {
+                	
+                	alert("First provide some Quesion Text!");
+                }              
+               
             }
 
             function deleteQuestion(rowId) {
                 rowId.remove();
-                quesCount -= 1;
+                //counter -= 1;
             }
         </script>
 
@@ -91,7 +92,7 @@
                     <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
                     <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
                     <input type="hidden" name="ansId" value='${surveyDTO.ansId}'>
-                    <input type="hidden" name="ansTypeID" value='${surveyDTO.ansTypeID}'>
+                    <input type="hidden" name="ansTypeId" value='${surveyDTO.ansTypeID}'>
                     <div class="output">
                         <label for="surveyname">${surveyDTO.surveyName}</label>
 
@@ -104,13 +105,14 @@
 
                     <div class="form-group">
                         <label for="question">Questions: </label>
-
+						
+						<table id="questionTable" class="table table-striped">
+							<!-- Space to add questions dynamically. -->
+						</table>
                         <input type="text" class="form-control" id="question" placeholder="Question"/>
-
-                        <button type="button" class="btn btn-default" onclick="addQuestions()">Add</button>
-                        <br/><br/>
-                        <!--button type="button" class="btn btn-default">Delete</button-->
-                        <table id="questionTable" class="table table-striped"></table>
+						<button type="button" class="btn btn-default" onclick="addQuestions()">Add</button>
+                        <br/>
+                        
 
 
 

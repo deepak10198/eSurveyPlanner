@@ -31,41 +31,44 @@
 		
 		<script>
 			
-			var ansCount=0;	
+			var counter=0;	
 		
 			function addDynamicRow(){
+				var table = document.getElementById("answerTable");
+				row_count = table.rows.length;
+				var answerValue = document.getElementById("answer").value;
 				
-				if (ansCount>=10){
+				
+				if (row_count>=10){
 					alert("Sorry! You can add maximum of 10 answers!");
 						
-				} else {
-					var table = document.getElementById("answerTable");
-					
-					var answerValue = document.getElementById("answer").value;
-					var row = table.insertRow(table.rows.length);	
-					row.id = "answer"+table.rows.length;
+				} else if(answerValue){
+					var row = table.insertRow(row_count);	
+					//row.id = "answer"+table.rows.length;]
+					row.id = "answer"+counter;
 					row.class="";
 					
 					var rowId=row.id;
 					
 					var cell1 = row.insertCell(0);
-					//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
-					cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansTextList["+ansCount+"]' value='"+answerValue+"'>";
-					
+					cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='ansTextList' value='"+answerValue+"' >";
 					
 					var cell2 = row.insertCell(1);
 					cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
 					
 					document.getElementById("answer").value="" ;
-					ansCount +=1;
+					counter +=1;
 								
+				} else {
+					
+					alert("First provide some answer Text!");
 				}
 					
 			}
 			
 			function deleteDynamic(rowId){
 				rowId.remove();
-				ansCount -=1;
+				//ansCount -=1;
 			}
 		</script>
 
@@ -84,7 +87,7 @@
 				<div class="col-sm-4">
 					<div class="well">
 						<p>
-							<h2><span class="glyphicon glyphicon-user"></span> Hi, Admin! ${surveyDTO.surveyName}</h2>
+							<h2><span class="glyphicon glyphicon-user"></span>${surveyDTO.surveyName}</h2>
 						</p>
 						Give the answer type for each question.
 					</div>
@@ -102,7 +105,7 @@
 						<div class="form-group">
 							<label for="">Type of Answer - </label>
                                                         <c:forEach var="answerTypeMaster" items="${answerTypeMaster}">
-                                                            <input type="radio"  name="ansTypeID" value="${answerTypeMaster.id}"/>${answerTypeMaster.ansTypeText}
+                                                            <input type="radio"  name="ansTypeId" value="${answerTypeMaster.id}"/>${answerTypeMaster.ansTypeText}
                                                             
                                                         </c:forEach>
                                                        
@@ -114,8 +117,11 @@
 								<input type="text" class="form-control" name="answer[]" id="answer" placeholder="Answers"/>
 								
 								<button type="button" class="btn btn-default" onclick="addDynamicRow()">Add</button>
+								<br/>
 								<!--  button type="button" class="btn btn-default">Delete</button-->
-								<table id="answerTable" class="table table-striped"></table>						
+								<table id="answerTable" class="table table-striped">
+									<!-- Space to add answers dynamically. -->
+								</table>						
 								
 							
 						</div>

@@ -3,15 +3,12 @@ package com.esp.dto;
 import java.util.List;
 
 
-public class FixedSurveyAnswerDetailsDTO {
+public class FixedSurveyAnswersDTO {
 
-	private String ansType;
+	private int ansTypeId;
 	private List<String> ansTextList;
 
 	
-	public FixedSurveyAnswerDetailsDTO() {
-		//ansDesc = LazyList
-	}
 	
 	public List<String> getAnsTextList() {
 		return ansTextList;
@@ -19,11 +16,11 @@ public class FixedSurveyAnswerDetailsDTO {
 	public void setAnsTextList(List<String> ansDesc) {
 		this.ansTextList = ansDesc;
 	}
-	public String getAnsType() {
-		return ansType;
+	public int getAnsTypeId() {
+		return ansTypeId;
 	}
-	public void setAnsType(String ansType) {
-		this.ansType = ansType;
+	public void setAnsTypeId(int ansTypeId) {
+		this.ansTypeId = ansTypeId;
 	}
 	
 	

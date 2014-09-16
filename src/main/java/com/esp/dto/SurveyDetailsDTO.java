@@ -16,7 +16,7 @@ public class SurveyDetailsDTO {
     private String description;
     private String surveystart;
     private String surveyend;
-    private String type;
+    private int type;
 
     public String getSurveyname() {
         return surveyname;
@@ -50,11 +50,11 @@ public class SurveyDetailsDTO {
         this.surveyend = surveyend;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
     

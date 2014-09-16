@@ -41,7 +41,7 @@
 					<p>
 						<h2><span class="glyphicon glyphicon-user"></span> Thanks!</h2>
 					</p>
-					Your Survey has been submitted.
+					Thanks for completing this survey.
 				</div>
 			</div>
 			<div class="col-sm-8">
@@ -49,13 +49,7 @@
 				 <h2>Survey Details</h2>
 		          <div class="table-responsive">
 		            <table class="table table-striped">
-		              <thead>
-		                <tr>
-		                  <th>#</th>
-		                  <th>#</th>
-		                </tr>
-		              </thead>
-		              <tbody>
+		             <tbody>
 		                <tr>
 		                  <td>Name of the Survey</td>
 		                  <td>${survey}</td>

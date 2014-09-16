@@ -19,6 +19,7 @@ package com.esp.dto;
 */
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyQuestionDTO {
@@ -26,28 +27,18 @@ public class SurveyQuestionDTO {
 	private int questionId;
 	private String questionText;
 	private int quesAnswerId;
-	private int ansId;
-	private List<AnswerDTO> answers;
-	
-	private List<Integer> ansIdList;
-	
-	public List<Integer> getAnsIdList() {
-		return ansIdList;
-	}
-	public void setAnsIdList(List<Integer> ansIdList) {
-		this.ansIdList = ansIdList;
-	}
 	private int ansTypeId;
 	private String ansType;
 	
+	private List<String> ansTextList;
 	
-	public List<AnswerDTO> getAnswers() {
-		return answers;
+		
+	public List<String> getAnsTextList() {
+		return ansTextList;
 	}
-	public void setAnswers(List<AnswerDTO> answers) {
-		this.answers = answers;
+	public void setAnsTextList(List<String> ansTextList) {
+		this.ansTextList = ansTextList;
 	}
-	
 	public int getQuestionId() {
 		return questionId;
 	}
@@ -66,12 +57,6 @@ public class SurveyQuestionDTO {
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}
-	public int getAnsId() {
-		return ansId;
-	}
-	public void setAnsId(int ansId) {
-		this.ansId = ansId;
-	}
 	public int getAnsTypeId() {
 		return ansTypeId;
 	}
@@ -84,7 +69,6 @@ public class SurveyQuestionDTO {
 	public void setAnsType(String ansType) {
 		this.ansType = ansType;
 	}
-	
 	
 	
 }

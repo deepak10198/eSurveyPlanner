@@ -49,8 +49,7 @@ public class SurveyTypeMasterService implements GenericService<SurveyTypeMaster>
 
 	@Override
 	public List<SurveyTypeMaster> fetchAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return surveyTypeMasterDAO.findAll(SurveyTypeMaster.class);
 	}
     
 }

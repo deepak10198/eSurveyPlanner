@@ -20,13 +20,13 @@ import java.util.List;
 * @since   08-09-2014 
 */
 
-public class UserSurveyDTO {
+public class SurveyUIDTO {
 	
 	private int surveyId;
 	private String surveyDisplayId; // This is for survey id in the survey master tables.
 	private String surveyName;
 	private String surveyDesc;
-	private List<SurveyQuestionDTO> surveyQuestions;
+	private List<QuestionUIDTO> surveyQuestions;
 	
 	public String toString(){
 		
@@ -34,17 +34,17 @@ public class UserSurveyDTO {
 		
 		temp= "surveyId:"+surveyId+"\n surveyDisplayId"+surveyDisplayId+"\n surveyName";
 		
-		for(SurveyQuestionDTO surveyQuestionDTO: surveyQuestions ){
+		for(QuestionUIDTO surveyQuestionDTO: surveyQuestions ){
 			temp += "\n surveyQuestionDTO."+surveyQuestionDTO.getQuestionId();
 				
 			
-					for(AnswerDTO answer: surveyQuestionDTO.getAnswers()){
+					/*for(ElementDTO answer: surveyQuestionDTO.getAnswers()){
 						if (answer!=null){
-							temp += "\n getAnsId"+answer.getAnsId()+"\n getAnsText"+answer.getAnsText();	
+							temp += "\n getAnsId"+answer.getId()+"\n getAnsText"+answer.getText();	
 							
 						}
 						
-					}
+					}*/
 					
 								
 		}
@@ -76,10 +76,10 @@ public class UserSurveyDTO {
 	public void setSurveyDesc(String surveyDesc) {
 		this.surveyDesc = surveyDesc;
 	}
-	public List<SurveyQuestionDTO> getSurveyQuestions() {
+	public List<QuestionUIDTO> getSurveyQuestions() {
 		return surveyQuestions;
 	}
-	public void setSurveyQuestions(List<SurveyQuestionDTO> surveyQuestions) {
+	public void setSurveyQuestions(List<QuestionUIDTO> surveyQuestions) {
 		this.surveyQuestions = surveyQuestions;
 	}
 	

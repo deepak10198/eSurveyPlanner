@@ -8,14 +8,14 @@ import com.esp.entity.SurveyTypeMaster;
 import com.esp.entity.UserMaster;
 import com.esp.handler.HomeHandler;
 import com.esp.service.GenericService;
-import com.esp.dto.AnswerDTO;
-import com.esp.dto.FixedSurveyAnswerDetailsDTO;
-import com.esp.dto.QuestionDTO;
+import com.esp.dto.ElementDTO;
+import com.esp.dto.FixedSurveyAnswersDTO;
+import com.esp.dto.FixedSurveyQuestionsDTO;
 import com.esp.dto.SurveyDetailsDTO;
 import com.esp.dto.SurveyDTO;
 import com.esp.dto.SurveyQuestionDTO;
 import com.esp.dto.SurveyResponseDTO;
-import com.esp.dto.UserSurveyDTO;
+import com.esp.dto.SurveyUIDTO;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -81,8 +81,14 @@ public class HomeController {
     }
     
     @RequestMapping(value = "/createSurvey")
-    public ModelAndView createSurvey(HttpServletResponse response) throws IOException {
-        log.info("*****************888Create Survey");
+    public ModelAndView createSurvey(ModelMap model) throws Exception {
+        log.info("Request for Creating Survey");
+        
+        List<ElementDTO> surveyTypes;
+         
+        surveyTypes = handler.fetchSurveyType();
+        
+        model.addAttribute("surveyTypes", surveyTypes);
         return new ModelAndView("createSurvey");
     }
     
@@ -97,7 +103,7 @@ public class HomeController {
             log.info("type ;" + surveyDetailsDTO.getType());
             
             UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
-            SurveyTypeMaster surveytypemaster = (SurveyTypeMaster)surveyTypeMasterService.fetchByParam(surveyDetailsDTO.getType());
+            SurveyTypeMaster surveytypemaster = (SurveyTypeMaster)surveyTypeMasterService.fetch(surveyDetailsDTO.getType());
             SurveyMaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsDTO);
             surveyMasterService.add(surveymaster);            
             log.info("Survey Saved to database");
@@ -115,7 +121,16 @@ public class HomeController {
             
             model.addAttribute("surveyDTO", surveyDTO);
             model.addAttribute("answerTypeMaster", answermasters);
-            return new ModelAndView("answerType");
+            
+            if (surveyDetailsDTO.getType() ==1){
+
+                return new ModelAndView("answerType");
+            	
+            }else if (surveyDetailsDTO.getType() ==2){
+
+                return new ModelAndView("addQuestionAnswer");
+            }
+            
             
         } catch (ParseException ex) {
             log.error(ex.getMessage());
@@ -126,7 +141,7 @@ public class HomeController {
     
     @RequestMapping(value = "/addQuestions")
     public ModelAndView addQuestions(ModelMap model,@ModelAttribute("surveyDTO") SurveyDTO surveyDTO,
-    									@ModelAttribute("answerDetailsDTO") FixedSurveyAnswerDetailsDTO answerDetailsDTO) throws IOException {
+    									@ModelAttribute("answerDetailsDTO") FixedSurveyAnswersDTO answerDetailsDTO) throws IOException {
 
     	try{
     		log.info("Going to save Answer Master details -");   
@@ -134,13 +149,17 @@ public class HomeController {
     		log.info("Going answerDetailsDTO.getAnsType()-"+answerDetailsDTO.getAnsTextList());   
 	    	
 	    	AnswerMaster answerMaster = handler.mapToAnswerMaster(answerDetailsDTO);
-	    	answerService.add(answerMaster); 
+	    	
 	    	
 	        surveyDTO.setAnsId(Integer.parseInt(answerMaster.getId().toString()));
 	        log.info("survey name"+surveyDTO.getSurveyName());
                 log.info("survey id"+surveyDTO.getSurveyId());
                 log.info("survey ans id"+surveyDTO.getAnsId());
+                log.info("survey ans type id"+surveyDTO.getAnsTypeID());
+                log.info("survey answerDetailsDTO type id"+answerDetailsDTO.getAnsTypeId());
+                surveyDTO.setAnsTypeID(answerDetailsDTO.getAnsTypeId());
                 
+                log.info("survey ans type id"+surveyDTO.getAnsTypeID());
                 model.addAttribute("surveyDTO", surveyDTO);              
                 
                 
@@ -153,7 +172,7 @@ public class HomeController {
     }
     
     @RequestMapping(value = "saveQuestions", method = RequestMethod.POST)
-    public ModelAndView saveQuestions(ModelMap model,@ModelAttribute("questionDTO") QuestionDTO questionDTO, @ModelAttribute("surveyDTO") SurveyDTO surveyDTO) {
+    public ModelAndView saveQuestions(ModelMap model,@ModelAttribute("questionDTO") FixedSurveyQuestionsDTO questionDTO, @ModelAttribute("surveyDTO") SurveyDTO surveyDTO) {
         ModelAndView modelAndView = new ModelAndView();
         
         log.info("--->survey id :" + surveyDTO.getSurveyId());
@@ -175,7 +194,55 @@ public class HomeController {
         model.addAttribute("survey",surveyDTO);
         modelAndView.setViewName("thanksAdmin");
         return modelAndView;
-    }//
+    }
+    
+    @RequestMapping(value="saveQuestionAns" , method = RequestMethod.POST)
+    public ModelAndView submitSurveyResponse1(ModelMap model,@ModelAttribute("surveyResponseDTO") SurveyResponseDTO surveyResponseDTO
+    											, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    	
+    	ModelAndView modelAndView = new ModelAndView();
+		System.out.println("-->>>>> surveyResponseDTO"+surveyResponseDTO);	
+		if(surveyResponseDTO!=null){
+			
+			System.out.println("-->>>>> surveyResponseDTO Survey Questions"+surveyResponseDTO.getSurveyQuestions());
+			
+			for (SurveyQuestionDTO q: surveyResponseDTO.getSurveyQuestions()){
+				System.out.println("-->>>>> q.getQuestionText()"+q.getQuestionText()+" -- " + q.getAnsTypeId());	
+				/*if (q.get getAnswers()!=null){
+					System.out.println("-->>>>> q.getAnswers()"+q.getAnswers());
+					for (ElementDTO	a:q.getAnswers()){
+						System.out.println("-->>>>> a. ans text ()"+a.getText());	
+						
+					}
+				}*/
+				
+				/*if (q.getAnsIdList() !=null){
+					System.out.println("-->>>>> q.getAnsIdList()"+q.getAnsIdList());
+					for (AnswerDTO	a:q.getAnswers()){
+						System.out.println("-->>>>> ans text "+a.getAnsText());	
+						
+					}
+				}*/
+				
+			}
+			
+		}
+		
+		//model.addAttribute("survey",surveyDTO);
+		UserMaster usermaster = (UserMaster) userMasterService.fetch(userId);
+		SurveyQuestionMapping surveyQuestionMapping = handler.saveQuestionAnswers(surveyResponseDTO,usermaster); 
+        
+		log.info("Survey question answers saved in - "+ surveyQuestionMapping.getId());
+		
+		SurveyDTO surveyDTO = new SurveyDTO();
+        surveyDTO.setSurveyId(surveyResponseDTO.getSurveyId());
+        surveyDTO.setSurveyName(surveyResponseDTO.getSurveyName());
+		
+		model.addAttribute("survey",surveyDTO);
+        modelAndView.setViewName("thanksAdmin");
+        return modelAndView;
+		
+    }
     
     /**
      * This method is used to add two integers. This is
@@ -191,7 +258,7 @@ public class HomeController {
 		//String uri="8900";
         log.info("String here in getPublishedSurvey "+uri);
         ModelAndView modelAndView = new ModelAndView();
-        UserSurveyDTO userSurveyDTO	=  handler.fetchSurveyDetails(Integer.parseInt(uri));
+        SurveyUIDTO userSurveyDTO	=  handler.fetchSurveyDetails(Integer.parseInt(uri));
         
         //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
         
@@ -228,10 +295,10 @@ public class HomeController {
 					}
 				}*/
 				
-				if (q.getAnsIdList() !=null){
-					System.out.println("-->>>>> q.getAnsIdList()"+q.getAnsIdList());
-					for (Integer	a:q.getAnsIdList()){
-						System.out.println("-->>>>> ans id "+a);	
+				if (q.getAnsTextList()!=null){
+					System.out.println("-->>>>> q.getAnsTextList()"+q.getAnsTextList());
+					for (String 	a:q.getAnsTextList()){
+						System.out.println("-->>>>> ans text "+a);	
 						
 					}
 				}
@@ -271,7 +338,7 @@ public class HomeController {
 		
 		
         //log.info("userSurveyDTO "+userSurveyDTO.getSurveyId() + userSurveyDTO.getSurveyName());
-      //  model. addAttribute("survey",surveyResponseDTO.getSurveyName());
+		model. addAttribute("survey",surveyResponseDTO.getSurveyName());
         return new ModelAndView("thanksUser");
     }
 

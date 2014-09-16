@@ -40,7 +40,7 @@
 					<img src="resources/images/logo.png" name="Logo" alt="eSurveyPlanner">
 				</div>
 				<div class="col-sm-8">
-					<h2 style="color:#279296; margin-top:5px;">Organisation Name</h2>
+					<h2 style="color:#279296; margin-top:5px;">SPAN Systems</h2>
 				</div>
 				<div class="col-sm-8" id="admin_navbar">
 					<p>

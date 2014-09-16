@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -68,13 +70,31 @@
 						</div>
 						<div class="form-group">
 							<label for="">Type of Survey</label>
-							<div class="radio">
+							<c:forEach var="surveyType" items="${surveyTypes}" varStatus="status">
+								
+								<div class="radio">
+									<label>
+										<input type="radio" name="type" value="${surveyType.id}">
+										<c:out value="${surveyType.text}" />
+										<c:choose>
+											<c:when test="${surveyType.id==1}">(All Questions are of same type)</c:when>
+											<c:when test="${surveyType.id==2}">(Type of questions can vary)</c:when>
+										</c:choose>
+										
+									</label>
+								</div>
+														
+							</c:forEach>
+							
+							
+							
+							<!-- <div class="radio">
 								<label>
 									<input type="radio" name="type" id="optionsRadios1" value="fixed" checked>
 									Fixed Survey (All Questions are of same type)
 								</label>
 							</div>
-							<!-- <div class="radio">
+							<div class="radio">
 								<label>
 									<input type="radio" name="type" id="optionsRadios2" value="customized">
 									Customized Survey (Type of questions can vary)

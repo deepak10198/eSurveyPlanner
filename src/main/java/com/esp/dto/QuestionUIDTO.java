@@ -19,16 +19,25 @@ package com.esp.dto;
 */
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyQuestionsDTO {
+public class QuestionUIDTO {
 
 	private int questionId;
 	private String questionText;
-	private int ansId;
-	private List<String> ansTextList;
+	private int quesAnswerId;
+	private List<ElementDTO> answers;
 	private int ansTypeId;
 	private String ansType;
+		 
+		
+	public List<ElementDTO> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(List<ElementDTO> answers) {
+		this.answers = answers;
+	}
 	
 	public int getQuestionId() {
 		return questionId;
@@ -36,23 +45,17 @@ public class SurveyQuestionsDTO {
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
 	}
+	public int getQuesAnswerId() {
+		return quesAnswerId;
+	}
+	public void setQuesAnswerId(int quesAnswerId) {
+		this.quesAnswerId = quesAnswerId;
+	}
 	public String getQuestionText() {
 		return questionText;
 	}
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
-	}
-	public int getAnsId() {
-		return ansId;
-	}
-	public void setAnsId(int ansId) {
-		this.ansId = ansId;
-	}
-	public List<String> getAnsTextList() {
-		return ansTextList;
-	}
-	public void setAnsTextList(List<String> ansTextList) {
-		this.ansTextList = ansTextList;
 	}
 	public int getAnsTypeId() {
 		return ansTypeId;
@@ -67,6 +70,17 @@ public class SurveyQuestionsDTO {
 		this.ansType = ansType;
 	}
 	
-	
+	public List<String> getAnsTextList (){
+		
+		List<String> ansTextList = new ArrayList<String>();
+		
+		for(ElementDTO answer :  getAnswers()){
+			
+			ansTextList.add(answer.getText());
+			
+		}
+		
+		return ansTextList;
+	}
 	
 }

@@ -12,11 +12,29 @@ import java.util.List;
  *
  * @author Rakesh.K
  */
-public class QuestionDTO {
+public class FixedSurveyQuestionsDTO {
     
     private List<String> questionText;
+    private int ansTypeId;
+    private int ansId;
 
-    public List<String> getQuestionText() {
+    public int getAnsTypeId() {
+		return ansTypeId;
+	}
+
+	public void setAnsTypeId(int ansTypeId) {
+		this.ansTypeId = ansTypeId;
+	}
+
+	public int getAnsId() {
+		return ansId;
+	}
+
+	public void setAnsId(int ansId) {
+		this.ansId = ansId;
+	}
+
+	public List<String> getQuestionText() {
         return questionText;
     }
 

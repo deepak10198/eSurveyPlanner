@@ -5,7 +5,7 @@ public class SurveyDTO {
     private int surveyId;
     private String surveyName;
     private int ansId;
-    private int QAMapId;
+    private int quesAnsId;
     private int ansTypeID;
 
     public int getAnsTypeID() {
@@ -40,12 +40,12 @@ public class SurveyDTO {
         this.ansId = ansId;
     }
 
-    public int getQAMapId() {
-        return QAMapId;
+    public int getQuesAnsId() {
+        return quesAnsId;
     }
 
-    public void setQAMapId(int qAMapId) {
-        QAMapId = qAMapId;
+    public void setQuesAnsId(int quesAnsId) {
+        quesAnsId = quesAnsId;
     }
 
 }

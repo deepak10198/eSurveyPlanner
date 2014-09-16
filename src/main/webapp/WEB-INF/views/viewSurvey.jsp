@@ -78,29 +78,21 @@
                                 	<input type="${question.ansType}"  name="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" value="${answer.ansId}"/> <c:out value="${answer.ansText}"/></br>
                                      --%>
                                      
-                                     <input type="${question.ansType}"  name="surveyQuestions[${status.index}].ansIdList" value="${answer.ansId}"/> <c:out value="${answer.ansText}"/></br>
+                                     <%-- <input type="${question.ansType}"  name="surveyQuestions[${status.index}].ansTextList" value="${answer.id}"/> <c:out value="${answer.text}"/></br> --%>
                                      
-                                    <%--  <c:choose>
+                                     <c:choose>
                                      
                                      
-                                    	<c:when test="${question.ansType == 'radio' }" >
-                                    		<form:radiobutton  path="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
-                                    		
-                                    		<form:radiobutton  path="surveyQuestions[${status.index}].answers" item="${question.answers}" itemValue="${ansId}" itemLabel="${ansText}" /></br>
-                                    		
-                                    		<form:radiobutton  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
-                                    		
-                                    		
+                                    	<c:when test="${question.ansTypeId == 1 }" >
+                                    		<%-- <form:radiobutton  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br> --%>
+                                    		<input type="radio"  name="surveyQuestions[${status.index}].ansTextList" id="surveyQuestions[${status.index}].ansTextList" value="${answer.id}"/> <c:out value="${answer.text}"/></br>
                                     		
                                     	</c:when>
-                                    	<c:when test="${question.ansType =='checkbox' }" >
-                                    		<form:checkbox  path="surveyQuestions[${status.index}].answers[${ansStatus.index}].ansId" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
-                                    		<form:checkbox  path="surveyQuestions[${status.index}].answers" item="${question.answers}" itemValue="${ansId}" itemLabel="${ansText}" /></br>
-                                    		
-                                    		<form:checkbox  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br>
-                                    		
+                                    	<c:when test="${question.ansTypeId == 2 }" >
+                                    		<%-- <form:checkbox  path="surveyQuestions[${status.index}].ansIdList" id="${answer.ansId}" value="${answer.ansId}" label="${answer.ansText}" checked=""/></br> --%>
+                                    		<input type="checkbox"  name="surveyQuestions[${status.index}].ansTextList" id="surveyQuestions[${status.index}].ansTextList" value="${answer.id}"/> <c:out value="${answer.text}"/></br>
                                     	</c:when>
-                                    	</c:choose> --%>
+                                    </c:choose>
                                     
                                     
                                                             
@@ -119,12 +111,17 @@
 						<!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
 						<button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
 					<%-- </form:form>	 --%>
+						
+					
+					
 					</form>	
 				</div>
 
         </div>
 
-        <%@include file="includes/footer.jsp" %>
+	
+
+	<%@include file="includes/footer.jsp" %>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
