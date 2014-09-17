@@ -14,4 +14,7 @@ public List<T> fetchByParam(Object obj);
 public List<T> fetchAll(); 
 
 
+
+
+
 }

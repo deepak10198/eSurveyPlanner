@@ -19,6 +19,7 @@ import com.esp.dto.SurveyUIDTO;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -69,10 +70,19 @@ public class HomeController {
     Integer userId = 100;
     
     private Logger log = Logger.getLogger(this.getClass().getName());
-    
-   
+
+//    @RequestMapping(value="/logout",method=RequestMethod.GET)
+//    public ModelAndView logout(Principal principal,ModelMap model,HttpServletRequest request, HttpServletResponse response)
+//    {
+//        ModelAndView mav = new ModelAndView();
+//        model.addAttribute("user", principal.getName());
+//        request.getSession(false).invalidate();
+//        mav.setViewName("logout");
+//        return mav;
+//    }
+//   
        
-    @RequestMapping(value = "")
+    @RequestMapping(value = "/home")
     public ModelAndView Home(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 

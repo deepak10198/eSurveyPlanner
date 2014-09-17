@@ -28,4 +28,8 @@ public interface DAO<T> {
 
     public List<T> findFielEq(Class<T> entity, String propertyName, Object value);
 
+    public T find(Class<T> entity, String propertyName, Object value);
+    
+    
+    
 }

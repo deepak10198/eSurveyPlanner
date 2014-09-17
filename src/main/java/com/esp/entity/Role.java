@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.esp.entity;
 
 import java.io.Serializable;
@@ -31,30 +30,28 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(catalog = "", schema = "SURVEY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Organisation.findAll", query = "SELECT o FROM Organisation o"),
-    @NamedQuery(name = "Organisation.findById", query = "SELECT o FROM Organisation o WHERE o.id = :id"),
-    @NamedQuery(name = "Organisation.findByOrgName", query = "SELECT o FROM Organisation o WHERE o.orgName = :orgName"),
-    @NamedQuery(name = "Organisation.findByOrgRegId", query = "SELECT o FROM Organisation o WHERE o.orgRegId = :orgRegId")})
-public class Organisation implements Serializable {
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
+    @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id"),
+    @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName = :roleName")})
+public class Role implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @SequenceGenerator(name ="SEQ_ORGANISATION" ,sequenceName ="SEQ_ORGANISATION")
-    @GeneratedValue(generator = "SEQ_ORGANISATION",strategy =GenerationType.SEQUENCE )
+    @SequenceGenerator(name = "SEQ_ROLE", sequenceName = "SEQ_ROLE")
+    @GeneratedValue(generator = "SEQ_ROLE", strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
-    @Column(name = "ORG_NAME", length = 200)
-    private String orgName;
-    @Column(name = "ORG_REG_ID", length = 100)
-    private String orgRegId;
-    @OneToMany(mappedBy = "orgId")
-    private Set<UserMaster> userMasterSet;
+    @Column(name = "ROLE_NAME", length = 100)
+    private String roleName;
+    @OneToMany(mappedBy = "roleId")
+    private Set<UserRoles> userRolesSet;
 
-    public Organisation() {
+    public Role() {
     }
 
-    public Organisation(BigDecimal id) {
+    public Role(BigDecimal id) {
         this.id = id;
     }
 
@@ -66,29 +63,21 @@ public class Organisation implements Serializable {
         this.id = id;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
-    }
-
-    public String getOrgRegId() {
-        return orgRegId;
-    }
-
-    public void setOrgRegId(String orgRegId) {
-        this.orgRegId = orgRegId;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @XmlTransient
-    public Set<UserMaster> getUserMasterSet() {
-        return userMasterSet;
+    public Set<UserRoles> getUserRolesSet() {
+        return userRolesSet;
     }
 
-    public void setUserMasterSet(Set<UserMaster> userMasterSet) {
-        this.userMasterSet = userMasterSet;
+    public void setUserRolesSet(Set<UserRoles> userRolesSet) {
+        this.userRolesSet = userRolesSet;
     }
 
     @Override
@@ -101,10 +90,10 @@ public class Organisation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Organisation)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        Organisation other = (Organisation) object;
+        Role other = (Role) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +102,7 @@ public class Organisation implements Serializable {
 
     @Override
     public String toString() {
-        return "com.esp.entity.Organisation[ id=" + id + " ]";
+        return "com.esp.entity.Role[ id=" + id + " ]";
     }
-    
+
 }

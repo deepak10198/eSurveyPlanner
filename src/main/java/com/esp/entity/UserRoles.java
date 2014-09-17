@@ -8,53 +8,50 @@ package com.esp.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Rakesh.K
  */
 @Entity
-@Table(catalog = "", schema = "SURVEY")
+@Table(name = "USER_ROLES", catalog = "", schema = "SURVEY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Organisation.findAll", query = "SELECT o FROM Organisation o"),
-    @NamedQuery(name = "Organisation.findById", query = "SELECT o FROM Organisation o WHERE o.id = :id"),
-    @NamedQuery(name = "Organisation.findByOrgName", query = "SELECT o FROM Organisation o WHERE o.orgName = :orgName"),
-    @NamedQuery(name = "Organisation.findByOrgRegId", query = "SELECT o FROM Organisation o WHERE o.orgRegId = :orgRegId")})
-public class Organisation implements Serializable {
+    @NamedQuery(name = "UserRoles.findAll", query = "SELECT u FROM UserRoles u"),
+    @NamedQuery(name = "UserRoles.findById", query = "SELECT u FROM UserRoles u WHERE u.id = :id")})
+public class UserRoles implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @SequenceGenerator(name ="SEQ_ORGANISATION" ,sequenceName ="SEQ_ORGANISATION")
-    @GeneratedValue(generator = "SEQ_ORGANISATION",strategy =GenerationType.SEQUENCE )
+    @SequenceGenerator(name = "SEQ_USER_ROLES", sequenceName = "SEQ_USER_ROLES")
+    @GeneratedValue(generator = "SEQ_USER_ROLES", strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
     private BigDecimal id;
-    @Column(name = "ORG_NAME", length = 200)
-    private String orgName;
-    @Column(name = "ORG_REG_ID", length = 100)
-    private String orgRegId;
-    @OneToMany(mappedBy = "orgId")
-    private Set<UserMaster> userMasterSet;
+    @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Role roleId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private UserMaster userId;
 
-    public Organisation() {
+    public UserRoles() {
     }
 
-    public Organisation(BigDecimal id) {
+    public UserRoles(BigDecimal id) {
         this.id = id;
     }
 
@@ -66,29 +63,20 @@ public class Organisation implements Serializable {
         this.id = id;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public Role getRoleId() {
+        return roleId;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
     }
 
-    public String getOrgRegId() {
-        return orgRegId;
+    public UserMaster getUserId() {
+        return userId;
     }
 
-    public void setOrgRegId(String orgRegId) {
-        this.orgRegId = orgRegId;
-    }
-
-    @XmlTransient
-    public Set<UserMaster> getUserMasterSet() {
-        return userMasterSet;
-    }
-
-    public void setUserMasterSet(Set<UserMaster> userMasterSet) {
-        this.userMasterSet = userMasterSet;
+    public void setUserId(UserMaster userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -101,10 +89,10 @@ public class Organisation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Organisation)) {
+        if (!(object instanceof UserRoles)) {
             return false;
         }
-        Organisation other = (Organisation) object;
+        UserRoles other = (UserRoles) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +101,7 @@ public class Organisation implements Serializable {
 
     @Override
     public String toString() {
-        return "com.esp.entity.Organisation[ id=" + id + " ]";
+        return "com.esp.entity.UserRoles[ id=" + id + " ]";
     }
     
 }

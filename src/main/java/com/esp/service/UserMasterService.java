@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.UserMaster;
-import java.math.BigDecimal;
 
 /**
  *
@@ -41,8 +40,12 @@ public class UserMasterService implements GenericService<UserMaster> {
 
 	@Override
 	public List<UserMaster> fetchByParam(Object obj) {
+            
+            
 		// TODO Auto-generated method stub
-		return null;
+		//return  userMasterDAO.findByUserName(UserMaster.class, "loginId", obj);
+            
+            return null;
 	}
 
 	@Override

@@ -56,7 +56,7 @@ public class UserMaster implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-     @SequenceGenerator(name ="SEQ_USER_MASTER" ,sequenceName ="SEQ_USER_MASTER")
+    @SequenceGenerator(name ="SEQ_USER_MASTER" ,sequenceName ="SEQ_USER_MASTER")
     @GeneratedValue(generator = "SEQ_USER_MASTER",strategy =GenerationType.SEQUENCE )
     @Basic(optional = false)
     @Column(nullable = false, precision = 22)
@@ -90,31 +90,14 @@ public class UserMaster implements Serializable {
     private BigInteger lastModifiedById;
     @Column(name = "CREATED_BY_ID")
     private BigInteger createdById;
-    @OneToMany(mappedBy = "createdById")
-    private Set<AnswerTextMaster> answerTextMasterSet;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<AnswerTextMaster> answerTextMasterSet1;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<AnswerMaster> answerMasterSet;
-    @OneToMany(mappedBy = "createdById")
-    private Set<AnswerMaster> answerMasterSet1;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<QuestionAnswerMapping> questionAnswerMappingSet;
-    @OneToMany(mappedBy = "createdById")
-    private Set<QuestionAnswerMapping> questionAnswerMappingSet1;
-    @OneToMany(mappedBy = "createdById")
-    private Set<QuestionMaster> questionMasterSet;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<QuestionMaster> questionMasterSet1;
+    @Column(name="password")
+    private String password;
+    
     @JoinColumn(name = "ORG_ID", referencedColumnName = "ID")
     @ManyToOne
     private Organisation orgId;
-    @OneToMany(mappedBy = "lastModifiedById")
-    private Set<SurveyMaster> surveyMasterSet;
-    @OneToMany(mappedBy = "createdById")
-    private Set<SurveyMaster> surveyMasterSet1;
     @OneToMany(mappedBy = "userId")
-    private Set<SurveyResponse> surveyResponseSet;
+    private Set<UserRoles> userRolesSet;
 
     public UserMaster() {
     }
@@ -240,78 +223,17 @@ public class UserMaster implements Serializable {
         this.createdById = createdById;
     }
 
-    @XmlTransient
-    public Set<AnswerTextMaster> getAnswerTextMasterSet() {
-        return answerTextMasterSet;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAnswerTextMasterSet(Set<AnswerTextMaster> answerTextMasterSet) {
-        this.answerTextMasterSet = answerTextMasterSet;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @XmlTransient
-    public Set<AnswerTextMaster> getAnswerTextMasterSet1() {
-        return answerTextMasterSet1;
-    }
-
-    public void setAnswerTextMasterSet1(Set<AnswerTextMaster> answerTextMasterSet1) {
-        this.answerTextMasterSet1 = answerTextMasterSet1;
-    }
-
-    @XmlTransient
-    public Set<AnswerMaster> getAnswerMasterSet() {
-        return answerMasterSet;
-    }
-
-    public void setAnswerMasterSet(Set<AnswerMaster> answerMasterSet) {
-        this.answerMasterSet = answerMasterSet;
-    }
-
-    @XmlTransient
-    public Set<AnswerMaster> getAnswerMasterSet1() {
-        return answerMasterSet1;
-    }
-
-    public void setAnswerMasterSet1(Set<AnswerMaster> answerMasterSet1) {
-        this.answerMasterSet1 = answerMasterSet1;
-    }
-
-    @XmlTransient
-    public Set<QuestionAnswerMapping> getQuestionAnswerMappingSet() {
-        return questionAnswerMappingSet;
-    }
-
-    public void setQuestionAnswerMappingSet(Set<QuestionAnswerMapping> questionAnswerMappingSet) {
-        this.questionAnswerMappingSet = questionAnswerMappingSet;
-    }
-
-    @XmlTransient
-    public Set<QuestionAnswerMapping> getQuestionAnswerMappingSet1() {
-        return questionAnswerMappingSet1;
-    }
-
-    public void setQuestionAnswerMappingSet1(Set<QuestionAnswerMapping> questionAnswerMappingSet1) {
-        this.questionAnswerMappingSet1 = questionAnswerMappingSet1;
-    }
-
-    @XmlTransient
-    public Set<QuestionMaster> getQuestionMasterSet() {
-        return questionMasterSet;
-    }
-
-    public void setQuestionMasterSet(Set<QuestionMaster> questionMasterSet) {
-        this.questionMasterSet = questionMasterSet;
-    }
-
-    @XmlTransient
-    public Set<QuestionMaster> getQuestionMasterSet1() {
-        return questionMasterSet1;
-    }
-
-    public void setQuestionMasterSet1(Set<QuestionMaster> questionMasterSet1) {
-        this.questionMasterSet1 = questionMasterSet1;
-    }
-
+    
+    
+    
     public Organisation getOrgId() {
         return orgId;
     }
@@ -321,30 +243,12 @@ public class UserMaster implements Serializable {
     }
 
     @XmlTransient
-    public Set<SurveyMaster> getSurveyMasterSet() {
-        return surveyMasterSet;
+    public Set<UserRoles> getUserRolesSet() {
+        return userRolesSet;
     }
 
-    public void setSurveyMasterSet(Set<SurveyMaster> surveyMasterSet) {
-        this.surveyMasterSet = surveyMasterSet;
-    }
-
-    @XmlTransient
-    public Set<SurveyMaster> getSurveyMasterSet1() {
-        return surveyMasterSet1;
-    }
-
-    public void setSurveyMasterSet1(Set<SurveyMaster> surveyMasterSet1) {
-        this.surveyMasterSet1 = surveyMasterSet1;
-    }
-
-    @XmlTransient
-    public Set<SurveyResponse> getSurveyResponseSet() {
-        return surveyResponseSet;
-    }
-
-    public void setSurveyResponseSet(Set<SurveyResponse> surveyResponseSet) {
-        this.surveyResponseSet = surveyResponseSet;
+    public void setUserRolesSet(Set<UserRoles> userRolesSet) {
+        this.userRolesSet = userRolesSet;
     }
 
     @Override
