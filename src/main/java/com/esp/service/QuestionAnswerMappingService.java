@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.esp.dao.DAO;
 import com.esp.entity.QuestionAnswerMapping;
+import java.math.BigDecimal;
 
 @Transactional
 @Service(value="QuestionAnswerMappingService")
@@ -26,7 +27,7 @@ public class QuestionAnswerMappingService implements GenericService<QuestionAnsw
 	}
 
 	@Override
-	public QuestionAnswerMapping fetch(int id) {
+	public QuestionAnswerMapping fetch(BigDecimal id) {
 		// TODO Auto-generated method stub
 		return (QuestionAnswerMapping) questionAnswerMappingDAO.findUnique(QuestionAnswerMapping.class, "id", id);
 	}

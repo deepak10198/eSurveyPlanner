@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.AnswerTextMaster;
 import com.esp.entity.QuestionMaster;
+import java.math.BigDecimal;
 
 @Transactional
 @Service(value="QuestionMasterService")
@@ -26,7 +27,7 @@ public class QuestionMasterService implements GenericService<QuestionMaster> {
 	}
 
 	@Override
-	public QuestionMaster fetch(int id) {
+	public QuestionMaster fetch(BigDecimal id) {
 		return (QuestionMaster) questionMasterDAO.findUnique(QuestionMaster.class, "id", id);
 	}
 

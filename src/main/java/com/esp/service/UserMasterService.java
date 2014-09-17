@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.UserMaster;
+import java.math.BigDecimal;
 
 /**
  *
@@ -34,7 +35,7 @@ public class UserMasterService implements GenericService<UserMaster> {
 	}
 
 	@Override
-	public UserMaster fetch(int id) {
+	public UserMaster fetch(BigDecimal id) {
 		 return (UserMaster)userMasterDAO.findUnique(UserMaster.class, "id", id);
 	}
 

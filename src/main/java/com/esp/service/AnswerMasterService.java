@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.esp.dao.DAO;
 import com.esp.entity.AnswerMaster;
+import java.math.BigDecimal;
 
 
 @Transactional
@@ -28,7 +29,7 @@ public class AnswerMasterService implements GenericService<AnswerMaster> {
 	}
 
 	@Override
-	public AnswerMaster fetch(int id) {
+	public AnswerMaster fetch(BigDecimal id) {
 		return (AnswerMaster) answerMasterDAO.findUnique(AnswerMaster.class, "id", id);
 	}
 

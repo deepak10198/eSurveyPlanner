@@ -26,7 +26,7 @@ public class AnswerTextMasterService implements GenericService<AnswerTextMaster>
 	}
 
 	@Override
-	public AnswerTextMaster fetch(int id) {
+	public AnswerTextMaster fetch(BigDecimal id) {
 		return (AnswerTextMaster) ansTextMasterDAO.findUnique(AnswerTextMaster.class, "id",id );
 		
 	}

@@ -8,6 +8,7 @@ package com.esp.service;
 
 import com.esp.dao.DAO;
 import com.esp.entity.UserRoles;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +34,7 @@ public class UserRolesService implements GenericService<UserRoles>{
     }
 
     @Override
-    public UserRoles fetch(int id) {
+    public UserRoles fetch(BigDecimal id) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return (UserRoles) userRolesDAO.findUnique(UserRoles.class, "id", id);
     }

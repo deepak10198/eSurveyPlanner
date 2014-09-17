@@ -37,7 +37,7 @@
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="row jumbotron-cus">
 				<div class="col-sm-4">
-					<img src="resources/images/logo.png" name="Logo" alt="eSurveyPlanner">
+					<img src="../../resources/images/logo.png" name="Logo" alt="eSurveyPlanner">
 				</div>
 				<div class="col-sm-8">
 					<h2 style="color:#279296; margin-top:5px;">SPAN Systems</h2>

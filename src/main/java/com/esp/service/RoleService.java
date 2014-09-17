@@ -32,7 +32,7 @@ public class RoleService implements GenericService<Role> {
     }
 
     @Override
-    public Role fetch(int id) {
+    public Role fetch(BigDecimal id) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return (Role) roleDAO.findUnique(Role.class, "id",id);
     }

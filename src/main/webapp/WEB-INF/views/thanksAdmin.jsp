@@ -79,7 +79,7 @@
 		                
 		                <tr>
 		                  <td>Click on the  link to go to Survey Page </td>
-		                  <td><a href="/ESurveyPlanner/survey${survey.surveyId}"> Go to  ${survey.surveyName}</a></td>
+		                  <td><a href="/ESurveyPlanner/s/survey${survey.surveyId}" target="_blank"> Go to  ${survey.surveyName}</a></td>
 		                </tr>
 		               
 		              </tbody>

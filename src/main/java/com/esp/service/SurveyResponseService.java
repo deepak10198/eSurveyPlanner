@@ -7,6 +7,7 @@ package com.esp.service;
 
 import com.esp.dao.DAO;
 import com.esp.entity.SurveyResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +34,7 @@ public class SurveyResponseService implements GenericService<SurveyResponse> {
     }
 
     @Override
-    public SurveyResponse fetch(int id) {
+    public SurveyResponse fetch(BigDecimal id) {
         
         return surveyResponseDAO.findUnique(SurveyResponse.class, "id", id);
         

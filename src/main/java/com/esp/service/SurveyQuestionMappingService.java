@@ -27,7 +27,7 @@ public class SurveyQuestionMappingService implements GenericService<SurveyQuesti
 	}
 
 	@Override
-	public SurveyQuestionMapping fetch(int id) {
+	public SurveyQuestionMapping fetch(BigDecimal id) {
 		// TODO Auto-generated method stub
 		return  (SurveyQuestionMapping) surveyQuestionMappingDAO.findUnique(SurveyQuestionMapping.class, "id", id);
 	}
