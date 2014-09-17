@@ -59,16 +59,7 @@ public class HomeController {
     Integer userId = 100;
     private Logger log = Logger.getLogger(this.getClass().getName());
 
-//    @RequestMapping(value="/logout",method=RequestMethod.GET)
-//    public ModelAndView logout(Principal principal,ModelMap model,HttpServletRequest request, HttpServletResponse response)
-//    {
-//        ModelAndView mav = new ModelAndView();
-//        model.addAttribute("user", principal.getName());
-//        request.getSession(false).invalidate();
-//        mav.setViewName("logout");
-//        return mav;
-//    }
-//   
+
     @RequestMapping(value = "/home")
     public ModelAndView Home(Principal principal) throws IOException {
 
@@ -260,7 +251,7 @@ public class HomeController {
 
         //String uri="8900";
         log.info("String here in getPublishedSurvey " + uri);
-        ModelAndView modelAndView = new ModelAndView();
+        
         SurveyUIDTO userSurveyDTO = handler.fetchSurveyDetails(Integer.parseInt(uri));
 
         //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
@@ -271,7 +262,7 @@ public class HomeController {
         return new ModelAndView("viewSurvey");
     }
 
-    @RequestMapping(value = "submitSurveyResponse", method = RequestMethod.POST)
+    @RequestMapping(value = "/s/submitSurveyResponse", method = RequestMethod.POST)
     public ModelAndView submitSurveyResponse(ModelMap model, @ModelAttribute("surveyResponseDTO") SurveyResponseDTO surveyResponseDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView();

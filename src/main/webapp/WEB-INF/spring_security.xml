@@ -18,13 +18,11 @@
  
     <http auto-config="true" use-expressions="true">      
 
-       
-            <!--intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/-->
             <intercept-url pattern="/login" access="permitAll"/>
+            <intercept-url pattern="/s/**" access="permitAll"/>
+            <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_GUEST')"/>
 
-            <intercept-url pattern="/s/**" access="permitAll"/>          
-
-            <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_GUEST')"/>         
+            
             <form-login 
                 login-page="/login" 
                 default-target-url="/home"

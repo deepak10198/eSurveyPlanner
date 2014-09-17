@@ -6,14 +6,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<link rel="shortcut icon" href="resources/ico/favicon.ico">
+		<link rel="shortcut icon" href="../resources/ico/favicon.ico">
 
 		<title>eSurveyPlanner</title>
 
 		<!-- Bootstrap core CSS -->
-		<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../resources/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Bootstrap theme -->
-		<link href="resources/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="../resources/css/bootstrap-theme.min.css" rel="stylesheet">
 
 		<!-- Just for debugging purposes. Don't actually copy this line! -->
 		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -24,11 +24,11 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<link href="resources/css/datepicker.css" rel="stylesheet">
+		<link href="../resources/css/datepicker.css" rel="stylesheet">
 
-		<link href="resources/css/bootstrapValidator.css" rel="stylesheet">
+		<link href="../resources/css/bootstrapValidator.css" rel="stylesheet">
 		
-		<link href="resources/css/master.css" rel="stylesheet">
+		<link href="../resources/css/master.css" rel="stylesheet">
 	</head>
 
 	<body role="document">
@@ -94,8 +94,8 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="resources/js/bootstrap.min.js"></script>
-		<script src="resources/js/bootstrap-datepicker.js"></script>
-		<script src="resources/js/bootstrapValidator.js"></script>
+		<script src="../resources/js/bootstrap.min.js"></script>
+		<script src="../resources/js/bootstrap-datepicker.js"></script>
+		<script src="../resources/js/bootstrapValidator.js"></script>
 	</body>
 </html>

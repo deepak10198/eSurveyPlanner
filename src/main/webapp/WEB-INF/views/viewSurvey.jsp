@@ -9,17 +9,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="shortcut icon" href="../../resources/ico/favicon.ico">
+        <link rel="shortcut icon" href="../resources/ico/favicon.ico">
 
         <title><c:out value="${survey.surveyName}"/></title>
 
         <!-- Bootstrap core CSS -->
-        <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap theme -->
-        <link href="../../resources/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="../resources/css/bootstrap-theme.min.css" rel="stylesheet">
 
         <!-- Just for debugging purposes. Don't actually copy this line! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        <!--[if lt IE 9]><script src="../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -27,11 +27,11 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <link href="../../resources/css/datepicker.css" rel="stylesheet">
+        <link href="../resources/css/datepicker.css" rel="stylesheet">
 
-        <link href="../../resources/css/bootstrapValidator.css" rel="stylesheet">
+        <link href="../resources/css/bootstrapValidator.css" rel="stylesheet">
 
-        <link href="../../resources/css/master.css" rel="stylesheet">
+        <link href="../resources/css/master.css" rel="stylesheet">
     </head>
 
     <body role="document">
@@ -48,7 +48,7 @@
             </div>
 			<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
 					<%-- <form:form name="f" action="submitSurveyResponse" method="POST" commandName="survey"> --%>
-					<form action="submitSurveyResponse" method="POST">
+					<form action="../submitSurveyResponse" method="POST">
 					<input type="text" name="email"/>
 						<input type="hidden" name="surveyId" value='${survey.surveyId}'>
 					    <input type="hidden" name="surveyName" value='${survey.surveyName}'>
@@ -127,10 +127,10 @@
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="../../resources/js/bootstrap.min.js"></script>
-        <script src="../../resources/js/bootstrap-datepicker.js"></script>
-        <script src="../../resources/js/bootstrapValidator.js"></script>
-        <script src="../../resources/js/utility.js"></script>
+        <script src="../resources/js/bootstrap.min.js"></script>
+        <script src="../resources/js/bootstrap-datepicker.js"></script>
+        <script src="../resources/js/bootstrapValidator.js"></script>
+        <script src="../resources/js/utility.js"></script>
     </body>
 </html>
 
