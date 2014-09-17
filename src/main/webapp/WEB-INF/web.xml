@@ -3,11 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>ESurveyPlanner</display-name>
-	
+    
+    <welcome-file-list>             
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/eSurvey.xml</param-value>
+        <param-value>/WEB-INF/spring-servlet.xml,
+                     /WEB-INF/spring_security.xml
+        </param-value>
     </context-param>
 	
     <listener>
@@ -29,16 +34,16 @@
     </context-param>
 
     <servlet>
-        <servlet-name>SpringDispatcher</servlet-name>
+        <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
+        <!--        <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/eSurvey.xml</param-value>
-        </init-param>
+            <param-value>/WEB-INF/spring/eSurvey.xml,/WEB-INF/spring/spring_security.xml</param-value>
+        </init-param>-->
         <load-on-startup>1</load-on-startup> 
     </servlet>
     <servlet-mapping>
-        <servlet-name>SpringDispatcher</servlet-name>
+        <servlet-name>spring</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>   
      
@@ -49,10 +54,52 @@
         <session-timeout>30</session-timeout>
     </session-config>
     
-    <error-page>
-    	<exception-type>java.lang.Exception</exception-type>
-    	<location>/WEB-INF/views/generic_error.jsp</location>
+<!--    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/views/generic_error.jsp</location>    
+    </error-page>-->
+
     
-    </error-page>
+        
     
+    <!-- Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+ 
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>      
+    </filter-mapping>  
+    
+  
+                        
+    
+ 
+
+    <!--       <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>eSurveyPlanner</web-resource-name>
+            <url-pattern>/</url-pattern>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/fail_login.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>
+            The role that is required to log in to ESurveyPlanner
+        </description>
+        <role-name>admin</role-name>
+    </security-role>    -->
 </web-app>
