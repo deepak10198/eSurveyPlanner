@@ -26,7 +26,9 @@
 								<li><a href="#">Separated link</a></li>
 								<li><a href="#">One more separated link</a></li>
 							</ul>
+                                                        
 						</li>
+                                                <li><a href="j_spring_security_logout">Logout</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
