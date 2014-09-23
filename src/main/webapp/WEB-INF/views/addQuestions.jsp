@@ -35,29 +35,33 @@
 
             function addQuestions() {
             	var questionValue = document.getElementById("question").value;
-                if(questionValue){
+                
+            	if(questionValue.trim()){
                 	 var table = document.getElementById("questionTable");
                      
      				
                      var row = table.insertRow(table.rows.length);
                      
-                     //row.id = "Question" + table.rows.length;
                      row.id = "question" + counter;
                      row.class = "";
                      
                      var cell1 = row.insertCell(0);
-                     cell1.innerHTML ="<label> Question</label>: "+ questionValue + "<input type='hidden' name ='questionText'  value='" + questionValue + "'>";
-
+                     //cell1.innerHTML ="<label> Question</label>: "+ questionValue + "<input type='hidden' name ='questionText'  value='" + questionValue + "'>";
+					 cell1.innerHTML ="<label> Question</label>: "+ questionValue + "<input type='hidden' name ='questionText'  id='questionText" + counter + "'>";
+					 document.getElementById("questionText"+counter).value=questionValue;
+					 
+                     
                      var cell2 = row.insertCell(1);
-                     cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + row.id + ")'>Delete</button>";
+                     //cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + row.id + ")'>Delete</button>";
+                     cell2.innerHTML = "<a href='#'><span class='glyphicon glyphicon-trash' onclick='deleteQuestion("+row.id+")'></span></a>";
                      
                      document.getElementById("question").value = "";
                      counter += 1;
                 	
-                }  else {
+                }  /* else {
                 	
                 	alert("First provide some Quesion Text!");
-                }              
+                }   */            
                
             }
 
@@ -88,7 +92,7 @@
                 </div>
             </div>
             <div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-                <form:form role="form" action="saveQuestions" method="POST">
+                <form action="saveQuestions" method="POST" id="questionForm">
                     <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
                     <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
                     <input type="hidden" name="ansId" value='${surveyDTO.ansId}'>
@@ -120,13 +124,13 @@
 
                     <div class="form-group">
                         <div>
-                            <button type="submit" class="btn btn-primary">Proceed</button>
+                            <button type="submit" id ="submitButton" class="btn btn-primary">Proceed</button>
                         </div>
                     </div>
 
                     <!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
                     <button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-                </form:form>
+                </form>
             </div>
         </div>
 
@@ -142,4 +146,29 @@
         <script src="resources/js/utility.js"></script>
     </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function() {
 
+	$('#submitButton').on('click', function(){
+		var row_count = $('#questionTable tr').length;
+		
+		if(row_count==0){
+			$('#question').attr('required',true);
+		}else{
+			$('#question').removeAttr('required');
+		}
+		
+		
+	});
+	
+	$('#questionForm').submit(function(e){	
+		var row_count = $('#questionTable tr').length;
+		
+		if(row_count==0 && $('#question').valueOf()){
+			e.preventDefault();	
+			alert('Please add the question!');
+		}
+	});
+	
+});
+</script>

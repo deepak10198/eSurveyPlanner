@@ -291,17 +291,22 @@ public class HomeHandler {
 		
 		for(SurveyQuestionDTO questionDTO: surveyResponseDTO.getSurveyQuestions()){
 			
-			questionMaster = saveAndfetchQuesText(questionDTO.getQuestionText(),usermaster);
+			String quesText=questionDTO.getQuestionText();
+			if(quesText!=null && "".equals(quesText)){
+				questionMaster = saveAndfetchQuesText(quesText,usermaster);
+				
+				FixedSurveyAnswersDTO ansDetailsDTO = new FixedSurveyAnswersDTO();
+				ansDetailsDTO.setAnsTypeId(questionDTO.getAnsTypeId());
+				ansDetailsDTO.setAnsTextList(questionDTO.getAnsTextList());
+				
+				AnswerMaster answerMaster = mapToAnswerMaster(ansDetailsDTO);
+				AnswerTypeMaster answerTypeMaster = (AnswerTypeMaster) answerTypeMasterService.fetch(BigDecimal.valueOf(questionDTO.getAnsTypeId()));
+				
+				questionAnswerMapping = saveQuesAnsMapping(questionMaster,answerMaster,answerTypeMaster , usermaster);
+				surveyQuestionMapping = saveSurveyQuestionMapping(surveyMaster,questionAnswerMapping,usermaster);
+				System.out.println("Survey question answers saved inaa - " + surveyQuestionMapping.getId());
+			}
 			
-			FixedSurveyAnswersDTO ansDetailsDTO = new FixedSurveyAnswersDTO();
-			ansDetailsDTO.setAnsTypeId(questionDTO.getAnsTypeId());
-			ansDetailsDTO.setAnsTextList(questionDTO.getAnsTextList());
-			
-			AnswerMaster answerMaster = mapToAnswerMaster(ansDetailsDTO);
-			AnswerTypeMaster answerTypeMaster = (AnswerTypeMaster) answerTypeMasterService.fetch(BigDecimal.valueOf(questionDTO.getAnsTypeId()));
-			
-			questionAnswerMapping = saveQuesAnsMapping(questionMaster,answerMaster,answerTypeMaster , usermaster);
-			surveyQuestionMapping = saveSurveyQuestionMapping(surveyMaster,questionAnswerMapping,usermaster);
 			
 		}
 		

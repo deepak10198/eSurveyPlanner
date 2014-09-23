@@ -48,7 +48,7 @@
             </div>
 			<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
 					<%-- <form:form name="f" action="submitSurveyResponse" method="POST" commandName="survey"> --%>
-					<form action="../submitSurveyResponse" method="POST">
+					<form action="submitSurveyResponse" method="POST">
 					<input type="text" name="email"/>
 						<input type="hidden" name="surveyId" value='${survey.surveyId}'>
 					    <input type="hidden" name="surveyName" value='${survey.surveyName}'>

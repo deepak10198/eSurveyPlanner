@@ -51,14 +51,20 @@
                     var rowId = row.id;
 
                     var cell1 = row.insertCell(0);
-                    cell1.innerHTML = "<label> Question</label>: " + questionValue + "<input type='hidden' name ='surveyQuestions[" + quesCount + "].questionText' value='"+questionValue+"' >";
-                    
+                    //cell1.innerHTML = "<label> Question</label>: " + questionValue + "<input type='hidden' name ='surveyQuestions[" + quesCount + "].questionText' value='"+questionValue+"' >";
+                    cell1.innerHTML = "<label> Question</label>: " + questionValue + "<input type='hidden' name ='surveyQuestions[" + quesCount + "].questionText' id='questionText"+quesCount+"' >";
                    
                     cell1.innerHTML += "<br/><div class='form-group'> "+
     							"<label for=''>Type of Answer -  </label>"+
-                                 	"<c:forEach var='answerTypeMaster' items='${answerTypeMaster}'>"+
-                                         " <input type='radio'  name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}'/>${answerTypeMaster.ansTypeText} "+
-                                    "</c:forEach>"+
+                                 	"<c:forEach var='answerTypeMaster' items='${answerTypeMaster}' varStatus='types'>";
+                                        if('${answerTypeMaster.id}'==1){
+                                        		cell1.innerHTML +="<input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' checked>"+
+	     										"<c:out value='${answerTypeMaster.ansTypeText}' />(Single Choice) ";
+                                        }else if('${answerTypeMaster.id}'==2){
+                                    		cell1.innerHTML +="<input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' >"+
+     										"<c:out value='${answerTypeMaster.ansTypeText}' />(Multiple Choice)";
+                                        }
+                                 	cell1.innerHTML += "</c:forEach>"+
                                                            
     						"</div>"+
     						
@@ -73,6 +79,8 @@
     								"</div>"+		
     				"</div>";
                     
+    				document.getElementById("questionText"+quesCount).value = questionValue;
+    				
     				 var cell2 = row.insertCell(1);
                     cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + rowId + ")'>Delete</button>";
                     //alert(">>7");
@@ -81,7 +89,7 @@
             		
             	}else {
             		
-            		alert("First provide some question Text!");
+            		//alert("First provide some question Text!");
             	}
             	
             	
@@ -112,10 +120,9 @@
 					var rowId=row.id;
 					
 					var cell1 = row.insertCell(0);
-					//cell1.innerHTML = rowId+": "+answerValue+"<input type='hidden' name ='ansDesc"+ansCount+"' value='"+answerValue+"'>";
-					cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='surveyQuestions[" + tableId + "].ansTextList' value='"+answerValue+"' >";
-					
-					//document.getElementById('ansTextList["+ansCount+"]').value = answerValue;
+					//cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='surveyQuestions[" + tableId + "].ansTextList' value='"+answerValue+"' >";
+					cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='surveyQuestions[" + tableId + "].ansTextList' id='ansTextList"+tableId+row_count+"' >";
+					document.getElementById("ansTextList"+tableId+row_count).value = answerValue;
 					
 					var cell2 = row.insertCell(1);
 					cell2.innerHTML = "<button type='button' class='btn btn-default' onclick=deleteDynamic("+rowId+")>Delete</button>";
@@ -125,7 +132,7 @@
 								
 				}else{
 					
-					alert("First provide some answer Text!");
+					//alert("First provide some answer Text!");
 				}
 					
 			}
@@ -158,7 +165,7 @@
                 </div>
             </div>
             <div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-                <form:form role="form" action="saveQuestionAns" method="POST">
+                <form id="questionForm" action="saveQuestionAns" method="POST">
                     <input type="hidden" name="surveyId" value='${surveyDTO.surveyId}'>
                     <input type="hidden" name="surveyName" value='${surveyDTO.surveyName}'>
                     <div class="output">
@@ -172,11 +179,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="question">Questions: </label>
-
-						<table id="questionTable" class="table table-striped">
-							<!-- Space to add the Questions dynamically. -->
-						</table>
+                        <label for="question">Questions: </label><br/>
+						<div class="col-sm-16" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
+							<table id="questionTable" class="table table-striped">
+								<!-- Space to add the Questions dynamically. -->
+							</table>
+						</div>
 						<br/>
 						<input type="text" class="form-control" id="question" placeholder="Question"/>
 
@@ -189,13 +197,13 @@
 
                     <div class="form-group">
                         <div>
-                            <button type="submit" class="btn btn-primary">Proceed</button>
+                            <button type="submit" class="btn btn-primary" id="submitButton">Proceed</button>
                         </div>
                     </div>
 
                     <!--<button type="submit" class="btn btn-lg btn-primary">Proceed</button>
                     <button type="button" class="btn btn-info" id="validateBtn">Manual validate</button> -->
-                </form:form>
+                </form>
             </div>
         </div>
 
@@ -211,4 +219,59 @@
         <script src="resources/js/utility.js"></script>
     </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$('#submitButton').on('click', function(){
+		var row_count = $('#questionTable tr').length;
+		
+		if(row_count==0){
+			$('#question').attr('required',true);
+		}else{
+			$('#question').removeAttr('required');
+			for (var i=0; i<quesCount;i++){
+				
+				if( $('#answerTable'+i).length){
+					var ans_count = $('#answerTable'+i+' tr').length;
+					if(ans_count==0){
+						$('#answers'+i).attr('required',true);
+					}else{
+						$('#answers'+i).removeAttr('required');
+					}
+					
+				}
+				
+				
+			}
+		}
+		
+		
+		
+		
+	});
+	
+	$('#questionForm').submit(function(e){	
+		var row_count = $('#questionTable tr').length;
+		
+		if(row_count==0 && $('#question').valueOf()){
+			e.preventDefault();	
+			alert('Please add the question!');
+		}else{
+			for (var i=0; i<quesCount;i++){
+				
+				if( $('#answerTable'+i).length){
+					var ans_count = $('#answerTable'+i+' tr').length;
+					if(ans_count==0 && $('#answers'+i).valueOf()){
+							e.preventDefault();	
+							var ques=$('#questionText'+i).val();
+							alert("Please add the answers for question:<br/> "+ ques );
+							break;
+						}
+				}
+			}
+		}
+	});
+	
+});
+</script>
 
