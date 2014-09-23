@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,6 +78,7 @@ public abstract class GenericDAO<T> implements DAO<T> {
 
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
         criteria.add(Restrictions.eq(propertyName, value));
+        criteria.addOrder(Order.asc("id"));
         return criteria.list();
     }
 

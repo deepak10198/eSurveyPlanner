@@ -226,7 +226,7 @@ public class HomeController {
         UserMaster usermaster = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
         SurveyQuestionMapping surveyQuestionMapping = handler.saveQuestionAnswers(surveyResponseDTO, usermaster);
 
-        log.info("Survey question answers saved in - " + surveyQuestionMapping.getId());
+        //log.info("Survey question answers saved in - " + surveyQuestionMapping.getId());
 
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setSurveyId(surveyResponseDTO.getSurveyId());

@@ -32,12 +32,20 @@ public class SurveyQuestionMappingService implements GenericService<SurveyQuesti
 		return  (SurveyQuestionMapping) surveyQuestionMappingDAO.findUnique(SurveyQuestionMapping.class, "id", id);
 	}
 
-	@Override
+	/*@Override
 	public List<SurveyQuestionMapping> fetchByParam(Object obj) {
 		// TODO Auto-generated method stub
 		return surveyQuestionMappingDAO.findFielEq(SurveyQuestionMapping.class, "surveyId", obj );
 	}
+*/
+	
+	@Override
+	public List<SurveyQuestionMapping> fetchByParam(Object obj) {
+		// TODO Auto-generated method stub
+		return surveyQuestionMappingDAO.findFielEq(SurveyQuestionMapping.class, "surveyId.id", obj );
+	}
 
+	
 	@Override
 	public List<SurveyQuestionMapping> fetchAll() {
 		// TODO Auto-generated method stub

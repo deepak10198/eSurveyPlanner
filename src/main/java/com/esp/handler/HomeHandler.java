@@ -292,7 +292,8 @@ public class HomeHandler {
 		for(SurveyQuestionDTO questionDTO: surveyResponseDTO.getSurveyQuestions()){
 			
 			String quesText=questionDTO.getQuestionText();
-			if(quesText!=null && "".equals(quesText)){
+			System.out.println("Survey quesText" + quesText);
+			if(quesText!=null && !"".equals(quesText)){
 				questionMaster = saveAndfetchQuesText(quesText,usermaster);
 				
 				FixedSurveyAnswersDTO ansDetailsDTO = new FixedSurveyAnswersDTO();
@@ -370,10 +371,11 @@ public class HomeHandler {
 		
 		
 		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(BigDecimal.valueOf(surveyId));
-		List<SurveyQuestionMapping> surveyQuestionMappingList =   surveyQuestionMappingService.fetchByParam(surveyMaster);
+		List<SurveyQuestionMapping> surveyQuestionMappingList =   surveyQuestionMappingService.fetchByParam(surveyMaster.getId());
 		
 		
 		for(SurveyQuestionMapping  surveyQuestionMapping: surveyQuestionMappingList){
+			System.out.println("surveyQuestionMapping id "+surveyQuestionMapping.getId());
 			QuestionUIDTO questionUIDTO = new QuestionUIDTO();
 			List<String> ansTextList = new ArrayList<String>();
 			List<ElementDTO> answerList = new ArrayList<ElementDTO>();
