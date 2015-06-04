@@ -7,6 +7,11 @@ public class SurveyResponseDTO {
 	private int surveyId;
 	private String surveyName;
 	private List<SurveyQuestionDTO> surveyQuestions;
+	private String surveyEmail;
+	private int surveyCount;
+	private List<String> mandatory;
+
+	
 	public int getSurveyId() {
 		return surveyId;
 	}
@@ -26,7 +31,27 @@ public class SurveyResponseDTO {
 		this.surveyQuestions = surveyQuestions;
 	}
 	
+	public String getSurveyEmail() {
+		return surveyEmail;
+	}
+	public void setSurveyEmail(String surveyEmail) {
+		this.surveyEmail = surveyEmail;
+	}
 	
+	public int getSurveyCount() {
+		return surveyCount;
+	}
+	public void setSurveyCount(int surveyCount) {
+		this.surveyCount = surveyCount;
+	}
+	 public List<String> getMandatory() {
+	        return mandatory;
+	    }
+
+	    public void setMandatory(List<String> mandatory) {
+	        this.mandatory = mandatory;
+	    }
+	    
 
 	
 	

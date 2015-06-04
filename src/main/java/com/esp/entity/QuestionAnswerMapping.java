@@ -79,6 +79,7 @@ public class QuestionAnswerMapping implements Serializable {
 	private BigDecimal mandatory;
 
     public QuestionAnswerMapping() {
+    	
     }
 
     public QuestionAnswerMapping(BigDecimal id) {

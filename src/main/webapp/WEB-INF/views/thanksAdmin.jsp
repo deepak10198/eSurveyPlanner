@@ -35,51 +35,42 @@
 
 		<%@include file="includes/header.jsp" %>
 		
-		<div class="row form-div-cus">
-			<div class="col-sm-4">
+		<div class="row form-div-cus" >
+			<div class="col-lg-12" align="center">
 				<div class="well">
 					<p>
-						<h2><span class="glyphicon glyphicon-user"></span> Thanks!</h2>
-					</p>
-					Your Survey has been submitted.
+						<h2><span class="glyphicon glyphicon-user"></span>&nbsp; &nbsp; Thanks!</h2>	</p>
+			<br>
+			<br>
+					
+					 Survey has been submitted.
 				</div>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-lg-12">
 				
 				 <h2>Survey Details</h2>
 		          <div class="table-responsive">
 		            <table class="table table-striped">
 		              <thead>
-		                <tr>
-		                  <th>#</th>
-		                  <th>#</th>
-		                </tr>
+		                
 		              </thead>
 		              <tbody>
 		                <tr>
-		                  <td>Name of the Survey</td>
-		                  <td>${survey.surveyName}</td>
+		                  <td width="50%"><b>Name of the Survey</b></td>
+		                  <td>${survey.surveyName}<br></td>
 		                </tr>
-		                <%-- <tr>
-		                  <td>Description</td>
-		                  <td>${survey.description}</td>
-		                </tr>
-		                <tr>
-		                  <td>Starts from :</td>
-		                  <td>${survey.surveystart}</td>
-		                </tr>
-		                <tr>
-		                  <td>Ends on:</td>
-		                  <td>${survey.surveyend }</td>
+		              <tr>
+		              <tr>
+		                  <td><b>URL </b></td>
+		                  <td>${path }
+		                  <input type="hidden" value="${path }" name="url">
+		                   </td>
 		                </tr>
 		                <tr>
-		                  <td>Type </td>
-		                  <td>${survey.type}</td>
-		                </tr> --%>
-		                
-		                <tr>
-		                  <td>Click on the  link to go to Survey Page </td>
-		                  <td><a href="/ESurveyPlanner/s/survey${survey.surveyId}" target="_blank"> Go to  ${survey.surveyName}</a></td>
+		               <td colspan=2> 
+		               <a role="button" class="btn btn-info btn-sm" href="send_survey${survey.surveyId }" >Specific User List</a> &nbsp;
+		               <a role="button" class="btn btn-info btn-sm" href="publish${survey.surveyId }">Random Audience</a> &nbsp;
+		               </td>
 		                </tr>
 		               
 		              </tbody>

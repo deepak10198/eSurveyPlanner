@@ -7,6 +7,7 @@ public class FixedSurveyAnswersDTO {
 
 	private int ansTypeId;
 	private List<String> ansTextList;
+	private List<String> other;
 
 	
 	
@@ -15,6 +16,12 @@ public class FixedSurveyAnswersDTO {
 	}
 	public void setAnsTextList(List<String> ansDesc) {
 		this.ansTextList = ansDesc;
+	}
+	public List<String> getOther() {
+		return other;
+	}
+	public void setOther(List<String> other) {
+		this.other = other;
 	}
 	public int getAnsTypeId() {
 		return ansTypeId;

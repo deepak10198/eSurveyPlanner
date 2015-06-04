@@ -48,4 +48,40 @@ public class RoleService implements GenericService<Role> {
         return roleDAO.findAll(Role.class);
     }
 
+	@Override
+	public void update(Role t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Role> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Role> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

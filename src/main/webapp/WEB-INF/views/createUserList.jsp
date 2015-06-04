@@ -41,16 +41,25 @@
 						<p>
 							<h2><span class="glyphicon glyphicon-user"></span> Hi, Admin!</h2>
 						</p>
+						<br>
 						Here you can create the user list which can be mapped to surveys!
 					</div>
+					
+					<div class="well">
+					<b><span class="glyphicon glyphicon-hand-up"></span>..Click here to see   <a  href="viewUserLists">Existing User List</a> ....</b>
+					</div>
 				</div>
+				
+					
+			
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-					<form role="form" action="xx" method="POST" id="createsurveyform">
+				
+					<form role="form" action="userList" method="POST" id="createuserlist" name="uploadFile" enctype="multipart/form-data">
 					
 						<div class="form-group">
-							<label for="surveyname">Name of the User List</label>
+							<label for="userlistname">Name of the User List</label>
 							<div>
-								<input type="text" class="form-control" name="surveyname" id="surveyname" placeholder="Enter Survey Name">
+								<input type="text" class="form-control" name="userListName" id="userListName" placeholder="Enter User List Name">
 							</div>
 						</div>
 						<div class="form-group">
@@ -58,9 +67,9 @@
 							<textarea class="form-control" rows="3" name="description"></textarea>
 						</div>
 						<div class="form-group">
-							<label for="file">Browse the Excel sheet</label> (Sheet in Excel Format)
+							<label for="file">Browse the Excel sheet</label> (Sheet in Excel Format ( .xls ))
 							<div>
-								<input type="file" class="form-control" id="userfile" name="surveystart" placeholder="">
+								<input type="file" class="form-control" id="file" name="file" placeholder="Survey file">
 							</div>
 						</div>
 						
@@ -90,10 +99,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		//$('#surveystart').datepicker();
-		//$('#surveyend').datepicker();
-
-		$('#createsurveyform').bootstrapValidator({
+		
+		
+		$('#createuserlist').bootstrapValidator({
 			message: 'This value is not valid',
 			feedbackIcons: {
 				valid: 'glyphicon glyphicon-ok',
@@ -101,35 +109,28 @@
 				validating: 'glyphicon glyphicon-refresh'
 			},
 			fields: {
-				surveyname: {
+				userListName: {
 					validators: {
 						notEmpty: {
-							message: 'The survey name is required and cannot be empty'
+							message: 'The UserList Name is required and cannot be empty'
 						}
 					}
 				},
-				surveystart: {
+				
+				file: {
 					validators: {
-						notEmpty: {
-							message: 'The start date is required and cannot be empty'
-						},
-						date: {
-							format: 'MM/DD/YYYY',
-							message: 'The value is not a valid date'
-						}
-					}
-				},
-				surveyend: {
-					validators: {
-						notEmpty: {
-							message: 'The end date is required and cannot be empty'
-						},
-						date: {
-							format: 'MM/DD/YYYY',
-							message: 'The value is not a valid date'
-						}
-					}
-				}
+						
+							file:	 {
+												 extension: 'xls',
+			                    	   			 type: 'application/vnd.ms-excel',
+			                    	   			 maxSize: 20971520,// 2048 * 1024
+			                    	  			 message: 'The selected file is not valid'
+									}
+								}
+							
+					},
+					
+				
 			}
 		});
 	});

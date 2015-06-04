@@ -52,4 +52,39 @@ public class SurveyQuestionMappingService implements GenericService<SurveyQuesti
 		return null;
 	}
 
+	@Override
+	public void update(SurveyQuestionMapping surveyQuestionMapping) {
+		surveyQuestionMappingDAO.update(surveyQuestionMapping);
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		
+		return surveyQuestionMappingDAO.delete(SurveyQuestionMapping.class, "surveyId.id", obj);
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		
+		return surveyQuestionMappingDAO.delete(SurveyQuestionMapping.class, "id", id);
+	}
+
+	@Override
+	public List<SurveyQuestionMapping> fetchByMultipleParam(Object obj1,Object obj2) {
+		return (List<SurveyQuestionMapping>)surveyQuestionMappingDAO.findUniqueMultiple(SurveyQuestionMapping.class, "questionAnsId.id","surveyId.id",obj1,obj2);
+	}
+
+	@Override
+	public List<SurveyQuestionMapping> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

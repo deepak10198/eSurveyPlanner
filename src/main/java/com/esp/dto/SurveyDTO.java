@@ -7,7 +7,9 @@ public class SurveyDTO {
     private int ansId;
     private int quesAnsId;
     private int ansTypeID;
-
+    private String surveyDesc;
+    
+   
     public int getAnsTypeID() {
         return ansTypeID;
     }
@@ -22,6 +24,13 @@ public class SurveyDTO {
 
     public void setSurveyId(int surveyId) {
         this.surveyId = surveyId;
+    }
+    public String getSurveyDesc() {
+        return surveyDesc;
+    }
+
+    public void setSurveyDesc(String surveyDesc) {
+        this.surveyDesc = surveyDesc;
     }
 
     public String getSurveyName() {
@@ -45,7 +54,7 @@ public class SurveyDTO {
     }
 
     public void setQuesAnsId(int quesAnsId) {
-        quesAnsId = quesAnsId;
+        this.quesAnsId = quesAnsId;
     }
 
 }

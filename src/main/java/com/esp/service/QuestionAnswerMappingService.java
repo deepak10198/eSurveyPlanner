@@ -34,12 +34,50 @@ public class QuestionAnswerMappingService implements GenericService<QuestionAnsw
 
 	@Override
 	public List<QuestionAnswerMapping> fetchByParam(Object obj) {
-		// TODO Auto-generated method stub
-		return (List<QuestionAnswerMapping>) questionAnswerMappingDAO.findFielEq(QuestionAnswerMapping.class, "questionId", obj);
+		
+		return (List<QuestionAnswerMapping>) questionAnswerMappingDAO.findFielEq(QuestionAnswerMapping.class, "questionId.id", obj);
 	}
 
 	@Override
 	public List<QuestionAnswerMapping> fetchAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(QuestionAnswerMapping t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		return questionAnswerMappingDAO.delete(QuestionAnswerMapping.class, "id", id);
+	}
+
+	
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<QuestionAnswerMapping> fetchByMultipleParam(Object obj1,
+			Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<QuestionAnswerMapping> fetchUser(Object obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

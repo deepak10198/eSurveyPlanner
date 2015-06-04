@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserSurveyUrlMapping implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String urlstring;
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.DATE)

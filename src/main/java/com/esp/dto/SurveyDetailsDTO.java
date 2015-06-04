@@ -6,17 +6,40 @@
 
 package com.esp.dto;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  *
  * @author Rakesh.k
  */
 public class SurveyDetailsDTO {
-    
+	private BigDecimal surveyId;
     private String surveyname;
     private String description;
     private String surveystart;
     private String surveyend;
     private int type;
+    
+    private String published;
+    private List<QuestionUIDTO> surveyQuestions;
+    
+    public BigDecimal getSurveyId()
+    {
+    	return surveyId;
+    }
+    
+    public void setSurveyId(BigDecimal surveyId)
+    {
+    	this.surveyId = surveyId;
+    }
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublished(String published) {
+        this.published = published;
+    }
 
     public String getSurveyname() {
         return surveyname;
@@ -58,7 +81,13 @@ public class SurveyDetailsDTO {
         this.type = type;
     }
     
-    
+    public List<QuestionUIDTO> getSurveyQuestions() {
+		return surveyQuestions;
+	}
+	public void setSurveyQuestions(List<QuestionUIDTO> surveyQuestions) {
+		this.surveyQuestions = surveyQuestions;
+	}
+	
 
    
     

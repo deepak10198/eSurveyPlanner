@@ -5,10 +5,14 @@
  */
 package com.esp.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +36,10 @@ public abstract class GenericDAO<T> implements DAO<T> {
         sessionFactory.getCurrentSession().save(t);
 
     }
-
+   
     @Override
     public void update(T t) {
-        sessionFactory.getCurrentSession().update(t);
+    	        sessionFactory.getCurrentSession().update(t);
     }
 
     @Override
@@ -72,7 +76,32 @@ public abstract class GenericDAO<T> implements DAO<T> {
         t = (T) criteria.list().get(0);
         return t;
     }
-
+    
+    @Override
+    public List<T> findUniqueMultiple(Class<T> entity, String property1, String Property2, Object value1, Object value2){
+    	
+    	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entity);
+    	Criterion condition1 = Restrictions.eq(property1, value1);
+        Criterion condition2 = Restrictions.eq(Property2, value2);
+        LogicalExpression andExp = Restrictions.and(condition1, condition2);
+        System.out.println("\n "+andExp);
+         //criteria.add(andExp);
+       criteria.addOrder(Order.asc("id"));
+         System.out.println("\n "+ criteria.add(andExp));
+        return criteria.list();
+    }
+    
+    @Override
+    public BigDecimal Count(String query) {
+    	
+    	System.out.println(">>Count.........");
+    	BigDecimal t;
+        SQLQuery qry = sessionFactory.getCurrentSession().createSQLQuery(query);
+        t =	(BigDecimal) qry.list().get(0);
+        return t;
+    }
+    
+   
     @Override
     public List<T> findFielEq(Class<T> entity, String propertyName, Object value) {
 

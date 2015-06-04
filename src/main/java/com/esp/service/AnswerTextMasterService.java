@@ -41,5 +41,43 @@ public class AnswerTextMasterService implements GenericService<AnswerTextMaster>
     public List<AnswerTextMaster> fetchAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public void update(AnswerTextMaster t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		
+		return ansTextMasterDAO.delete(AnswerTextMaster.class, "id", id);
+	}
+
+	
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnswerTextMaster> fetchByMultipleParam(Object obj1, Object obj2) {
+		return ansTextMasterDAO.findUniqueMultiple(AnswerTextMaster.class, "ansText", "otherInfo", obj1, obj2);
+	}
+
+	@Override
+	public List<AnswerTextMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

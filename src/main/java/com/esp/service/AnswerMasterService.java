@@ -44,4 +44,41 @@ public class AnswerMasterService implements GenericService<AnswerMaster> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void update(AnswerMaster t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		return answerMasterDAO.delete(AnswerMaster.class, "id", id);
+	}
+
+	
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnswerMaster> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnswerMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

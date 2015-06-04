@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserList.findAll", query = "SELECT u FROM UserList u"),
     @NamedQuery(name = "UserList.findById", query = "SELECT u FROM UserList u WHERE u.id = :id"),
     @NamedQuery(name = "UserList.findByUserListName", query = "SELECT u FROM UserList u WHERE u.userListName = :userListName"),
+    @NamedQuery(name = "UserList.findByDescription", query = "SELECT u FROM UserList u WHERE u.description = :description"),
     @NamedQuery(name = "UserList.findByCreationDate", query = "SELECT u FROM UserList u WHERE u.creationDate = :creationDate"),
     @NamedQuery(name = "UserList.findByLastModifiedDate", query = "SELECT u FROM UserList u WHERE u.lastModifiedDate = :lastModifiedDate")})
 public class UserList implements Serializable {
@@ -49,6 +50,8 @@ public class UserList implements Serializable {
     private BigDecimal id;
     @Column(name = "USER_LIST_NAME", length = 20)
     private String userListName;
+    @Column(name = "DESCRIPTION", length = 100)
+    private String description;
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -61,9 +64,7 @@ public class UserList implements Serializable {
     @JoinColumn(name = "CREATED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster createdById;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private UserMaster userId;
+   
     @JoinColumn(name = "LAST_MODIFIED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster lastModifiedById;
@@ -89,6 +90,13 @@ public class UserList implements Serializable {
 
     public void setUserListName(String userListName) {
         this.userListName = userListName;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreationDate() {
@@ -123,13 +131,7 @@ public class UserList implements Serializable {
         this.createdById = createdById;
     }
 
-    public UserMaster getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UserMaster userId) {
-        this.userId = userId;
-    }
+    
 
     public UserMaster getLastModifiedById() {
         return lastModifiedById;

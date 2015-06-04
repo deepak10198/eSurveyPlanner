@@ -45,7 +45,7 @@
 				} else if(answerValue.trim()){
 					
 					var row = table.insertRow(row_count);	
-					//row.id = "answer"+table.rows.length;]
+					
 					row.id = "answer"+counter;
 					row.class="";
 					
@@ -55,11 +55,23 @@
 					//cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='ansTextList' id='ansTextList"+counter+"' value='"+answerValue+"' >";
 					cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='ansTextList' id='ansTextList"+counter+"' >";
 					document.getElementById("ansTextList"+counter).value=answerValue;
+				
+					if( document.getElementById("otherinfo").checked==true)
+					{ var otherinfo = "true"; var otherdisplay="Comment Box Enabled ";$("#otherinfo").attr("disabled", true);
+					$("#otherinfo").prop("checked", false);}
+					else{var otherinfo = "false"; var otherdisplay=" ";}
 					
-										
 					var cell2 = row.insertCell(1);
+					cell2.innerHTML = otherdisplay+"<input type='hidden' name='other' id='other"+counter+"'/>";
+					document.getElementById("other"+counter).value=otherinfo;
+					
+					
+					var cell3 = row.insertCell(2);
 					//cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteDynamic("+rowId+")'>Delete</button>";
-					cell2.innerHTML = "<a href='#'><span class='glyphicon glyphicon-trash' onclick='deleteDynamic("+rowId+")'></span></a>";
+					cell3.innerHTML = "<a href='#'><span class='glyphicon glyphicon-trash' onclick='deleteDynamic("+rowId+")'></span></a>";
+					
+				
+					
 					
 					
 					document.getElementById("answer").value="" ;
@@ -73,8 +85,10 @@
 			}
 			
 			function deleteDynamic(rowId){
-				rowId.remove();
-				//ansCount -=1;
+						
+					rowId.remove();
+					
+					
 				
 			}
 			
@@ -97,10 +111,12 @@
 				<div class="col-sm-4">
 					<div class="well">
 						<p>
-							<h2><span class="glyphicon glyphicon-user"></span>${surveyDTO.surveyName}</h2>
+							<h3><span class="glyphicon glyphicon-user"></span> &nbsp;&nbsp;${surveyDTO.surveyName}</h3>
 						</p>
+						<br>
 						Give the answer type for each question.
 					</div>
+					
 				</div>
 				<div class="col-sm-8" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
 					<form action="addQuestions" method="POST" id="answerForm">
@@ -120,12 +136,16 @@
                             	
                             	<c:choose>
 									<c:when test="${answerTypeMaster.id==1}">
-										<input type="radio" name="ansTypeId" value="${answerTypeMaster.id}" id="ansType${types.count}" checked>
-										<c:out value="${answerTypeMaster.ansTypeText}" />(Single Choice)
+										<br><input type="radio" name="ansTypeId" value="${answerTypeMaster.id}" id="ansType${types.count}" checked>
+										<c:out value="${answerTypeMaster.ansTypeText}" /> &nbsp (Single Choice)
 									</c:when>
 									<c:when test="${answerTypeMaster.id==2}">
-										<input type="radio" name="ansTypeId" value="${answerTypeMaster.id}" id="ansType${types.count}">
-										<c:out value="${answerTypeMaster.ansTypeText}" />(Multiple Choice)
+										<br><input type="radio" name="ansTypeId" value="${answerTypeMaster.id}" id="ansType${types.count}">
+										<c:out value="${answerTypeMaster.ansTypeText}" /> &nbsp (Multiple Choice)
+									</c:when>
+									<c:when test="${answerTypeMaster.id==3}">
+										<br><input type="radio" name="ansTypeId" value="${answerTypeMaster.id}" id="ansType${types.count}">
+										<c:out value="${answerTypeMaster.ansTypeText}" /> &nbsp (Free Text)
 									</c:when>
 								</c:choose>
                             	
@@ -133,11 +153,17 @@
                             </div>            
 						</div>
 						
-						<div class="form-group">
+						<div class="form-group" id="Dtable">
 							<label for="surveyname">Answers: </label>
-							
-								<input type="text" class="form-control" name="answer[]" id="answer"  placeholder="Answers"/>
+						 <div class="form-group">
+						 	 <div style="display:table-row; width:100%; float:left; "> 
+<div style="display:table-column;  width:92%; height:100%; float:left; " >	<input type="text" class="form-control" name="answer[]" id="answer"  placeholder="Answers"/></div>
+<div style="display:table-column;  width:8%; height:100%; float:left; " align="center" id="divOther" ><input type="checkbox"  name="otherinfo" id="otherinfo"/></div>
 								
+						</div>
+						
+						
+						</div>		
 								<button type="button" name="addAnswer" id="addAnswer" class="btn btn-default" onclick="addDynamicRow()">Add</button>
 								<br/>
 								<!--  button type="button" class="btn btn-default">Delete</button-->
@@ -151,6 +177,7 @@
 						<div class="form-group">
 							<div>
 								<button type="submit" class="btn btn-primary" name="submitButton" id="submitButton">Proceed</button>
+								 <a href="./e/survey${surveyDTO.surveyId}" >  <button type="button" id ="submitButton" class="btn btn-primary">Back</button> </a>
 							</div>
 						</div>						
 						
@@ -174,28 +201,55 @@
 </html>
 <script type="text/javascript">
 $(document).ready(function() {
+	  $("#submitButton").click(function (e) {
+	  if ($('#ansType1').is(':checked')||$('#ansType2').is(':checked')) {
+		$('#submitButton').on('click', function(){
+			var row_count = $('#answerTable tr').length;
+			
+			if(row_count==0){
+				$('#answer').attr('required',true);
+			}else{
+				$('#answer').removeAttr('required');
+			}
+			
+			
+		});
+		
+				$('#answerForm').submit(function(e){	
+					var row_count = $('#answerTable tr').length;
+			
+				if(row_count==0 && $('#answer').valueOf()){
+					e.preventDefault();	
+					alert('Please add the answer!');
+				}
+				});
+	  }
+	  
+		   
+	  });
+	$("#ansType1").click(function (e) {
+		$("#answer").removeAttr("disabled"); 
+		 $("#addAnswer").show();
+		 $("#answerTable").show();
+		
+		  });
+	$("#ansType2").click(function (e) {
+		$("#answer").removeAttr("disabled"); 
+		 $("#addAnswer").show();
+		 $("#answerTable").show();
+		
+	  });
+	
+	$("#ansType3").click(function (e) {
+		  $("#answer").attr("disabled", "disabled"); 
+		  $("#addAnswer").hide();
+		  $("#answerTable").remove();
+		  $("#Dtable").append("<table id='answerTable' class='table table-striped'>	</table>	");
+		  
+	  });
 
-	$('#submitButton').on('click', function(){
-		var row_count = $('#answerTable tr').length;
-		
-		if(row_count==0){
-			$('#answer').attr('required',true);
-		}else{
-			$('#answer').removeAttr('required');
-		}
-		
-		
+			
 	});
-	
-	$('#answerForm').submit(function(e){	
-		var row_count = $('#answerTable tr').length;
-		
-		if(row_count==0 && $('#answer').valueOf()){
-			e.preventDefault();	
-			alert('Please add the answer!');
-		}
-	});
-	
-});
+
 </script>
 

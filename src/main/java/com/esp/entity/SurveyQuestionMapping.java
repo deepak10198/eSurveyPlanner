@@ -67,6 +67,8 @@ public class SurveyQuestionMapping implements Serializable {
     @JoinColumn(name = "CREATED_BY_ID", referencedColumnName = "ID")
     @ManyToOne
     private UserMaster createdById;
+    @Column(name = "MANDATORY")
+    private String mandatory;
 
     public SurveyQuestionMapping() {
     }
@@ -82,7 +84,16 @@ public class SurveyQuestionMapping implements Serializable {
     public void setId(BigDecimal id) {
         this.id = id;
     }
+    
+    public String getMandatory() {
+        return mandatory;
+    }
 
+    public void setMandatory(String mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    
     public Date getCreationDate() {
         return creationDate;
     }

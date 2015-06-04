@@ -44,4 +44,41 @@ public class QuestionMasterService implements GenericService<QuestionMaster> {
 		return null;
 	}
 
+	@Override
+	public void update(QuestionMaster questionmaster) {
+		
+		questionMasterDAO.update(questionmaster);
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		return questionMasterDAO.delete(QuestionMaster.class, "id", id);
+	}
+
+	
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<QuestionMaster> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<QuestionMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

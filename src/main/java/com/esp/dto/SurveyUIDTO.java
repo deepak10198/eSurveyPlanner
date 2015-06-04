@@ -27,6 +27,11 @@ public class SurveyUIDTO {
 	private String surveyName;
 	private String surveyDesc;
 	private List<QuestionUIDTO> surveyQuestions;
+	private long surveyCount;
+	private String published;
+	private String surveystart;
+    private String surveyend;
+    private int type;
 	
 	public String toString(){
 		
@@ -51,6 +56,29 @@ public class SurveyUIDTO {
 		
 		return temp;
 	}
+	public String getPublished() {
+        return published;
+    }
+
+    public void setPublished(String published) {
+        this.published = published;
+    }
+
+	public String getSurveystart() {
+        return surveystart;
+    }
+
+    public void setSurveystart(String surveystart) {
+        this.surveystart = surveystart;
+    }
+
+    public String getSurveyend() {
+        return surveyend;
+    }
+
+    public void setSurveyend(String surveyend) {
+        this.surveyend = surveyend;
+    }
 	
 	public int getSurveyId() {
 		return surveyId;
@@ -82,7 +110,20 @@ public class SurveyUIDTO {
 	public void setSurveyQuestions(List<QuestionUIDTO> surveyQuestions) {
 		this.surveyQuestions = surveyQuestions;
 	}
-	
+	public long getSurveyCount() {
+		return surveyCount;
+	}
+	public void setSurveyCount(long surveyCount) {
+		this.surveyCount = surveyCount;
+	}
+	 public int getType() {
+	        return type;
+	    }
+
+	    public void setType(int type) {
+	        this.type = type;
+	    }
+
 	
 	
 

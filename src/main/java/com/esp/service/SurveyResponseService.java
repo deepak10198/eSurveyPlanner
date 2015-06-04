@@ -6,6 +6,8 @@
 package com.esp.service;
 
 import com.esp.dao.DAO;
+import com.esp.entity.QuestionAnswerMapping;
+import com.esp.entity.SurveyQuestionMapping;
 import com.esp.entity.SurveyResponse;
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,18 +34,32 @@ public class SurveyResponseService implements GenericService<SurveyResponse> {
         surveyResponseDAO.save(t);
     
     }
-
+    
     @Override
     public SurveyResponse fetch(BigDecimal id) {
         
         return surveyResponseDAO.findUnique(SurveyResponse.class, "id", id);
         
     }
+    
+    @Override
+    public BigDecimal count(String query)
+    {
+    	return surveyResponseDAO.Count(query);
+    }
+    
+    @Override
+    public List<SurveyResponse> fetchUser(Object obj) {
+        
+        return  (List<SurveyResponse>) surveyResponseDAO.findFielEq(SurveyResponse.class, "surveyId.id", obj);
+        
+    }
+
 
     @Override
     public List<SurveyResponse> fetchByParam(Object obj) {
         
-        return null;
+    	return (List<SurveyResponse>) surveyResponseDAO.findFielEq(SurveyResponse.class, "quesAnsMappingId", obj);
     }
 
     @Override
@@ -51,4 +67,30 @@ public class SurveyResponseService implements GenericService<SurveyResponse> {
         
         return surveyResponseDAO.findAll(SurveyResponse.class);
     }
+
+	@Override
+	public void update(SurveyResponse t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		
+		return surveyResponseDAO.delete(SurveyResponse.class, "surveyId.id" , obj);
+		
+	}
+
+	@Override
+	public List<SurveyResponse> fetchByMultipleParam(Object obj1, Object obj2) {
+		
+		return (List<SurveyResponse>) surveyResponseDAO.findUniqueMultiple(SurveyResponse.class, "ansTextId.id","quesAnsMappingId.id", obj1,obj2);
+		
+	}
 }

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.esp.dao.DAO;
 import com.esp.entity.UserMaster;
+import com.esp.entity.UserSurveyUrlMapping;
+
 import java.math.BigDecimal;
 
 /**
@@ -43,10 +45,9 @@ public class UserMasterService implements GenericService<UserMaster> {
 	public List<UserMaster> fetchByParam(Object obj) {
             
             
-		// TODO Auto-generated method stub
-		//return  userMasterDAO.findByUserName(UserMaster.class, "loginId", obj);
+		return  userMasterDAO.findFielEq(UserMaster.class, "loginId", obj);
             
-            return null;
+          
 	}
 
 	@Override
@@ -54,6 +55,44 @@ public class UserMasterService implements GenericService<UserMaster> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
+
+	@Override
+	public void update(UserMaster t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserMaster> fetchByMultipleParam(Object obj1,
+			Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
     
 }

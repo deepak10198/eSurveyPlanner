@@ -51,5 +51,41 @@ public class SurveyTypeMasterService implements GenericService<SurveyTypeMaster>
 	public List<SurveyTypeMaster> fetchAll() {
 		return surveyTypeMasterDAO.findAll(SurveyTypeMaster.class);
 	}
+
+	@Override
+	public void update(SurveyTypeMaster t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SurveyTypeMaster> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SurveyTypeMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

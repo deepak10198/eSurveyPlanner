@@ -52,8 +52,8 @@
 					<p>
 						<!-- <button class="btn btn-md btn-default" type="button">Create Survey</button> &nbsp;
 						<button class="btn btn-md btn-default" type="button">View Survey</button> &nbsp;
-						<button class="btn btn-md btn-default" type="button">Create User List</button> -->
-						
+						<button class="btn btn-md btn-default" type="button">Create User List</button>
+						 -->
 						<a role="button" class="btn btn-info btn-md" href="createSurvey">Create Survey</a> &nbsp;
 						<a role="button" class="btn btn-info btn-md" href="viewSurvey">View Survey</a> &nbsp;
 						<a role="button" class="btn btn-info btn-md" href="createUserList">Create User List</a>

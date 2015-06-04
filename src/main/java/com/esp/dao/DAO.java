@@ -5,6 +5,7 @@
  */
 package com.esp.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -29,7 +30,11 @@ public interface DAO<T> {
     public List<T> findFielEq(Class<T> entity, String propertyName, Object value);
 
     public T find(Class<T> entity, String propertyName, Object value);
-    
+
+	public BigDecimal Count(String query);
+
+	public List<T> findUniqueMultiple(Class<T> entity, String property1, String Property2, Object value1, Object value2);
+
     
     
 }

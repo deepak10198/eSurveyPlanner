@@ -53,6 +53,8 @@ public class AnswerTextMaster implements Serializable {
     @Basic(optional = false)
     @Column(name = "ANS_TEXT", nullable = false, length = 20)
     private String ansText;
+    @Column(name = "OTHER_INFO")
+    private String otherInfo;
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -114,6 +116,13 @@ public class AnswerTextMaster implements Serializable {
 
     public void setAnsText(String ansText) {
         this.ansText = ansText;
+    }
+    public String getOtherInfo() {
+        return otherInfo;
+    }
+
+    public void setOtherInfo(String otherInfo) {
+        this.otherInfo = otherInfo;
     }
 
     public Date getCreationDate() {

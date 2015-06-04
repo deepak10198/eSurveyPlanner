@@ -17,6 +17,7 @@ public class FixedSurveyQuestionsDTO {
     private List<String> questionText;
     private int ansTypeId;
     private int ansId;
+    private List<String> mandatory;
 
     public int getAnsTypeId() {
 		return ansTypeId;
@@ -42,6 +43,13 @@ public class FixedSurveyQuestionsDTO {
         this.questionText = questionText;
     }
     
+    public List<String> getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(List<String> mandatory) {
+        this.mandatory = mandatory;
+    }
     
     
 }

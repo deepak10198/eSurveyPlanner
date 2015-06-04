@@ -51,5 +51,41 @@ public class UserRolesService implements GenericService<UserRoles>{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return userRolesDAO.findAll(UserRoles.class);
     }
+
+	@Override
+	public void update(UserRoles t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean delete(BigDecimal id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserRoles> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserRoles> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -40,12 +39,24 @@
 
     <mvc:default-servlet-handler/>
     
+<bean id="viewResolver1" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="order" value="1"/>
+        <property name="basename" value="views"/>
+    </bean>
   
-    <bean id="viewResolver"
+    
+    <bean id="viewResolver2"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/views/"
           p:suffix=".jsp" />   
-   
+     <bean id="multipartResolver"
+		    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		    <!-- max file size in bytes -->
+		    <property name="maxUploadSize" value="2000000" />
+		    <!-- other properties... -->
+		</bean>
+	
+	
     <!-- for hibernate -->
 
     <bean id="propertyConfigurer"
@@ -83,12 +94,14 @@
                 <value>com.esp.entity.SurveyResponse</value>
                 <value>com.esp.entity.Role</value>
                 <value>com.esp.entity.UserRoles</value>
+                 <value>com.esp.entity.UserListMapping</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+               <!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
             </props>
         </property>
     </bean>

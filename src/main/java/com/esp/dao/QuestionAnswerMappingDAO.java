@@ -1,9 +1,5 @@
 package com.esp.dao;
 
-import java.math.BigDecimal;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.esp.entity.QuestionAnswerMapping;

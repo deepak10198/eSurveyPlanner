@@ -27,6 +27,7 @@ public class SurveyAnswerDTO {
 	private List<Integer> ansIdList;
 	private List<String> ansTextList;
 	private int ansTypeId;
+	
 	public int getQuestionId() {
 		return questionId;
 	}
@@ -51,7 +52,6 @@ public class SurveyAnswerDTO {
 	public void setAnsTypeId(int ansTypeId) {
 		this.ansTypeId = ansTypeId;
 	}
-	
 	
 	
 	

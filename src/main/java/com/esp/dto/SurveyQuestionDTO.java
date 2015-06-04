@@ -19,25 +19,39 @@ package com.esp.dto;
 */
 
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class SurveyQuestionDTO {
-
+	
+	private BigDecimal surveyQuesId;
 	private int questionId;
 	private String questionText;
 	private int quesAnswerId;
 	private int ansTypeId;
 	private String ansType;
-	
+	private String mandatory;
+	private String otherText;
 	private List<String> ansTextList;
+	private List<String> other;
 	
-		
+	public BigDecimal getSurveyQuesid() {
+		return surveyQuesId;
+	}
+	public void setSurveyQuesid(BigDecimal surveyQuesId) {
+		this.surveyQuesId = surveyQuesId;
+	}	
 	public List<String> getAnsTextList() {
 		return ansTextList;
 	}
 	public void setAnsTextList(List<String> ansTextList) {
 		this.ansTextList = ansTextList;
+	}
+	public List<String> getOther() {
+		return other;
+	}
+	public void setOther(List<String> other) {
+		this.other = other;
 	}
 	public int getQuestionId() {
 		return questionId;
@@ -57,6 +71,12 @@ public class SurveyQuestionDTO {
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}
+	public String getOtherText() {
+		return otherText;
+	}
+	public void setOtherText(String otherText) {
+		this.otherText = otherText;
+	}
 	public int getAnsTypeId() {
 		return ansTypeId;
 	}
@@ -69,6 +89,17 @@ public class SurveyQuestionDTO {
 	public void setAnsType(String ansType) {
 		this.ansType = ansType;
 	}
+	 public String getMandatory() {
+	        return mandatory;
+	    }
+
+	    public void setMandatory(String mandatory) {
+	        this.mandatory = mandatory;
+	    }
+	    
+
+	
+	
 	
 	
 }

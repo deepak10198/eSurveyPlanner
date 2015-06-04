@@ -17,7 +17,7 @@
         <link href="resources/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap theme -->
         <link href="resources/css/bootstrap-theme.min.css" rel="stylesheet">
-
+       
         <!-- Just for debugging purposes. Don't actually copy this line! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -58,22 +58,28 @@
     							"<label for=''>Type of Answer -  </label>"+
                                  	"<c:forEach var='answerTypeMaster' items='${answerTypeMaster}' varStatus='types'>";
                                         if('${answerTypeMaster.id}'==1){
-                                        		cell1.innerHTML +="<input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' checked>"+
-	     										"<c:out value='${answerTypeMaster.ansTypeText}' />(Single Choice) ";
+                                        		cell1.innerHTML +="&nbsp; <input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' checked onClick='uncheck("+quesCount+")'>"+
+	     										"<c:out value='${answerTypeMaster.ansTypeText}' /> (Single Choice) ";
                                         }else if('${answerTypeMaster.id}'==2){
-                                    		cell1.innerHTML +="<input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' >"+
-     										"<c:out value='${answerTypeMaster.ansTypeText}' />(Multiple Choice)";
+                                    		cell1.innerHTML +="&nbsp; <input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' onClick='uncheck("+quesCount+") '>"+
+     										"<c:out value='${answerTypeMaster.ansTypeText}' /> (Multiple Choice)";
                                         }
+                                        else if('${answerTypeMaster.id}'==3){
+                                    		cell1.innerHTML +="&nbsp; <input type='radio' name='surveyQuestions[" + quesCount + "].ansTypeId' value='${answerTypeMaster.id}' id='ansType"+quesCount+"${types.count}' onClick='check("+quesCount+")'>"+
+     										"<c:out value='${answerTypeMaster.ansTypeText}'  /> (Free text)";
+                                        } 
                                  	cell1.innerHTML += "</c:forEach>"+
                                                            
     						"</div>"+
     						
     						"<div class='form-group'>"+
     							"<label for='surveyname'>Answers: </label>"+
-    							
-    								"<input type='text' class='form-control' name=answers"+quesCount+" id='answers"+quesCount+"' placeholder='Answers'/>"+
+    						
+    								"	<div class='form-group'>"+
+    								"<div style='display:table-column;  width:96%; height:100%; float:left; '>	<input type='text' class='form-control'  name=answers"+quesCount+" id='answers"+quesCount+"' placeholder='Answers'/></div>"+
+    								"<div style='display:table-column;  width:4%; height:100%; float:left; vertical-align: bottom;' align='center' id='divOther"+quesCount+"' ><input type='checkbox' name='otherinfo' id='otherinfo"+quesCount+"'/></div>"+  							
     								
-    								"<button type='button' class='btn btn-default' onclick='addDynamicRow("+quesCount+")'>Add</button>"+
+    								"<button type='button' class='btn btn-default' id='addanswer"+quesCount+"' onclick='addDynamicRow("+quesCount+")'>Add</button>"+
     								"<table id=answerTable"+quesCount+" class='table table-striped'></table>"+						
     								
     								"</div>"+		
@@ -81,9 +87,18 @@
                     
     				document.getElementById("questionText"+quesCount).value = questionValue;
     				
-    				 var cell2 = row.insertCell(1);
-                    cell2.innerHTML = "<button type='button' class='btn btn-default' onclick='deleteQuestion(" + rowId + ")'>Delete</button>";
-                    //alert(">>7");
+    				 var mandateStatus;
+					 var mandate;
+		            	if (document.getElementById('mandatoryStatustrue').checked == true) { mandateStatus = "true"; mandate="Mandatory";}
+		            	else  {mandateStatus = "false"; mandate="Non-Mandatory";}
+                     
+					 var cell3 = row.insertCell(1);
+                   	 cell3.innerHTML = mandate + "<input type='hidden' name ='surveyQuestions[" + quesCount + "].mandatory'  id='mandatory" + quesCount + "'>";   
+                   	 document.getElementById("mandatory"+quesCount).value=mandateStatus;
+					 
+    				 var cell2 = row.insertCell(2);
+                    cell2.innerHTML ="<a href='#'><span class='glyphicon glyphicon-trash' onclick='deleteQuestion("+row.id+")'></span></a>";
+                    
                     document.getElementById("question").value = "";
                     quesCount += 1;
             		
@@ -124,10 +139,28 @@
 					cell1.innerHTML = "<label> Answer</label>: "+answerValue+"<input type='hidden' name ='surveyQuestions[" + tableId + "].ansTextList' id='ansTextList"+tableId+row_count+"' >";
 					document.getElementById("ansTextList"+tableId+row_count).value = answerValue;
 					
-					var cell2 = row.insertCell(1);
-					cell2.innerHTML = "<button type='button' class='btn btn-default' onclick=deleteDynamic("+rowId+")>Delete</button>";
+					
+					
+					if( document.getElementById("otherinfo"+tableId).checked==true)
+					{
+						var otherinfo = "true";$("#otherinfo"+tableId).attr("disabled", true);
+						$("#otherinfo"+tableId).prop("checked", false);
+						var otherdisplay ="Comment box Enabled";
+					}
+					else{var otherinfo = "false";var otherdisplay =""; }
+					
+					var cell3 = row.insertCell(1);
+					cell3.innerHTML = otherdisplay+"<input type='hidden' name='surveyQuestions[" + tableId + "].other' id='other"+tableId+row_count+"'/>";
+					document.getElementById("other"+tableId+row_count).value=otherinfo;
+					
+					var cell2 = row.insertCell(2);
+					cell2.innerHTML =  "<a href='#'><span class='glyphicon glyphicon-trash' onclick='deleteDynamic("+rowId+")'></span></a>";
 					
 					document.getElementById('answers'+tableId).value="" ;
+					
+					
+					  $('#mySwitch').bootstrapSwitch('toggleState');
+	                 	$('#mySwitch').bootstrapSwitch('setState',true); 
 					ansCount[tableId] +=1;
 								
 				}else{
@@ -149,6 +182,12 @@
         <link href="resources/css/bootstrapValidator.css" rel="stylesheet">
 
         <link href="resources/css/master.css" rel="stylesheet">
+        
+          <link href="resources/css/bootstrap-switch.css" rel="stylesheet">
+          
+         <link href="resources/css/bootstrap-toggle.min.css" rel="stylesheet">
+          
+        
     </head>
 
     <body role="document">
@@ -186,7 +225,15 @@
 							</table>
 						</div>
 						<br/>
-						<input type="text" class="form-control" id="question" placeholder="Question"/>
+								</table>
+	 <div class="form-group">
+           <div style="display:table-row; width:100%; float:left; "> 
+   				<div style="display:table-column;  width:65%; height:100%; float:left; " ><input type="text" class="form-control" id="question" placeholder="Question"/>	</div>
+  
+<div style="display:table-column;  width:35%; height:100%; float:left; vertical-align: top;" align="center" ><input type='checkbox' name='mandatoryStatus'  data-toggle="toggle" value='true' id='mandatoryStatustrue' checked  data-on="Mandatory" data-off="Non-Mandatory" data-onstyle="danger" data-offstyle="success"/>
+						</div>
+		 </div>
+      </div>
 
                         <button type="button" class="btn btn-default" onclick="addQuestionAnswer()">Add</button>
                         <br/>
@@ -198,6 +245,7 @@
                     <div class="form-group">
                         <div>
                             <button type="submit" class="btn btn-primary" id="submitButton">Proceed</button>
+                             <a href="./e/survey${surveyDTO.surveyId}" >  <button type="button" id ="submitButton" class="btn btn-primary">Back</button> </a>
                         </div>
                     </div>
 
@@ -217,9 +265,12 @@
         <script src="resources/js/bootstrap-datepicker.js"></script>
         <script src="resources/js/bootstrapValidator.js"></script>
         <script src="resources/js/utility.js"></script>
+         <script src="resources/js/bootstrap-switch.js"></script> 
+          <script src="resources/js/bootstrap-toggle.min.js"></script>
     </body>
 </html>
 <script type="text/javascript">
+$("[name='mandatoryStatus']").bootstrapToggle('status');
 $(document).ready(function() {
 
 	$('#submitButton').on('click', function(){
@@ -250,7 +301,7 @@ $(document).ready(function() {
 		
 	});
 	
-	$('#questionForm').submit(function(e){	
+	/* $('#questionForm').submit(function(e){	
 		var row_count = $('#questionTable tr').length;
 		
 		if(row_count==0 && $('#question').valueOf()){
@@ -264,14 +315,38 @@ $(document).ready(function() {
 					if(ans_count==0 && $('#answers'+i).valueOf()){
 							e.preventDefault();	
 							var ques=$('#questionText'+i).val();
-							alert("Please add the answers for question:<br/> "+ ques );
+							alert("Please add the answers for question:"+ ques );
 							break;
 						}
 				}
 			}
 		}
-	});
+	}); */
 	
-});
+	
+
+			
+	});
+
+function check(value)
+{
+	
+		 $("#answers"+value).attr("disabled", "disabled"); 
+		 $("#otherinfo"+value).attr("disabled", "disabled"); 
+		 $("#addanswer"+value).hide();
+		 $("#answerTable"+value).hide();
+		 
+	
+	}
+function uncheck(value)
+{
+		 $("#answers"+value).removeAttr("disabled"); 
+		 $("#otherinfo"+value).removeAttr("disabled"); 
+		 $("#addanswer"+value).show();
+		 $("#answerTable"+value).show();
+		 
+	
+	
+	}
 </script>
 

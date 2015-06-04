@@ -30,6 +30,8 @@ public class QuestionUIDTO {
 	private List<ElementDTO> answers;
 	private int ansTypeId;
 	private String ansType;
+	private String mandatory;
+	private long surveyQuestionCount;
 		 
 		
 	public List<ElementDTO> getAnswers() {
@@ -69,6 +71,14 @@ public class QuestionUIDTO {
 	public void setAnsType(String ansType) {
 		this.ansType = ansType;
 	}
+	public String getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(String mandatory) {
+        this.mandatory = mandatory;
+    }
+    
 	
 	public List<String> getAnsTextList (){
 		
@@ -82,5 +92,13 @@ public class QuestionUIDTO {
 		
 		return ansTextList;
 	}
+	
+	public long getSurveyQuestionCount() {
+		return surveyQuestionCount;
+	}
+	public void setSurveyQuestionCount(long surveyCount) {
+		this.surveyQuestionCount = surveyCount;
+	}
+
 	
 }

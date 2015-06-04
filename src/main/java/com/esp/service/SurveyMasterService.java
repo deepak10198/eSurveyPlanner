@@ -32,7 +32,18 @@ public class SurveyMasterService implements GenericService<SurveyMaster> {
         surveyMasterDAO.save(surveyMaster);
 		
 	}
-
+	
+	@Override
+	public void update(SurveyMaster surveyMaster){
+		
+		surveyMasterDAO.update(surveyMaster);
+		
+	}
+	/*@Override
+	public void delete(BigDecimal id){
+		surveyMasterDAO.delete(surveyMaster.class, "id", id);
+	}
+    */
 	@Override
 	public SurveyMaster fetch(BigDecimal id) {
 
@@ -48,7 +59,38 @@ public class SurveyMasterService implements GenericService<SurveyMaster> {
 	@Override
 	public List<SurveyMaster> fetchAll() {
 		// TODO Auto-generated method stub
+		return  surveyMasterDAO.findAll(SurveyMaster.class);
+	}
+	
+	public Boolean delete(BigDecimal id){
+		
+		return surveyMasterDAO.delete(SurveyMaster.class, "id", id);
+	}
+
+	@Override
+	public BigDecimal count(String query) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-    
+
+	
+	@Override
+	public Boolean deleteObj(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SurveyMaster> fetchByMultipleParam(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SurveyMaster> fetchUser(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }
