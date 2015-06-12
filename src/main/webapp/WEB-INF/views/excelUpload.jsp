@@ -55,7 +55,7 @@ a.reUline:hover {
 
 	<div class="well">
 
-		<div class="col-lg"
+		<div class="col-lg table-responsive"
 			style="border: 1px solid #d9d9d9; padding: 1em; border-radius: 4px;">
 
 			<table class="table table-striped" width="100%">

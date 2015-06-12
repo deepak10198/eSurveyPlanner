@@ -110,7 +110,7 @@ public class HomeController {
     @RequestMapping(value = "/home")
     public ModelAndView Home(Principal principal) throws IOException {
 
-        log.info("logged in user :" + principal.getName()); // Principal class is related to spring Security 
+        log.info("logged in user/admin :" + principal.getName()); 
         return new ModelAndView("home");
 
     }
@@ -118,39 +118,46 @@ public class HomeController {
     @RequestMapping(value = "")
     public ModelAndView HomePage(Principal principal) throws IOException {
 
-        log.info("logged in user :" + principal.getName());
+        log.info("logged in user/admin :" + principal.getName());
         return new ModelAndView("home");
 
     }
     @RequestMapping(value = "/s/home")
     public ModelAndView HomepageUser() throws IOException {
-    	log.info(" \n User UI ");
+    	
+    	log.info(" USER homepage ");
+    	
     	return new ModelAndView("index");
 
     }
     
-    @RequestMapping(value="/download/survey{uri}", method=RequestMethod.GET)
+    @RequestMapping(value="/download/survey{uri}", method=RequestMethod.GET)	// Report Generation(PDF) 
     public ModelAndView generatePDF(HttpServletRequest req, HttpServletResponse res,  ModelMap model ,@PathVariable(value = "uri") String uri) throws Exception
     {
+    	log.info("Report generation for survey : "+uri);
+    	
     	SurveyUIDTO surveyDto;
     	surveyDto = handler.fetchSurveyDetails(Integer.parseInt(uri));
     	model.addAttribute("survey", surveyDto);
-    	log.info("PDF..............");
+    	
     	return new ModelAndView("pdfView");		 
       }
        
     @RequestMapping(value = "/createSurvey")
     public ModelAndView createSurvey(ModelMap model) throws Exception {
+    	
         log.info("Request for Creating Survey");
+        
         List<ElementDTO> surveyTypes;
         surveyTypes = handler.fetchSurveyType(); // calls the function fetchSurveyType from handler class 
+        
         model.addAttribute("surveyTypes", surveyTypes);
         return new ModelAndView("createSurvey");
     }
     
     @RequestMapping(value = "/createUserList")
     public ModelAndView createUserList(ModelMap model) throws Exception {
-        log.info("Request for Creating User List.... ");
+        log.info("Request for Creating User List");
 
         return new ModelAndView("createUserList");
     }
@@ -159,15 +166,13 @@ public class HomeController {
     @RequestMapping(value="/viewSurvey")
     public ModelAndView viewSurvey(ModelMap model,HttpServletRequest req, HttpServletResponse res) throws Exception {
     	
-    	log.info("Request for viewing Surveys by admin");
+    	log.info("Request for viewing list of all Surveys ");
     	
     	List<SurveyDetailsDTO> surveyDetails;
     	
     	surveyDetails = handler.fetchAllSurveyDetails();
     	
-    	
-    	log.info("Survey Details Fetched");
-    	
+    	  
     	String path	= req.getContextPath();
     	model.addAttribute("path", path);
     	
@@ -183,26 +188,28 @@ public class HomeController {
     public ModelAndView submitSurvey(ModelMap model, @ModelAttribute("surveyDetailsDTO") SurveyDetailsDTO surveyDetailsDTO,HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         try {
+        	
             log.info("Going to save Survey Master Details -");
             log.info("submitting survey to database");
             
-            log.info("name :" + surveyDetailsDTO.getSurveyname());
-            log.info("desc :" + surveyDetailsDTO.getDescription());
-            log.info("type ;" + surveyDetailsDTO.getType());
+            log.info("Survey "+surveyDetailsDTO.getSurveyname()+" ;\n type "+surveyDetailsDTO.getDescription()+"; \nDescription :" + surveyDetailsDTO.getDescription());
+            
+            
             
            
             UserMaster usermaster = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
             SurveyTypeMaster surveytypemaster = (SurveyTypeMaster) surveyTypeMasterService.fetch(BigDecimal.valueOf(surveyDetailsDTO.getType()));
-            log.info("----!!"+surveytypemaster);
+            log.info("----"+surveytypemaster);
             SurveyMaster surveymaster = handler.mapToSurveymaster(usermaster, surveytypemaster, surveyDetailsDTO);
             surveyMasterService.add(surveymaster);
-            log.info("Survey Saved to database");
+            
+            log.info("Survey Details Saved to database");
 
-            log.info("getting answertype master list");
+           
 
             List<AnswerTypeMaster> answermasters = answerTypeMasterService.fetchAll(); // getting answer types from data
 
-            log.info("Answertype master list fetched");
+    
 
             SurveyDTO surveyDTO = new SurveyDTO();
             surveyDTO.setSurveyId(Integer.parseInt(surveymaster.getId().toString()));
@@ -210,7 +217,8 @@ public class HomeController {
          
             
             log.info("SurveyVO is set");
-            String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath();
+            
+            String path	= req.getContextPath();
             model.addAttribute("path", path);
 
             model.addAttribute("surveyDTO", surveyDTO);
@@ -218,10 +226,13 @@ public class HomeController {
 
             if (surveyDetailsDTO.getType() == 1) {
 
-                return new ModelAndView("answerType");
+               log.info(" \n Fixed type Survey creation start");
+            	return new ModelAndView("answerType");
 
             } else if (surveyDetailsDTO.getType() == 2) {
 
+
+                log.info(" \n Customized type Survey creation start");
                 return new ModelAndView("addQuestionAnswer");
             }
 
@@ -232,11 +243,12 @@ public class HomeController {
         
         return null;
     }
-    @RequestMapping(value = "/surveyMaster") 
+    @RequestMapping(value = "/surveyMaster") // adding more Question and answer to the existing survey
     public ModelAndView continueSurveyUpdate(ModelMap model, @ModelAttribute("surveyDetailsDTO") SurveyDetailsDTO surveyDetailsDTO,HttpServletRequest req, HttpServletResponse res) throws IOException {
     	 try {
-             log.info("Going to save Survey Master Details -");
-             log.info("submitting survey to database");
+    		  log.info("Adding more Questions to Existing survey -");
+    		  log.info("Fetching Survey Master Details for updation -");
+             
              
              log.info("name :" + surveyDetailsDTO.getSurveyname());
              log.info("desc :" + surveyDetailsDTO.getDescription());
@@ -245,18 +257,16 @@ public class HomeController {
              UserMaster usermaster = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
              SurveyTypeMaster surveytypemaster = (SurveyTypeMaster) surveyTypeMasterService.fetch(BigDecimal.valueOf(surveyDetailsDTO.getType()));
              
-             log.info("getting answertype master list");
+            
 
              List<AnswerTypeMaster> answermasters = answerTypeMasterService.fetchAll(); // getting answer types from data
 
-             log.info("Answertype master list fetched");
 
              SurveyDTO surveyDTO = new SurveyDTO();
              surveyDTO.setSurveyId(decToInt(surveyDetailsDTO.getSurveyId()));
              surveyDTO.setSurveyName(surveyDetailsDTO.getSurveyname());
                        
-             
-             log.info("SurveyVO is set");
+         
              String path	= ""+req.getContextPath();
              model.addAttribute("path", path);
 
@@ -266,24 +276,29 @@ public class HomeController {
              if (surveyDetailsDTO.getType() == 1) {
             
             	 List<SurveyQuestionMapping> surveyQues = surveyQuestionMappingService.fetchByParam(surveyDetailsDTO.getSurveyId());
-            	 log.info("---check------------"+surveyQues);
+            	 
+            	 
             	 if(surveyQues.isEmpty())
             	 { 
-            		    model.addAttribute("surveyDTO", surveyDTO);
+            		    log.info("There is no Question and answer in the Survey(Fixed) :"+surveyDetailsDTO.getSurveyId());
+            		    log.info("First adding answers to the Survey");
+            		 	model.addAttribute("surveyDTO", surveyDTO);
                         model.addAttribute("answerTypeMaster", answermasters);
 
-            		 return new ModelAndView("answerType");
+                        return new ModelAndView("answerType");
             		 
             	 }
             	 else
             	 {
+            		 log.info("Adding more Question to the Survey(Fixed) :"+surveyDetailsDTO.getSurveyId());
+         		    
             		 List<ElementDTO> anslist = new ArrayList<ElementDTO>();
             		 QuestionAnswerMapping quesAnsmap = null;
             		 for(SurveyQuestionMapping surveyques: surveyQues)
             		 {
-            			 log.info("---check"+surveyques.getId());
+            			 
             			  quesAnsmap = (QuestionAnswerMapping) questionAnswerMappingService.fetch(surveyques.getQuestionAnsId().getId());
-            			 break;
+            			  break;
             		 }
             		 log.info("---------"+quesAnsmap.getAnswerId());
             		AnswerMaster ansmaster = (AnswerMaster) answerService.fetch(quesAnsmap.getAnswerId().getId());
@@ -299,6 +314,8 @@ public class HomeController {
             	 }
 
              } else if (surveyDetailsDTO.getType() == 2) {
+            	 log.info("Adding more Question Answer to the Survey(Customized) :"+surveyDetailsDTO.getSurveyId());
+     		    
             	   model.addAttribute("surveyDTO", surveyDTO);
             	   model.addAttribute("answerTypeMaster", answermasters);
                  return new ModelAndView("addQuestionAnswer");
@@ -313,20 +330,21 @@ public class HomeController {
     }
 
     	
-    @RequestMapping(value="/surveyMaster{uri}")
+    @RequestMapping(value="/surveyMaster{uri}")	// updating Survey Master MetaData
     public ModelAndView updateSurvey(ModelMap model,@PathVariable(value = "uri") String uri, @ModelAttribute("surveyDetailsDTO") SurveyDetailsDTO surveyDetailsDTO,HttpServletRequest req, HttpServletResponse res) throws IOException,ParseException{
-    	
-    		if(("updating").equals(req.getParameter("updateStatus")))
+    	  log.info("Survey Metadata Updated -");
+    	  
+    	  log.info("update Status : "+req.getParameter("updateStatus"));	
+    	  log.info("name :" + surveyDetailsDTO.getSurveyname());
+    	  log.info("desc :" + surveyDetailsDTO.getDescription());
+    	  log.info("Id :" + surveyDetailsDTO.getSurveyId());
+         
+         
+    	if(("updating").equals(req.getParameter("updateStatus")))
     		{
-    		    log.info("-----"+req.getParameter("updateStatus"));
+    		    
     			log.info("Going to update Survey Master Details -");
-	             log.info("submitting survey to database");
-	             
-	             log.info("name :" + surveyDetailsDTO.getSurveyname());
-	             log.info("desc :" + surveyDetailsDTO.getDescription());
-	             log.info("Id :" + surveyDetailsDTO.getSurveyId());
-	             
-	           
+
 	             SurveyUIDTO surveyDTO = handler.fetchSurveyDetails(decToInt(surveyDetailsDTO.getSurveyId()));
 	             
 	             SurveyMaster surveymaster = handler.mapToUpdateSurveymaster(surveyDetailsDTO,surveyDTO);
@@ -334,18 +352,10 @@ public class HomeController {
 	             surveyMasterService.update(surveymaster);
 	             
     		}
-    		else
-    		{
-    			 log.info("name :" + surveyDetailsDTO.getSurveyname());
-  	             log.info("desc :" + surveyDetailsDTO.getDescription());
-  	             log.info("Id :" + surveyDetailsDTO.getSurveyId());
-  	             
-  	             log.info("-----"+req.getParameter("updateStatus"));
-	             
-    		}
+    		
              SurveyUIDTO userSurveyDTO = handler.fetchSurveyDetails(decToInt(surveyDetailsDTO.getSurveyId()));
              
-             String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath();
+             String path	= ""+req.getContextPath();
              model.addAttribute("path", path);
           
              
@@ -417,13 +427,11 @@ public class HomeController {
             log.info("question :" + question);
         }
         for(String mandatory : questionDTO.getMandatory()){
-        	log.info("mandatory :------------"+mandatory);
+        	log.info("mandatory status :-"+mandatory);
         }
 
         UserMaster usermaster = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
         
-       // SurveyMaster surveymaster = (SurveyMaster) surveyMasterService.fetch(BigDecimal.valueOf(surveyDTO.getSurveyId()));
-
         SurveyQuestionMapping surveyQuestionMapping = handler.mapToQuestionMaster(questionDTO, usermaster, surveyDTO);
 
         log.info("Survey question answers saved in - " + surveyQuestionMapping.getId());
@@ -432,7 +440,7 @@ public class HomeController {
         long code = handler.uniqueEncode(BigDecimal.valueOf(0), BigDecimal.valueOf(surveyDTO.getSurveyId()));
         String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath()+"/s/survey"+surveyDTO.getSurveyId()+"&u"+code;
         model.addAttribute("path", path);
-      
+        log.info("Survey Saved");
         modelAndView.setViewName("thanksAdmin");
         return modelAndView;
     }
@@ -443,13 +451,12 @@ public class HomeController {
     public ModelAndView submitSurveyResponse1(ModelMap model, @ModelAttribute("surveyResponseDTO") SurveyResponseDTO surveyResponseDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println("-->>>>> surveyResponseDTO" + surveyResponseDTO);
+       log.info("Saving Question Answers");
         if (surveyResponseDTO != null) {
 
-            System.out.println("-->>>>> surveyResponseDTO Survey Questions" + surveyResponseDTO.getSurveyQuestions());
-
+          
             for (SurveyQuestionDTO q : surveyResponseDTO.getSurveyQuestions()) {
-                System.out.println("-->>>>> q.getQuestionText()" + q.getQuestionText() + " -- " + q.getAnsTypeId());
+                log.info("Question Text -------" + q.getQuestionText() + " -- " + q.getAnsTypeId());
                 /*if (q.get getAnswers()!=null){
                 System.out.println("-->>>>> q.getAnswers()"+q.getAnswers());
                 for (ElementDTO	a:q.getAnswers()){
@@ -479,8 +486,9 @@ public class HomeController {
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setSurveyId(surveyResponseDTO.getSurveyId());
         surveyDTO.setSurveyName(surveyResponseDTO.getSurveyName());
-        String path	= request.getServerName()+":"+request.getServerPort()+""+request.getContextPath();
-        
+        long code = handler.uniqueEncode(BigDecimal.valueOf(0), BigDecimal.valueOf(surveyDTO.getSurveyId()));
+        String path	= request.getServerName()+":"+request.getServerPort()+""+request.getContextPath()+"/s/survey"+surveyDTO.getSurveyId()+"&u"+code;
+        log.info("Survey Saved");
         model.addAttribute("path", path);
         model.addAttribute("survey", surveyDTO);
         modelAndView.setViewName("thanksAdmin");
@@ -496,11 +504,26 @@ public class HomeController {
      * @param numB  This is the second parameter to addNum method
      * @return int This returns sum of numA and numB.
      */
-    @RequestMapping(value = "/s/survey{uri}&u{ure}", method = RequestMethod.GET)
+    @RequestMapping(value = "/s/survey{uri}&u{ure}", method = RequestMethod.GET) // Survey Page for Users
     public ModelAndView getPublishedSurvey(ModelMap model, @PathVariable(value = "uri") String uri,@PathVariable(value = "ure") String ure) throws IOException {
 
-        
-        log.info("String here in getPublishedSurvey " + uri);
+    	log.info("Request for viewing Survey Page (User) -");
+        log.info("Survey: " + uri);
+        log.info("unique code :" + ure);
+        long userId = handler.uniqueDecode(Integer.parseInt(ure), Integer.parseInt(uri)); 
+        log.info("User Id " + userId);
+        SurveyUIDTO userSurveyDTO = new SurveyUIDTO();
+        try
+        {
+        	 userSurveyDTO = handler.fetchSurveyDetails(Integer.parseInt(uri));
+        }
+        catch(IndexOutOfBoundsException e)
+		{
+        	String surveyRes = "<h4>This Survey has been Deleted</h4>";
+        	log.info("Survey Deleted");
+        	model.addAttribute("surveyRes", surveyRes);
+		      return new ModelAndView("thanksUser");
+		}
         log.info("String here in getUser " + ure);
         long userId = handler.uniqueDecode(Integer.parseInt(ure), Integer.parseInt(uri));
         log.info("User Id " + userId);
@@ -521,10 +544,9 @@ public class HomeController {
 	        String publishStatus = userSurveyDTO.getPublished().toString();
 	        if(publishStatus.equalsIgnoreCase("active"))
 	        {
-	        	System.out.println("userfetch---------------------------------------------start");
+	        	
 		        String validUser = handler.checkUser(BigDecimal.valueOf(userId),Integer.parseInt(uri));
-		        System.out.println("userfetch---------------------------------------------start" + validUser);
-		        
+		        log.info("Survey is Active and user is "+validUser);
 		        if(validUser.equals("true"))
 		        {
 		        	UserMaster user = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
@@ -553,12 +575,16 @@ public class HomeController {
 	        }
 	        else if(publishStatus.equalsIgnoreCase("pending"))
 	        {
+	        	log.info("Survey is Pending");
+		        
 	        	String surveyRes = " This Survey has not been Started yet "+"<br>"+"Survey Start date is "+userSurveyDTO.getSurveystart().toString();
 	        	 model.addAttribute("surveyRes", surveyRes);
 			        return new ModelAndView("thanksUser");
 	        }
 	        else
 	        {
+	        	log.info("Survey is Closed");
+			       
 	        	String surveyRes = " This Survey has been closed since "+userSurveyDTO.getSurveystart().toString();
 	        	 model.addAttribute("surveyRes", surveyRes);
 			        return new ModelAndView("thanksUser");
@@ -569,18 +595,21 @@ public class HomeController {
 	    	 String publishStatus = userSurveyDTO.getPublished().toString();
 		        if(publishStatus.equalsIgnoreCase("active"))
 		        {
+		        	log.info("Survey is Active");
 		        	log.info("userSurveyDTO " + userSurveyDTO.getSurveyId() + userSurveyDTO.getSurveyName());
 		        	model.addAttribute("survey", userSurveyDTO);
 		        	return new ModelAndView("viewSurvey");
 		        }
 		        else if(publishStatus.equalsIgnoreCase("pending"))
 		        {
+		        	log.info("Survey is Pending");
 		        	String surveyRes = " This Survey has not been Started yet "+"<br>"+"Survey Start date is "+userSurveyDTO.getSurveystart().toString();
 		        	 model.addAttribute("surveyRes", surveyRes);
 				        return new ModelAndView("thanksUser");
 		        }
 		        else
 		        {
+		        	log.info("Survey is Closed");
 		        	String surveyRes = " This Survey has been closed since "+userSurveyDTO.getSurveystart().toString();
 		        	 model.addAttribute("surveyRes", surveyRes);
 				        return new ModelAndView("thanksUser");
@@ -592,7 +621,7 @@ public class HomeController {
     @RequestMapping(value = "/v/survey{uri}", method = RequestMethod.GET)
     public ModelAndView viewSurveyRecord(ModelMap model, @PathVariable(value = "uri") String uri, @ModelAttribute("surveyAnswerDTO") SurveyAnswerDTO surveyAnswerDTO , HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
     	
-    	log.info("\n \n fetch Records of the Survey "+uri);
+    	  log.info("Request For viewing Survey Record of Survey :"+uri);
     	
     	    	
     	SurveyDetailsDTO surveyDTO = handler.fetchSurveyDetail(Integer.parseInt(uri));
@@ -612,15 +641,17 @@ public class HomeController {
     
    @RequestMapping(value = "/d/survey{uri}", method = RequestMethod.GET)
     public ModelAndView deleteSurveyRecord(ModelMap model, @PathVariable(value = "uri") String uri) throws IOException {
+	   log.info("Delete Request for the Survey : "+uri);
     	
-    	log.info("\n \n \ndelete Records of  Survey "+uri);
-    	System.out.println("  Survey  deletion start");
+    	
     	boolean surveyDel = handler.deleteSurveyDetail(Integer.parseInt(uri));
     	
     	String result = "surveyDeleted";
     	
     	if(surveyDel == true)
     	{
+
+    		log.info("Survey Deleted");
     		model.addAttribute("result", result);
     		return new ModelAndView("delete");
     		
@@ -640,6 +671,7 @@ public class HomeController {
     @RequestMapping(value="/e/survey{uri}")
     public ModelAndView editSurvey(ModelMap model, @PathVariable(value = "uri") String uri) throws IOException,ParseException {
     	
+    	  log.info("Editing Request for the Survey -"+uri);
     	SurveyDetailsDTO surveyDTO = handler.fetchSurveyDetail(Integer.parseInt(uri));
     	
     	model.addAttribute("survey",surveyDTO);
@@ -652,8 +684,8 @@ public class HomeController {
     @RequestMapping(value="/e/question{uri}")
     public void editQuestion(ModelMap model, @PathVariable(value = "uri") String uri, @ModelAttribute("QuestionUIDTO") QuestionUIDTO question,@ModelAttribute("SurveyDetailsDTO") SurveyDetailsDTO survey) throws IOException,ParseException {
     	
-    	System.out.println("-----"+question.getQuestionText());
-    	System.out.println("-----"+question.getMandatory());
+    	 log.info("Editing Request for Question-"+uri);
+    	
     	handler.updateMandatoryStatus(question,survey,Integer.parseInt(uri));
     		
     	handler.editQuestionText(question,Integer.parseInt(uri),survey);
@@ -667,8 +699,9 @@ public class HomeController {
     @RequestMapping(value="/d/question{uri}")
     public ModelAndView deleteQuestion(ModelMap model,@PathVariable(value = "uri") String uri, @ModelAttribute("SurveyDetailsDTO") SurveyDetailsDTO surveyDetails,HttpServletRequest request, HttpServletResponse response){
      
-    	System.out.println("-------------------------"+	surveyDetails.getSurveyId()+"=== "+surveyDetails.getSurveyname());
-    	boolean del = handler.deleteQuestion(Integer.parseInt(uri),surveyDetails);
+    	  log.info("Deletion Request for Question :-"+uri);
+    	
+    	  boolean del = handler.deleteQuestion(Integer.parseInt(uri),surveyDetails);
     	SurveyUIDTO survey = new SurveyUIDTO();
     	
     	survey.setSurveyId(decToInt(surveyDetails.getSurveyId()));
@@ -678,6 +711,7 @@ public class HomeController {
    
     	if(del == true)
     	{
+    		log.info("Question Deleted");
     		String result = "questionDeleted";
     		model.addAttribute("result",result);
     		model.addAttribute("survey",survey);
@@ -690,18 +724,16 @@ public class HomeController {
     
     @RequestMapping(value = "/s/submitSurveyResponse", method = RequestMethod.POST)
     public ModelAndView submitSurveyResponse(ModelMap model, @ModelAttribute("surveyResponseDTO") SurveyResponseDTO surveyResponseDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    	
+    	log.info("Submitting Survey Reponse By the User-");
         ModelAndView modelAndView = new ModelAndView();
         String email = request.getParameter("surveyEmail");
       
-        System.out.println("-->>>>> surveyResponseDTO" + surveyResponseDTO);
         if (surveyResponseDTO != null) {
 
-            System.out.println("-->>>>> surveyResponseDTO Survey Questions" + surveyResponseDTO.getSurveyQuestions());
-
+         
             for (SurveyQuestionDTO q : surveyResponseDTO.getSurveyQuestions()) {
-                System.out.println("-->>>>> q.getQuestionId()" + q.getQuestionId());
-                /*if (q.getAnswers()!=null){
+               /*if (q.getAnswers()!=null){
                 System.out.println("-->>>>> q.getAnswers()"+q.getAnswers());
                 for (AnswerDTO	a:q.getAnswers()){
                 System.out.println("-->>>>> a.getAnsId()"+a.getAnsId());
@@ -710,9 +742,9 @@ public class HomeController {
                 }*/
 
                 if (q.getAnsTextList() != null) {
-                    System.out.println("-->>>>> q.getAnsTextList()" + q.getAnsTextList());
+                   
                     for (String a : q.getAnsTextList()) {
-                        System.out.println("-->>>>> ans text " + a);
+                       
 
                     }
                 }
@@ -740,7 +772,8 @@ public class HomeController {
 			}
 			else
 			{
-				 model.addAttribute("surveyRes", "You have already submitted your response for this Survey");
+				log.info("response is already submitted by the user for this survey");
+				model.addAttribute("surveyRes", "You have already submitted your response for this Survey");
 			}
         /*System.out.println("----Addr: "+request.getRemoteAddr()+"----Host: " +request.getRemoteHost()+"----Port: " + request.getRemotePort()+"----User: " +request.getRemoteUser());
         //UserSurveyUrlMapping surveyUrlMapping = userSurveyUrlService.getUserSurveyURL(uri); 
@@ -777,14 +810,23 @@ public class HomeController {
     @RequestMapping(value="/userList", method = RequestMethod.POST)
     public ModelAndView uploadFile(ModelMap model,@ModelAttribute("uploadFile") uploadFileDTO uploadFile, HttpServletRequest request, HttpServletResponse response )throws Exception
     {
-    	String saveDirectory = "D://eSurveyPlanner//src//main//webapp//resources//upload//";
+    	  log.info("Request for Creating User List through Excel file");
+    	
+    	File temp = File.createTempFile("ESurveyPlanner","");
+    	temp.delete();
+    	temp.mkdir();
+    	log.info("Temporary folder Path :- "+temp.getAbsolutePath().toString());
+    	
+    	String saveDirectory = temp.getAbsolutePath().toString().trim();
+    	log.info("Uploading file.. . . ..");
+    	
     	List<UserDetailsDTO> userDetails = null;
     	MultipartFile file = uploadFile.getFile(); 
     	
-    	System.out.println("file name is:- \t "+uploadFile.getFile().getOriginalFilename());
+    	log.info("file name is:- \t "+uploadFile.getFile().getOriginalFilename());
     	String userList = uploadFile.getUserListName();
-    	System.out.println("User List name is:- \t "+uploadFile.getUserListName());
-    	System.out.println("User List Description is:- \t "+uploadFile.getDescription());
+    	log.info("User List name is:- \t "+uploadFile.getUserListName());
+    	log.info("User List Description is:- \t "+uploadFile.getDescription());
     	 UserMaster usermaster = (UserMaster) userMasterService.fetch(BigDecimal.valueOf(userId));
     	  
     	 UserList userlist = null;
@@ -799,16 +841,18 @@ public class HomeController {
     			  File dest = new File(saveDirectory + userList + ".xls");
     			  
     			  file.transferTo(dest);
-    			  System.out.println("-------------------"+dest.getPath());
-    			  
+    			  log.info("File Uploaded");
+    		    	
+    			    			  
     			  userlist = handler.maptoUserList(uploadFile,usermaster);
     			  userListService.add(userlist);
-    			  log.info("user ----------------- :-"+userlist);
-    			  log.info("--------User list Saved -------------");
+    			
+    			  log.info("---- user list Saved ----");
     			  
     			  
     			  userDetails = userExcel.mapUserDataToList(dest.getPath().toString());
-    			  System.out.println("-------------------"+userDetails.size());
+    			 
+    			  temp.delete();
     			  dest.delete();
     		  	}
     	  	}
@@ -817,19 +861,18 @@ public class HomeController {
     	    
     	  for(UserDetailsDTO user : userDetails)
     	  {
+    		  log.info("Saving user details in the database ..................");
     		  int i=0;
     		  UserMaster userMaster = handler.mapToUsermaster(usermaster,user);
-    		  log.info("user ----------------- :-"+userMaster);
-    		  log.info("user saved :-"+i);
     		  
     		  UserListMapping userMap = handler.mapToUserListMapping(userlist,userMaster);
-    		  log.info("user saved ------------------------------------:-"+i+"------"+userMap.getUserId()+" "+userMap.getUserListId());
+    		  log.info("USER  :-"+i+" userID :-"+userMap.getUserId().getId()+" User List id is :"+userMap.getUserListId().getId());
     		  userListMappingService.add(userMap);
     		
     		  i++;
     		  
     	  }
-    	  log.info("saved-------");
+    	  log.info("save ------- DONE");
     	  
     	model.addAttribute("file", uploadFile);
     	model.addAttribute("userDetails", userDetails);
@@ -857,8 +900,9 @@ public class HomeController {
     @RequestMapping(value = "/d/userList{uri}", method = RequestMethod.GET)
     public ModelAndView deleteUserList(ModelMap model, @PathVariable(value = "uri") String uri) throws IOException {
     	
-    	log.info("\n \n \ndelete Records of  Users "+uri);
-    	System.out.println("  UserList deletion start");
+    	log.info("Request for deleting user list :-"+uri);
+    	
+    	
     	
     	boolean userlistDel = handler.deleteUserList(Integer.parseInt(uri));
     		
@@ -866,8 +910,8 @@ public class HomeController {
     	
 	    	if(userlistDel == true )
 	    	{
-	    		System.out.println("  deleted User Details..... "+Integer.parseInt(uri));
-	
+	    		
+	    		log.info("User list Deleted");
 	    		model.addAttribute("result", result);
 	    		return new ModelAndView("delete");
 	    		
@@ -881,7 +925,7 @@ public class HomeController {
     @RequestMapping(value = "/send_survey{uri}", method = RequestMethod.GET)
     public ModelAndView mailUI(ModelMap model,@PathVariable(value = "uri") String uri,HttpServletRequest req, HttpServletResponse res) throws Exception {
     	
-    	log.info("--- Mail UI ----");
+    	log.info("Request for Sending Link of Survey "+uri +" through Email to the users ");
     	
     	List<UserListDTO> userlist	= handler.fetchAlluserlists();
     	SurveyDetailsDTO SurveyDTO = handler.fetchSurveyDetail(Integer.parseInt(uri));
@@ -898,10 +942,10 @@ public class HomeController {
     }
     
     
-    @RequestMapping(value = "/mailSent", method = RequestMethod.POST)
+    @RequestMapping(value = "/mail", method = RequestMethod.POST)
     public ModelAndView mailSending(ModelMap model,  @ModelAttribute("mailDetailDTO") mailDetailDTO mailDetails,HttpServletRequest req, HttpServletResponse res) throws Exception {
     	
-    	log.info("--- Mail Sending ----");
+    	log.info("Mail Sending.....");
     		
     		String sender = mailDetails.getSender();
     		String password = mailDetails.getPassword();
@@ -911,35 +955,38 @@ public class HomeController {
     		String link = mailDetails.getSurveylink();
     		BigDecimal surveyId = mailDetails.getSurveyId();
     		
-	    		System.out.println("Sender ------"+sender);
-	    		System.out.println("Sender ------"+password);
-	    		System.out.println("Reciever list------"+recieveId);
-	    		System.out.println("Message ------"+message);
-	    		System.out.println(" subject	------"+subject);
-	    		System.out.println(" link ------"+link);
-	    		System.out.println("survey id-------"+surveyId);
+	    		
     	
 	    boolean mailsendStatus = false;
-	    System.out.println("startup----------------"+mailsendStatus);
-    	
+	 	
     	 mailsendStatus = handler.doSendMail(sender,password, recieveId , message , subject , link, surveyId);
     	 
-    	 
-    	if(mailsendStatus = true)
+    	 log.info(""+mailsendStatus);
+    	if(mailsendStatus == true)
     	{
+    	 	model.addAttribute("status", "success");
     		return new ModelAndView("mailSuccess");
     	}
     	else
     	{
-    		return new ModelAndView("blank");
+    		log.error("Error Occured while Sending mail");
+    		String path	= req.getContextPath()+"/send_survey"+surveyId;
+    	   	 
+    	   	 
+    	 	model.addAttribute("path", path);
+    	 	model.addAttribute("status", "error");
+    		
+    	 	return new ModelAndView("mailSuccess");
     	}
-	    	
     
     }
     @RequestMapping(value="/publish{uri}")
     public ModelAndView publish(ModelMap model,@PathVariable(value = "uri") String uri,HttpServletRequest req, HttpServletResponse res) throws IOException,ParseException {
     	
-    	System.out.println("------------"+uri);
+    	log.info("Request For Publishing URL to the Social Network");
+		
+    	
+    	
     	long code = handler.uniqueEncode(BigDecimal.valueOf(0), BigDecimal.valueOf(Integer.parseInt(uri)));
    	 String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath()+"/s/survey"+BigDecimal.valueOf(Integer.parseInt(uri))+"&u"+code;
    	 
@@ -959,7 +1006,7 @@ public class HomeController {
     
     private int decToInt(BigDecimal dec){
 			
-			return Integer.parseInt(dec.toString());
+			return Integer.parseInt(dec.toString()); // converting BigDecimal to Integer
 			
 		}
 	}

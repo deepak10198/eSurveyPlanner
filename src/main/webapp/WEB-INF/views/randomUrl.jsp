@@ -48,7 +48,7 @@
 			<br>
 			<br>
 					<p>
-					<h5>${ path}</h5>
+					<a href="${path }"><h5> ${ path}	</h5></a>
 					</p>
 					
 					<ul class="list-inline banner-social-buttons">

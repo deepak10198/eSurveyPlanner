@@ -94,7 +94,7 @@
                 <value>com.esp.entity.SurveyResponse</value>
                 <value>com.esp.entity.Role</value>
                 <value>com.esp.entity.UserRoles</value>
-                 <value>com.esp.entity.UserListMapping</value>
+                <value>com.esp.entity.UserListMapping</value>
             </list>
         </property>
         <property name="hibernateProperties">

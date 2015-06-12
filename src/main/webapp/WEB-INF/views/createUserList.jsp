@@ -39,14 +39,14 @@
 				<div class="col-sm-4">
 					<div class="well">
 						<p>
-							<h2><span class="glyphicon glyphicon-user"></span> Hi, Admin!</h2>
+							<h3><span class="glyphicon glyphicon-user"></span> Hi, Admin!</h3>
 						</p>
 						<br>
 						Here you can create the user list which can be mapped to surveys!
 					</div>
 					
 					<div class="well">
-					<b><span class="glyphicon glyphicon-hand-up"></span>..Click here to see   <a  href="viewUserLists">Existing User List</a> ....</b>
+					<b><span class="glyphicon glyphicon-hand-up"></span> &nbsp;Click here to see   <a  href="viewUserLists" style="text-decoration:none">Existing User List</a> ....</b>
 					</div>
 				</div>
 				

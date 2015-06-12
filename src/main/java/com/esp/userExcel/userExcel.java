@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import com.esp.handler.HomeHandler;   
+import com.esp.handler.HomeHandler;
 
 import com.esp.service.GenericService;
 
@@ -58,7 +58,6 @@ private  HomeHandler handler;
 	
 	public static List<UserDetailsDTO> mapUserDataToList(String filePath)
 	{
-		
 		try
 		{
 			List<UserDetailsDTO> userDetail = new ArrayList<UserDetailsDTO>();
@@ -77,7 +76,7 @@ private  HomeHandler handler;
 				
 				Iterator<Row> rowIterator = sheet.iterator();
 				int rowCount = sheet.getLastRowNum();
-				System.out.println("Row number ------------- "+rowCount);
+				System.out.println("Number of rows:- "+rowCount);
 				
 				
 				for(int c=0; c <= rowCount; c++)
@@ -88,7 +87,8 @@ private  HomeHandler handler;
 					Row row = rowIterator.next();
 			
 						int columnNum = row.getLastCellNum();
-						System.out.println("Column number ------------- "+columnNum);
+						
+						System.out.println(" Column :- "+columnNum);
 							
 						for(int col = 0; col < columnNum; col++)
 						{
@@ -99,11 +99,11 @@ private  HomeHandler handler;
 							{
 								
 								if(cell.getStringCellValue()==""|| cell.getStringCellValue()==null)
-								{System.out.println("blank");}
+								{}
 								else
 								{
 									columnData.add(cell.getRichStringCellValue().toString());
-									System.out.println("String"+cell.getStringCellValue());
+									
 								}
 							
 							}
@@ -111,7 +111,7 @@ private  HomeHandler handler;
 						
 							else if (cell.getCellType() == Cell.CELL_TYPE_BLANK)
 							{columnData.add(String.valueOf(""));	
-							System.out.println("blank"+cell.getStringCellValue());}
+							}
 						
 							else
 							{
@@ -122,7 +122,7 @@ private  HomeHandler handler;
 									
 								columnData.add(format.format(pdate).toString());
 								
-							System.out.println("other"+format.format(pdate).toString());
+							
 							}
 							
 							
@@ -132,21 +132,34 @@ private  HomeHandler handler;
 					
 					
 						
-						System.out.println("--"+columnData.size());
+						
 						for(int m=0 ; m<columnData.size();m++)
 						{
-							System.out.println(m+"---"+columnData.get(m));
+							
 						}
-						System.out.println("Storing data to list-----------");
+					
 						for(String col : columnData)
 						{
-							System.out.println("check ------------------------------------------------------- "+col);
-						}
+							}
 						
 						
 							userdet.setFirstName(columnData.get(0));
-							userdet.setMiddleName(columnData.get(1));
-							userdet.setLastName(columnData.get(2));
+							
+							if(columnData.get(1).equals(null))
+							{
+								userdet.setMiddleName("");
+							}
+							else{
+								userdet.setMiddleName(columnData.get(1));
+							}
+							if(columnData.get(2).equals(null))
+							{
+								userdet.setLastName("");
+							}
+							else{
+								userdet.setLastName(columnData.get(2));
+							}
+							
 							userdet.setGender(columnData.get(3));
 							
 							userdet.setdob(columnData.get(4));
@@ -164,7 +177,7 @@ private  HomeHandler handler;
 						columnData.clear();
 						
 						
-						System.out.println(" list-----------"+userDetail.size());
+					
 						
 					}
 				
@@ -179,7 +192,7 @@ private  HomeHandler handler;
 					System.out.println("User Details:"+ userdet.getFirstName()+" "+userdet.getMiddleName()+" "+userdet.getLastName()+"\t "+userdet.getEmail());
 					
 				}
-				
+				System.out.println("Data Extracted from the file");
 			return userDetail;
 			
 		}
@@ -188,6 +201,9 @@ private  HomeHandler handler;
 			e.printStackTrace();
 		}
 		return null;
-	}
 	
+	}
 }
+		
+		
+	

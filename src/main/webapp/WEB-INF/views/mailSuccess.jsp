@@ -23,7 +23,8 @@
 		<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Bootstrap theme -->
 		<link href="resources/css/bootstrap-theme.min.css" rel="stylesheet">
-
+			<link href="resources/css/bootstrap.css" rel="stylesheet">
+		
 		<!-- Just for debugging purposes. Don't actually copy this line! -->
 		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -44,15 +45,33 @@
 
 		<%@include file="includes/header.jsp" %>
 
-		<div class="row form-div-cus">
-			<div class="well">
-				<div class="col-lg" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
-				<b>	<center><h4>Mail sent successfully</h4></center></b></br></br>
+		
+					<c:choose>
+					
+				<c:when test="${status == 'success' }">
 				
+	<div class="row form-div-cus" >
+			<div class="col-lg-12" align="center">
+				<div class="well">
+				
+				<b>	<center><h4>Mail sent successfully</h4></center></b></br></br>
 					<center><a role="button" class="btn btn-info btn-md" href="home">Go to Home</a> &nbsp;</center>
-				</div>
+					</div>
 				</div>
 			</div>
+				</c:when>
+				<c:when test="${status == 'error' }">
+				<script>
+					alert("Email id or password not valid");
+					window.location = '${path}';
+				</script>
+				
+				
+				
+				</c:when></c:choose>
+				
+				
+				
 
 		<%@include file="includes/footer.jsp" %>
 
@@ -60,6 +79,8 @@
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="https://raw.githubusercontent.com/makeusabrew/bootbox/v2.4.2/bootbox.min.js"></script>
+		
 		<script src="resources/js/bootstrap.min.js"></script>
 		<script src="resources/js/bootstrap-datepicker.js"></script>
 		<script src="resources/js/bootstrapValidator.js"></script>

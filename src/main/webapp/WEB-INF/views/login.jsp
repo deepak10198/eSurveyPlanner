@@ -79,8 +79,7 @@ h3 {
 }
 </style>
 </head>
-<body onload='document.loginForm.username.focus();'
-	style="background:url('http://www.hdwallpapersjpg.com/wp-content/uploads/2015/03/Digital-Math-Free-Wallpaper.jpg') no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+<body style="background:  url('resources/images/background.jpg') no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;" onload='document.loginForm.username.focus();'>
 	<%@include file="includes/welcomeHeader.jsp"%>
 
 

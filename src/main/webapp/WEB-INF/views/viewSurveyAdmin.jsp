@@ -52,7 +52,7 @@ a.reUline:hover {
 
 	<div class="row form-div-cus">
 		<div class="well">
-			<div class="col-lg"
+			<div class="col-lg table-responsive"
 				style="border: 1px solid #d9d9d9; padding: 1em; border-radius: 4px;">
 				<table id="paginationtable"
 					class="table table-striped table-bordered" cellspacing="0"

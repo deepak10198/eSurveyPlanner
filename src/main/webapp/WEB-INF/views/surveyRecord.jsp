@@ -125,7 +125,7 @@ a.reUline:hover {
 				<div class=" col-sm-8 well"
 					style="background: rgba(255, 0, 0, 0.9); border: 1px solid black;">
 					<center>
-						<b> <c:out value=".... ${survey.published } ...." />
+						<b> <c:out value=" ${survey.published }" />
 						</b>
 					</center>
 				</div>
@@ -134,7 +134,7 @@ a.reUline:hover {
 				<div class=" col-sm-8 well"
 					style="background: rgba(0, 204, 0, 1.0); border: 1px solid black;">
 					<center>
-						<b> <c:out value=".... ${survey.published } ...." />
+						<b> <c:out value=" ${survey.published } " />
 						</b>
 					</center>
 				</div>
@@ -143,7 +143,7 @@ a.reUline:hover {
 				<div class=" col-sm-8 well"
 					style="background: rgba(255, 255, 0, 0.8); border: 1px solid black;">
 					<center>
-						<b> <c:out value=".... ${survey.published } ...." />
+						<b> <c:out value=" ${survey.published } " />
 						</b>
 					</center>
 				</div>

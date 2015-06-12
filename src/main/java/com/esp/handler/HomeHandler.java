@@ -36,7 +36,9 @@ import com.esp.dto.SurveyResponseDTO;
 import com.esp.dto.SurveyUIDTO;
 import com.esp.dto.uploadFileDTO;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -50,6 +52,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -64,6 +67,7 @@ import javax.activation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
@@ -77,7 +81,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class HomeHandler {
 
- 
+	 private Logger log = Logger.getLogger(this.getClass().getName());
+
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     Date todayDate;
     
@@ -142,7 +147,7 @@ public class HomeHandler {
     	
     	List<UserMaster> userMasterlist = userMasterService.fetchByParam(details.getLoginId());
     	
-    	System.out.println("---------"+userMasterlist);
+    	
     	
     	UserMaster usermaster = new UserMaster();
     	
@@ -298,7 +303,7 @@ public class HomeHandler {
     
 	 public AnswerMaster mapToAnswerMaster(FixedSurveyAnswersDTO ansDetailsDTO) throws Exception    
 	    {
-	    	System.out.println("----mapToAnswerMaster :");	
+	    	log.info("--- mapToAnswerMaster :");
 	        Date date = null;
 	        Class noparams[] = {};
 	        
@@ -309,14 +314,15 @@ public class HomeHandler {
 	        
 	        List<String> ansTextList = ansDetailsDTO.getAnsTextList();
 	        List<String> otherinfo = ansDetailsDTO.getOther();
-	        System.out.println("----descList.size() :"+ansTextList);	
+	        
+	        log.info("----descList.size() :"+ansTextList);	
 	        
 	        if (ansTextList.size() >5) throw new Exception("Answers's list should not be greater than 5");
 	    	Class ansMasterClass = AnswerMaster.class;
 	    	
 	        for (int i =0; i<ansTextList.size(); i++ ) {
 	            Method method = ansMasterClass.getDeclaredMethod("setAnsText"+(i+1), paramAnsText);
-	        	System.out.println("----descList.get(i) :"+ansTextList.get(i));	
+	        	
 	        	method.invoke(ansMaster,saveAnsText(ansTextList.get(i),otherinfo.get(i)) );
 	        	        	
 			}
@@ -329,16 +335,16 @@ public class HomeHandler {
     
    private AnswerTextMaster saveAnsText(String text, String otherinfo) throws ParseException    {
 	   
-	   System.out.println("----text :"+text);
+	  
 	   
 	   char first = Character.toUpperCase(text.charAt(0));
 	   text = first + text.substring(1).toLowerCase();
 	   
-	   System.out.println("----text new :"+text);
+	   log.info("Answertext :"+text);
 	   
-	   System.out.println("...."+answerTextMasterService);
 	   List<AnswerTextMaster> ansTextList = answerTextMasterService.fetchByMultipleParam(text, otherinfo);
-	   System.out.println("....2");
+	  
+	   
 	   System.out.println("....2.1 =-----"+ansTextList);
 	   
 	   if (ansTextList==null || ansTextList.isEmpty()){
@@ -349,7 +355,7 @@ public class HomeHandler {
 		   
 		   
 	   }
-	   System.out.println("....3");
+	   
 	   return ansTextList.get(0);
 	   
    }
@@ -406,7 +412,7 @@ public class HomeHandler {
 	public SurveyQuestionMapping mapToQuestionMaster(FixedSurveyQuestionsDTO questionDTO, UserMaster usermaster,SurveyDTO surveyDTO ){
 		
 	
-		 System.out.println("------mapToQuestionMaster : Start");	
+		
 		todayDate = new Date();
 		QuestionAnswerMapping questionAnswerMapping = null;
 		SurveyQuestionMapping surveyQuestionMapping = null;
@@ -438,7 +444,7 @@ public class HomeHandler {
 		
 		
 		
-		System.out.println("----mapToQuestionMaster : end");	
+			
 		return surveyQuestionMapping;
 	}
 	
@@ -446,9 +452,9 @@ public class HomeHandler {
 	
 	private QuestionMaster saveAndfetchQuesText(String questionText, UserMaster usermaster )    {
 		   
-		   System.out.println("----questionText :"+questionText);	
+		 log.info("questionText :--"+questionText);	
 		   List<QuestionMaster> quesMasterList = questionMasterService.fetchByParam(questionText);
-		   System.out.println("....2");
+		   
 		   if (quesMasterList==null || quesMasterList.isEmpty()){
 			   QuestionMaster questionMaster =	new QuestionMaster(); 
 			   questionMaster.setCreatedById(usermaster);
@@ -462,7 +468,7 @@ public class HomeHandler {
 			   
 			   
 		   }
-		   System.out.println("....3");
+		   
 		   return quesMasterList.get(0);
 		   
 	   } 
@@ -504,21 +510,20 @@ public SurveyQuestionMapping saveQuestionAnswers(SurveyResponseDTO surveyRespons
 		String quesText=questionDTO.getQuestionText();
 		String mandatory= questionDTO.getMandatory();
 		
-		System.out.println("------++++"+mandatory);
+	
 		
-		System.out.println("Survey quesText" + quesText);
+	
 		if(quesText!=null && !"".equals(quesText)){
 			questionMaster = saveAndfetchQuesText(quesText,usermaster);
 			
-			System.out.println("Going to Save Survey Questions - Answers ");
-			
-			System.out.println("Going to Save Survey Questions of Type "+questionDTO.getAnsTypeId());
 			AnswerMaster answerMaster = null;
 			if(questionDTO.getAnsTypeId()!=3){
 				FixedSurveyAnswersDTO ansDetailsDTO = new FixedSurveyAnswersDTO();
 				ansDetailsDTO.setAnsTypeId(questionDTO.getAnsTypeId());
 				ansDetailsDTO.setAnsTextList(questionDTO.getAnsTextList());
 				System.out.println("--------^^^^"+questionDTO.getOther());
+				ansDetailsDTO.setOther(questionDTO.getOther());
+				
 				ansDetailsDTO.setOther(questionDTO.getOther());
 				
 				answerMaster = mapToAnswerMaster(ansDetailsDTO);
@@ -529,7 +534,7 @@ public SurveyQuestionMapping saveQuestionAnswers(SurveyResponseDTO surveyRespons
 			
 			questionAnswerMapping = saveQuesAnsMapping(questionMaster,answerMaster,answerTypeMaster , usermaster);
 			surveyQuestionMapping = saveSurveyQuestionMapping(surveyMaster,questionAnswerMapping,usermaster,mandatory);
-			System.out.println("Survey question answers saved inaa - " + surveyQuestionMapping.getId());
+			
 		}
 		
 		
@@ -561,7 +566,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	public String handleAllRequest(HttpServletRequest request){
 		
 		String page = request.getRequestURI();
-		System.out.println("URI req "+ page);
+		log.info("URI req "+ page);
 		page = page.substring(page.lastIndexOf("/")+1, page.length());
 		return page;
 	}
@@ -574,7 +579,10 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
      */
 	
 	public SurveyUIDTO fetchSurveyDetails(int surveyId){
-		System.out.println("surveyId for fetching details"+surveyId);
+		
+		
+		log.info("Fetching Survey Details for Survey :"+surveyId);
+		
 		SurveyUIDTO userSurveyDTO = null;
 		userSurveyDTO= new SurveyUIDTO();
 		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(BigDecimal.valueOf(surveyId));
@@ -609,14 +617,14 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		
 		
 		boolean resultDetail = deleteSurveyQuestions(surveyId);
-		System.out.println("  deleted Survey Details..... "+surveyId);
+	
 		if(resultDetail == true)
 		{
 			
 			
 			
 			surveyMasterService.delete(BigDecimal.valueOf(surveyId));
-			
+			log.info("  Delete complete for Survey : "+surveyId);
 			return true;
 		}
 		else
@@ -629,7 +637,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	
 	public boolean deleteSurveyQuestions(int surveyId){
 		
-		
+		log.info("Deleting Survey Questions & answers --");
 		SurveyMaster surveyMaster = (SurveyMaster)surveyMasterService.fetch(BigDecimal.valueOf(surveyId));
 		List<SurveyQuestionMapping> surveyQuestionMappingList =   surveyQuestionMappingService.fetchByParam(surveyMaster.getId());
 		
@@ -639,7 +647,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		{
 			
 			userSurveyURLMappingService.deleteObj(BigDecimal.valueOf(surveyId));
-			System.out.println("Survey URL deleted for :"+surveyId+" \t "+i);
+			
 		}
 		
 		
@@ -652,7 +660,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		{
 			
 			surveyResponseService.deleteObj(BigDecimal.valueOf(surveyId));
-			System.out.println("Survey Response deleted for :"+surveyId+" \t "+i);
+			
 		}
 		for(SurveyQuestionMapping  surveyQuestionMapping: surveyQuestionMappingList){
 			
@@ -661,11 +669,9 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				QuestionAnswerMapping questionAnswerMapping= surveyQuestionMapping.getQuestionAnsId();
 				
 				surveyQuestionMappingService.delete(surveyQuestionMapping.getId());
-				System.out.println("\n survey Question mapping deleted "+surveyQuestionMapping.getId());
-			
+				
 				
 				questionAnswerMappingService.delete(questionAnswerMapping.getId());
-				System.out.println(" \n question answer Mapping deleted "+questionAnswerMapping.getId());	
 				
 				
 		}
@@ -675,8 +681,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 			QuestionAnswerMapping questionAnswerMapping= surveyQuestionMapping.getQuestionAnsId();
 		
 			
-				//AnswerMaster ansMaster = (AnswerMaster)answerService.fetch(questionAnswerMapping.getAnswerId().getId());
-				//System.out.println("-----------"+ansMaster);
+				
 				try
 				{
 					if(decToInt(surveyQuestionMapping.getSurveyId().getSurveyTypeId().getId()) == 1)
@@ -693,7 +698,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				}
 				catch(NullPointerException e)
 				{
-					System.out.println("List Empty");
+					log.info("List Empty");
 					break;	
 				}
 				
@@ -705,18 +710,19 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	
 	public boolean answerDelete(BigDecimal id)
 	{
-		System.out.println("\n answer Master id :- "+id);
+		
 		
 		answerService.delete(id);
 
-		System.out.println("\n answer MAster deleted "+id);
+		
 		return true;
 	}
 	public boolean deleteUserList(int userlistId){
+		log.info("user list deletion start");
 		
 		String qry = "select count(*) from User_List_Mapping where user_list_id = "+userlistId;
     	int count = decToInt(userListMappingService.count(qry));
-    	System.out.println("count--------"+count);
+    
     	if(count>0)
     	{
 	    	boolean listMap= false;
@@ -742,6 +748,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public boolean deleteQuestion(int questionId, SurveyDetailsDTO surveyDetails) {
 		
+		log.info("Deleting Question :"+questionId);
 		List<QuestionAnswerMapping> quesAnsMapList = questionAnswerMappingService.fetchByParam(BigDecimal.valueOf(questionId));
 		boolean answerDel = false;
 		boolean quesansmapDel = false;
@@ -753,8 +760,8 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				if(surveyquesMap != null)
 				{
 					boolean surveyquesmapdel = surveyQuestionMappingService.delete(surveyquesMap.getId());
-					System.out.println("--------------------"+surveyquesMap.getQuestionAnsId().getId());
-					 quesansmapDel = questionAnswerMappingService.delete(surveyquesMap.getQuestionAnsId().getId());
+					
+					quesansmapDel = questionAnswerMappingService.delete(surveyquesMap.getQuestionAnsId().getId());
 					 if(decToInt(quesAnsMap.getAnsTypeId().getId())!=3)
 					 {
 						if(surveyDetails.getType() == 2)
@@ -789,6 +796,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 
 	public SurveyDetailsDTO fetchSurveyDetail(int surveyId) throws ParseException{
 		
+		log.info("Fetching Survey Detail for Survey --- :"+surveyId);
 		
 		String DATE_FORMAT = "yyyy-MM-dd";
 	   
@@ -796,7 +804,6 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	    SimpleDateFormat ft =  new SimpleDateFormat (DATE_FORMAT,Locale.getDefault());
 	    
 		
-		System.out.println("surveyId for fetching details"+surveyId);
 		
 		SurveyDetailsDTO surveyDTO=null;
 		
@@ -832,6 +839,8 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public List<UserListDTO> fetchAlluserlists() throws Exception
 	{
+		
+		log.info("Fetching details of all user lists");
 		List<UserList> userlist = userListService.fetchAll();
 		
 		List<UserListDTO> userListDetails = new ArrayList<UserListDTO>();
@@ -858,6 +867,8 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public List<SurveyDetailsDTO> fetchAllSurveyDetails() throws Exception{
 		
+		log.info("Fetching Details of all the surveys");
+		
 		List<SurveyMaster> surveyMaster = surveyMasterService.fetchAll();
     	
 			
@@ -874,8 +885,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 					SurveyDetailsDTO survey=new SurveyDetailsDTO();
    		
 					survey.setSurveyname(surveymaster.getSurveyName().toString());
-					//survey.setSurveystart(surveymaster.getStartDate().toLocaleString());
-					//survey.setSurveyend(surveymaster.getEndDate().toLocaleString());
+					
 					survey.setDescription(surveymaster.getSurveyDesc().toString());
 					survey.setSurveyId(surveymaster.getId());
 					
@@ -883,7 +893,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 					Date strDate= ft.parse(surveymaster.getStartDate().toString());
 					Date endDate= ft.parse(surveymaster.getEndDate().toString());
 					
-					SimpleDateFormat ft1 = new SimpleDateFormat("dd-MM-YYYY");
+					SimpleDateFormat ft1 = new SimpleDateFormat("dd-MM-yyyy");
 					
 					String strt=ft1.format(strDate);
 					String end=ft1.format(endDate);
@@ -902,6 +912,8 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public String surveyStatus(Date start, Date end)
 	{	
+		log.info(" Checking survey Status (Pending/Active/Closed) ");
+		
 		todayDate = new Date();
 		String active="Active";
 		String closed="Closed";
@@ -929,6 +941,8 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	
 	public List<QuestionUIDTO> fetchSurveyQuestions(int surveyId){
 		
+		log.info("Fetching Survey Questions for survey :"+surveyId);
+		
 		List<QuestionUIDTO> questionsList = new ArrayList<QuestionUIDTO>();
 		
 		
@@ -938,7 +952,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		
 		
 		for(SurveyQuestionMapping  surveyQuestionMapping: surveyQuestionMappingList){
-			System.out.println("surveyQuestionMapping id "+surveyQuestionMapping.getId());
+			
 			QuestionUIDTO questionUIDTO = new QuestionUIDTO();
 			List<String> ansTextList = new ArrayList<String>();
 			List<ElementDTO> answerList = new ArrayList<ElementDTO>();
@@ -955,7 +969,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 			int qCount = decToInt(surveyResponseService.count(query));
 			
 			
-			System.out.println("questionAnswerMapping "+questionAnswerMapping.getId());
+		
 			
 			questionUIDTO.setQuesAnswerId(decToInt(questionAnswerMapping.getId()));
 			
@@ -965,7 +979,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				questionUIDTO.setAnswers(answerList);
 				
 
-				System.out.println("questionAnswerMapping.getAnswerId() "+questionAnswerMapping.getAnswerId().getId());
+				
 			}
 			else
 			{
@@ -1003,7 +1017,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		
 	}
 	public List<ElementDTO> answerMasterToList(AnswerMaster answerMaster){
-		System.out.println("...AnswersMasterToList Before Save"+answerMaster.getId());
+		
 		List<ElementDTO> answerList = new ArrayList<ElementDTO>();
 		
 		Class ansMaster  = AnswerMaster.class;
@@ -1013,15 +1027,12 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				 
 				AnswerTextMaster answerTextMaster = (AnswerTextMaster) method.invoke(answerMaster);
 				ElementDTO answer = null;
-				System.out.println(i+"...1 answerTextMaster" +answerTextMaster);
 				if (answerTextMaster!=null){
 					answer = new ElementDTO();
 					answer.setId( decToInt(answerTextMaster.getId()) );
 					answer.setText(answerTextMaster.getAnsText());
 					answer.setOther(answerTextMaster.getOtherInfo());
-					System.out.println("-----------"+answerTextMaster.getAnsText());
 					
-					System.out.println("...2"+answerTextMaster.getAnsText());
 					answerList.add(answer);
 					
 				}else{}
@@ -1037,7 +1048,11 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	
 	private List<ElementDTO> mapAnswersMasterToList(AnswerMaster answerMaster, BigDecimal quesAnsMap){
-		System.out.println("...mapAnswersMasterToList"+answerMaster.getId());
+		
+		log.info("Mapping Answers to list \n \n");
+		
+		log.info("...mapAnswersMasterToList"+answerMaster.getId());
+		
 		List<ElementDTO> answerList = new ArrayList<ElementDTO>();
 		
 		
@@ -1048,13 +1063,13 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				 
 				AnswerTextMaster answerTextMaster = (AnswerTextMaster) method.invoke(answerMaster);
 				ElementDTO answer = null;
-				System.out.println(i+"...1 answerTextMaster" +answerTextMaster);
+				
 				if (answerTextMaster!=null){
 					answer = new ElementDTO();
 					answer.setId( decToInt(answerTextMaster.getId()) );
 					answer.setText(answerTextMaster.getAnsText());
 					answer.setOther(answerTextMaster.getOtherInfo());
-					System.out.println("-----------"+answerTextMaster.getAnsText());
+					
 					if(("true").equals(answerTextMaster.getOtherInfo()))
 					{
 						List<SurveyResponse> otherTextAns = surveyResponseService.fetchByMultipleParam(answerTextMaster.getId(), quesAnsMap);
@@ -1073,7 +1088,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 					answer.setElementCount(aCount);
 					
 				
-					System.out.println("...2"+answerTextMaster.getAnsText());
+				
 					answerList.add(answer);
 					
 				}else{
@@ -1146,15 +1161,14 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		return surveyQues;
 	}
 	public void submitSurveyResponse(SurveyResponseDTO surveyResponseDTO, UserMaster usermaster, String ipAddress, String email){
+		log.info("Submitting user response and save record in the database");
 		
-		System.out.println("IP : "+ipAddress);
 		SurveyMaster surveyMaster = (SurveyMaster) surveyMasterService.fetch(BigDecimal.valueOf(surveyResponseDTO.getSurveyId()));
 		
 			for (SurveyQuestionDTO surveyQuestionDTO: surveyResponseDTO.getSurveyQuestions()){
 				SurveyResponse surveyResponse = new SurveyResponse();
 				
 				QuestionAnswerMapping quesAnsMapping=(QuestionAnswerMapping) questionAnswerMappingService.fetch(BigDecimal.valueOf(surveyQuestionDTO.getQuesAnswerId()));
-				System.out.println("quesAnsMapping : "+quesAnsMapping.getId());
 				
 				surveyResponse.setEmailId(email);
 				surveyResponse.setIpAddress(ipAddress);
@@ -1163,7 +1177,6 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				surveyResponse.setSurveyId(surveyMaster);
 				surveyResponse.setUserId(usermaster);
 				
-				System.out.println("surveyQuestionDTO.getAnsTypeId() : "+surveyQuestionDTO.getAnsTypeId());
 				
 				if(surveyQuestionDTO.getAnsTextList()!=null  ){
 				for (String ansId: surveyQuestionDTO.getAnsTextList() ){
@@ -1171,18 +1184,14 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 					{
 						AnswerTextMaster answerText = (AnswerTextMaster) answerTextMasterService.fetch(new BigDecimal(ansId.trim()));
 						surveyResponse.setAnsTextId(answerText);
-						System.out.println("----------------------------------: "+surveyQuestionDTO.getOtherText());
-						System.out.println("----------------------------------: "+answerText.getOtherInfo());
 						
 						if(("true").equals(answerText.getOtherInfo()))
 						{
 							surveyResponse.setAnsText(surveyQuestionDTO.getOtherText());
-							System.out.println("answerText.getAnsOTHERText() : "+surveyQuestionDTO.getOtherText());
 						}
 						else
 						{
 							surveyResponse.setAnsText(answerText.getAnsText());
-							System.out.println("answerText.getAnsText() : "+answerText.getAnsText());
 						}
 						surveyResponseService.add(surveyResponse);
 					}
@@ -1194,7 +1203,6 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				}
 			}
 				
-				System.out.println("surveyResponse.getId() : "+surveyResponse.getId());
 			}
 		}
 	
@@ -1208,11 +1216,16 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	 * @throws Exception if there is not survey types defined.
      */
 	public List<ElementDTO> fetchSurveyType () throws Exception{
+		
+		log.info("Request for fetching survey type");
 		List<ElementDTO> surveyTypes = new ArrayList<ElementDTO>();
 		
 		List<SurveyTypeMaster> surveyTypeMasters = surveyTypeMasterService.fetchAll();
 		
 		if(surveyTypeMasters==null || surveyTypeMasters.isEmpty()){
+			
+			log.error("No Survey Type Defined");
+			
 			throw new Exception("There is no survey type defined!");
 		}
 		
@@ -1234,7 +1247,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 		 List<UserListMapping> userid = userListMappingService.fetchByParam(Id);
 		 
 		 userid.size();
-		 System.out.println(userid.size());
+		
 		 for(UserListMapping user : userid)
 		 {
 			 UserDetailsDTO userDet = new UserDetailsDTO();
@@ -1251,7 +1264,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public boolean doSendMail(String sender,String password,BigDecimal recieveId, String text, String subject, String link, BigDecimal surveyId) throws AddressException,MessagingException  {
 		
-		System.out.println("---- enter processing --------");
+		log.info("Mail sending  start");
 		
 			Properties prop = System.getProperties();
 			prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -1260,15 +1273,14 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 			prop.put("mail.smtp.starttls.enable", true);
 			prop.put("mail.smtp.auth", "true");
 			prop.put("mail.smtp.port", "587");
-			
-			
+
 			Session session = Session.getInstance(prop, null);	
 			MimeMessage message = new MimeMessage(session);
 			
-			 message.setFrom(sender);
+			message.setFrom(sender);
 			 
 			 
-			 List<UserDetailsDTO> userlist = fetchuserDetails(recieveId);
+			List<UserDetailsDTO> userlist = fetchuserDetails(recieveId);
 			 
 			
 						 
@@ -1302,11 +1314,19 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				 message.setText(messageBody);
 				 			 
 				 
-				 
-			     Transport.send(message, sender, password); // ----------------- mail sending 
-			     System.out.println("---- sent --------");
+				 try
+				 {
+					 Transport.send(message, sender, password); // ----------------- mail sending 
+				 }
+				 catch(AuthenticationFailedException e)
+				 {
+					 log.info("Wrong User id and password");
+					 e.printStackTrace();
+					 return false;
+				 }
 			 }
-		     System.out.println("---- record save Start --------");
+
+		     log.info("mail Sent \n  \n Saving Records ");
 		     
 		     SurveyMaster survey = (SurveyMaster) surveyMasterService.fetch(surveyId);
 			 List<UserListMapping> users = userListMappingService.fetchByParam(recieveId);
@@ -1320,15 +1340,14 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 				    		
 				    		if(uSurvey == null || uSurvey.isEmpty())
 				    		{
-				    			System.out.println("---- Different --------");
 				    			UserSurveyUrlMapping userSurveyUrl = maptoUserSurveyUrl(USER,survey,link);
 					    	 
 					    		userSurveyURLMappingService.add(userSurveyUrl);
 					    	}
 		  
-		    	 System.out.println("---- Successs --------");
+		    	
 		     }
-		     System.out.println("---- record Save End --------");
+		     log.info("End");
         return true;
     }
 		
@@ -1377,7 +1396,7 @@ public SurveyQuestionMapping saveSurveyQuestionMapping(SurveyMaster surveyMaster
 	}
 	public String checkUser(BigDecimal userid, long surveyid) {
 		
-		System.out.println("-------------------------------"+userid);
+		
 		UserMaster user = null;
 		try
 		{

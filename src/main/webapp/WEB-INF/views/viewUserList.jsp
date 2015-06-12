@@ -50,7 +50,7 @@
 
 		<div class="row form-div-cus">
 			<div class="well">
-				<div class="col-sm" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
+				<div class="col-sm table-responsive" style="border:1px solid #d9d9d9; padding:1em; border-radius:4px;">
 				<table id="paginationtable" class="table table-striped table-bordered">
 				<thead>
 					<tr>
