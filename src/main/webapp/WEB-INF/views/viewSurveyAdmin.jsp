@@ -118,7 +118,7 @@ a.reUline:hover {
 
 									</c:choose> <c:choose>
 										<c:when test="${survey.published == 'Pending' }">
-											<a href="${path }/d/survey${survey.surveyId}"
+											<a href="${path }/d/survey${survey.surveyId}" 
 												onClick="check(${survey.surveyId},${path }); "><button
 													type="button" class="glyphicon glyphicon-trash"></button></a></td>
 								</c:when>

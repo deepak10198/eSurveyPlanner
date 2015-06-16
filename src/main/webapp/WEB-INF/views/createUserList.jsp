@@ -67,7 +67,7 @@
 							<textarea class="form-control" rows="3" name="description"></textarea>
 						</div>
 						<div class="form-group">
-							<label for="file">Browse the Excel sheet</label> (Sheet in Excel Format ( .xls ))
+							<label for="file">Browse the Excel sheet</label> (Sheet in Excel Format ( .xls ))&nbsp; &nbsp;<a href=format target="_blank" data-toggle="tooltip" title="User-List Description"><span class="glyphicon glyphicon-pushpin"></span></a>
 							<div>
 								<input type="file" class="form-control" id="file" name="file" placeholder="Survey file">
 							</div>
@@ -99,6 +99,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip(); 
 		
 		
 		$('#createuserlist').bootstrapValidator({

@@ -34,6 +34,7 @@ import com.esp.dto.SurveyUIDTO;
 import com.esp.userExcel.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -524,20 +525,7 @@ public class HomeController {
         	model.addAttribute("surveyRes", surveyRes);
 		      return new ModelAndView("thanksUser");
 		}
-        log.info("String here in getUser " + ure);
-        long userId = handler.uniqueDecode(Integer.parseInt(ure), Integer.parseInt(uri));
-        log.info("User Id " + userId);
-        SurveyUIDTO userSurveyDTO = new SurveyUIDTO();
-        try
-        {
-        	 userSurveyDTO = handler.fetchSurveyDetails(Integer.parseInt(uri));
-        }
-        catch(IndexOutOfBoundsException e)
-		{
-        	String surveyRes = "<h4>This Survey has been Deleted</h4>";
-        	model.addAttribute("surveyRes", surveyRes);
-		      return new ModelAndView("thanksUser");
-		}
+       
         
         if(userId!=0)
 	    {
@@ -997,6 +985,18 @@ public class HomeController {
      model.addAttribute("path", path);
     	
     	return new ModelAndView("randomUrl");
+    	
+    	
+    	
+    }
+    @RequestMapping(value="/format")
+    public ModelAndView fileFormat(ModelMap model,HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	
+    	log.info("File Format");
+    	
+    	
+    	
+    	return new ModelAndView("format");
     	
     	
     	
