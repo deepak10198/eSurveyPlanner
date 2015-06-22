@@ -45,15 +45,17 @@ a.reUline:hover {
 <link href="../resources/css/bootstrapValidator.css" rel="stylesheet">
 
 <link href="../resources/css/master.css" rel="stylesheet">
+<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
 </head>
 
 <body role="document">
 
 	<%@include file="includes/headerAdmin.jsp"%>
 
-	<div class="row form-div-cus">
-		<div class="col-sm-4">
-			<div class="well">
+	<div class="row form-div-cus table-responsive">
+		<div class="col-sm-5 table-responsive">
+			<div class="well table-responsive ">
 				<p>
 				<h2>
 					<span class="glyphicon glyphicon-user"></span> Hi, Admin!
@@ -81,6 +83,10 @@ a.reUline:hover {
 						<td><b>Users Submitted</b></td>
 						<td>${userSurvey.surveyCount }</td>
 					</tr>
+					
+					<tr><br><br>
+						<td colspan="2"><a href="${link}" target="_blank"><b>${link}</b></a></td>
+					</tr>
 				</table>
 				</p>
 
@@ -89,12 +95,19 @@ a.reUline:hover {
 
 			<c:choose>
 				<c:when test="${survey.published == 'Pending' }">
+				
+					<a href="${path }/e/survey${survey.surveyId }"><button
+							type="Button" class="btn btn-primary">Edit</button></a>
+							
 					<button type="Button" class="btn btn-primary" disabled="disabled">Generate
 						Report</button>
 					<a href="${path }/send_survey${survey.surveyId }"><button
 							type="Button" class="btn btn-primary">Send Link</button></a>
 								<a href="${path }/publish${survey.surveyId }"><button
-							type="Button" class="btn btn-primary">Publish Link</button></a>
+							type="Button" class="btn btn-primary">Publish</button></a>
+							
+				<a href="${path }/d/survey${survey.surveyId }"><button
+							type="Button" class="btn btn-primary">Delete</button></a>
 
 				</c:when>
 				<c:when test="${survey.published == 'Closed' }">
@@ -102,16 +115,23 @@ a.reUline:hover {
 						target="_blank"><button type="Button" class="btn btn-primary">Generate
 							Report</button></a>
 
+					
 				</c:when>
 
 				<c:when test="${survey.published == 'Active' }">
+						<a href="${path }/e/survey${survey.surveyId }"><button
+							type="Button" class="btn btn-primary">Edit</button></a>
+			
 					<a href="${path }/download/survey${survey.surveyId }"
 						target="_blank"><button type="Button" class="btn btn-primary">Generate
 							Report</button></a>
 					<a href="${path }/send_survey${survey.surveyId }"><button
 							type="Button" class="btn btn-primary">Send Link</button></a>
 								<a href="${path }/publish${survey.surveyId }"><button
-							type="Button" class="btn btn-primary">Publish Link</button></a>
+							type="Button" class="btn btn-primary">Publish</button></a>
+							
+				<a href="${path }/d/survey${survey.surveyId }"><button
+							type="Button" class="btn btn-primary" disabled="disabled">Delete</button></a>
 
 				</c:when>
 
@@ -122,7 +142,7 @@ a.reUline:hover {
 		</div>
 		<c:choose>
 			<c:when test="${survey.published == 'Closed' }">
-				<div class=" col-sm-8 well"
+				<div class=" col-sm-7 well"
 					style="background: rgba(255, 0, 0, 0.9); border: 1px solid black;">
 					<center>
 						<b> <c:out value=" ${survey.published }" />
@@ -131,7 +151,7 @@ a.reUline:hover {
 				</div>
 			</c:when>
 			<c:when test="${survey.published == 'Active' }">
-				<div class=" col-sm-8 well"
+				<div class=" col-sm-7 well"
 					style="background: rgba(0, 204, 0, 1.0); border: 1px solid black;">
 					<center>
 						<b> <c:out value=" ${survey.published } " />
@@ -140,7 +160,7 @@ a.reUline:hover {
 				</div>
 			</c:when>
 			<c:when test="${survey.published == 'Pending' }">
-				<div class=" col-sm-8 well"
+				<div class=" col-sm-7 well"
 					style="background: rgba(255, 255, 0, 0.8); border: 1px solid black;">
 					<center>
 						<b> <c:out value=" ${survey.published } " />
@@ -154,7 +174,7 @@ a.reUline:hover {
 
 
 
-		<div class="col-sm-8"
+		<div class="col-sm-7 table-responsive"
 			style="border: 1px solid #d9d9d9; padding: 1em; border-radius: 4px;">
 
 			<c:forEach items="${userSurvey.surveyQuestions }" var="question"
@@ -199,7 +219,7 @@ a.reUline:hover {
 
 												<div class="progress">
 
-													<div class="progress-bar   " role="progressbar"
+													<div class="progress-bar progress-bar-striped  " role="progressbar"
 														aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
 														style="width:<fmt:formatNumber type="percent" minFractionDigits="1" value="${(answer.elementCount / question.surveyQuestionCount) }" />">
 														<fmt:formatNumber type="percent" minFractionDigits="1"
