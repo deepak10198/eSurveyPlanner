@@ -94,7 +94,7 @@ public abstract class GenericDAO<T> implements DAO<T> {
     @Override
     public BigDecimal Count(String query) {
     	
-    	System.out.println(">>Count.........");
+    	
     	BigDecimal t;
         SQLQuery qry = sessionFactory.getCurrentSession().createSQLQuery(query);
         t =	(BigDecimal) qry.list().get(0);
