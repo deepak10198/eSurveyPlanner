@@ -609,18 +609,23 @@ public class HomeController {
     @RequestMapping(value = "/v/survey{uri}", method = RequestMethod.GET)
     public ModelAndView viewSurveyRecord(ModelMap model, @PathVariable(value = "uri") String uri, @ModelAttribute("surveyAnswerDTO") SurveyAnswerDTO surveyAnswerDTO , HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
     	
-    	  log.info("Request For viewing Survey Record of Survey :"+uri);
+    	  log.info("Request For viewing Survey-Record of Survey :"+uri);
     	
     	    	
-    	SurveyDetailsDTO surveyDTO = handler.fetchSurveyDetail(Integer.parseInt(uri));
+    	  SurveyDetailsDTO surveyDTO = handler.fetchSurveyDetail(Integer.parseInt(uri));
     	
-    	SurveyUIDTO userSurveyDTO = handler.fetchSurveyDetails(Integer.parseInt(uri));
+    	  SurveyUIDTO userSurveyDTO = handler.fetchSurveyDetails(Integer.parseInt(uri));
+    	  
+
+      	long code = handler.uniqueEncode(BigDecimal.valueOf(0), BigDecimal.valueOf(Integer.parseInt(uri)));
+     	 	String link	= request.getServerName()+":"+request.getServerPort()+""+request.getContextPath()+"/s/survey"+BigDecimal.valueOf(Integer.parseInt(uri))+"&u"+code;
+     	 
     	
-    	String path	= request.getContextPath();
-    	model.addAttribute("path", path);
-    	    	    	   
-    	model.addAttribute("survey", surveyDTO);
-    	model.addAttribute("userSurvey", userSurveyDTO);
+    	  String path	= request.getContextPath();
+    	  model.addAttribute("path", path);
+    	  model.addAttribute("link", link);
+    	  model.addAttribute("survey", surveyDTO);
+    	  model.addAttribute("userSurvey", userSurveyDTO);
     	
     	    	
     	 return new ModelAndView("surveyRecord");
@@ -949,7 +954,7 @@ public class HomeController {
 	 	
     	 mailsendStatus = handler.doSendMail(sender,password, recieveId , message , subject , link, surveyId);
     	 
-    	 log.info(""+mailsendStatus);
+    	 log.info(" mail sent : - "+mailsendStatus);
     	if(mailsendStatus == true)
     	{
     	 	model.addAttribute("status", "success");
@@ -976,15 +981,15 @@ public class HomeController {
     	
     	
     	long code = handler.uniqueEncode(BigDecimal.valueOf(0), BigDecimal.valueOf(Integer.parseInt(uri)));
-   	 String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath()+"/s/survey"+BigDecimal.valueOf(Integer.parseInt(uri))+"&u"+code;
+   	 	String path	= req.getServerName()+":"+req.getServerPort()+""+req.getContextPath()+"/s/survey"+BigDecimal.valueOf(Integer.parseInt(uri))+"&u"+code;
    	 
-   	 SurveyUIDTO surveydto = handler.fetchSurveyDetails(Integer.parseInt(uri));
+   	 	SurveyUIDTO surveydto = handler.fetchSurveyDetails(Integer.parseInt(uri));
    	
-   	 model.addAttribute("survey", surveydto);
+   	 	model.addAttribute("survey", surveydto);
    	 
-     model.addAttribute("path", path);
+   	 	model.addAttribute("path", path);
     	
-    	return new ModelAndView("randomUrl");
+   	 	return new ModelAndView("randomUrl");
     	
     	
     	
@@ -993,7 +998,6 @@ public class HomeController {
     public ModelAndView fileFormat(ModelMap model,HttpServletRequest req, HttpServletResponse res) throws Exception {
     	
     	log.info("File Format");
-    	
     	
     	
     	return new ModelAndView("format");
