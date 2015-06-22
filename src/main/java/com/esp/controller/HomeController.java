@@ -691,7 +691,7 @@ public class HomeController {
     
     @RequestMapping(value="/d/question{uri}")
     public ModelAndView deleteQuestion(ModelMap model,@PathVariable(value = "uri") String uri, @ModelAttribute("SurveyDetailsDTO") SurveyDetailsDTO surveyDetails,HttpServletRequest request, HttpServletResponse response){
-     
+    
     	  log.info("Deletion Request for Question :-"+uri);
     	
     	  boolean del = handler.deleteQuestion(Integer.parseInt(uri),surveyDetails);
