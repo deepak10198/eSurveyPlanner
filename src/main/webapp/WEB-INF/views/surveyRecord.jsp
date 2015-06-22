@@ -57,10 +57,10 @@ a.reUline:hover {
 		<div class="col-sm-5 table-responsive">
 			<div class="well table-responsive ">
 				<p>
-				<h2>
-					<span class="glyphicon glyphicon-user"></span> Hi, Admin!
-				</h2>
-				<br>
+				<h3>
+					<span class="glyphicon glyphicon-user"></span>&nbsp; Hi, Admin!
+				</h3>
+				
 				<table class="table table-striped">
 
 					<tr>
@@ -85,7 +85,7 @@ a.reUline:hover {
 					</tr>
 					
 					<tr><br><br>
-						<td colspan="2"><a href="${link}" target="_blank"><b>${link}</b></a></td>
+						<td colspan="2"><a href="${link}" target="_blank" style="text-decoration:none;"><b>${link}</b></a></td>
 					</tr>
 				</table>
 				</p>
@@ -191,10 +191,10 @@ a.reUline:hover {
 						value='${question.quesAnswerId}'>
 					<table id="paginationtable" class="table table-hover ">
 						<tr>
-							<td><font color="#CC0000"><b>${status.count }.</b>
-									&nbsp; <label for="question${status.index}"><c:out
+							<td width="90%"><font color="#CC0000"><b>${status.count }.</b>
+									 <label for="question${status.index}"><c:out
 											value="${question.questionText}" /></label></font></td>
-							<td align="right"><span
+							<td align="right" width="5%"><span
 								class="label label-danger label-as-badge"><b>${question.surveyQuestionCount
 										}</b> </span></td>
 						</tr>
@@ -316,7 +316,7 @@ $(document).ready(function() {
     	
     	 responsive: true,
          autoWidth: true,
-        jQueryUI: true,
+     	   jQueryUI: true,
          processing: true,
          "aLengthMenu": [[5,10, 20, -1], [5, 10, 20, "All"]],
          
